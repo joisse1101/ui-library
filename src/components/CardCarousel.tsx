@@ -82,8 +82,17 @@ export const CardCarousel: React.FC<CardCarouselProps> = ({ items }) => {
                                         cardRefs.current.delete(item.id);
                                     }
                                 }}
+                                role="button"
+                                tabIndex={0}
+                                aria-label={item.title}
                                 onClick={() => scrollToCard(item.id)}
-                                style={{'--bg-image': item.image ? `url(${item.image})` : 'none' } as React.CSSProperties}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        scrollToCard(item.id);
+                                    }
+                                }}
+                                style={{ '--bg-image': item.image ? `url(${item.image})` : 'none' } as React.CSSProperties}
                             >
                                 <div className="card__content">
                                     <h3 className="card__title">{item.title}</h3>
