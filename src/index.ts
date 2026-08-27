@@ -11,6 +11,7 @@ export { Modal } from './components/Modal';
 export { RadioSelector } from './components/RadioSelector';
 export { Tabs, type TabItem } from './components/Tabs';
 export { WeekSelector } from './components/WeekSelector';
+export * from './components/CardCarousel';
 
 // Layouts
 export { MainLayout } from './layouts/MainLayout';

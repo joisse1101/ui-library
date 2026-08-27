@@ -1,8 +1,8 @@
 @use 'variables' as *;
 
 // --- Base Button Component ---
-button,
-.btn {
+
+@mixin base-button {
   all: unset;
   box-sizing: border-box;
   display: inline-flex;
@@ -235,6 +235,9 @@ button,
   }
 }
 
+button, .btn {
+  @include base-button;
+}
 
 .btn-container {
   display: flex;
