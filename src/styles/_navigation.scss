@@ -84,8 +84,8 @@
 
   @media screen and (max-width: 1024px) {
     label[for="nav-trigger"] {
-      display: block;
-      padding-top: 4px;
+      display: flex;
+      padding-top: 6px;
     }
 
     .trigger {
