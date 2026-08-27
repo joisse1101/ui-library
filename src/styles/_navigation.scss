@@ -74,6 +74,13 @@
       text-decoration: none;
     }
   }
+  
+  .children-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-right: 1rem;
+  }
 
   @media screen and (max-width: 1024px) {
     label[for="nav-trigger"] {

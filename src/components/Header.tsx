@@ -1,4 +1,4 @@
-export const Header = () => {
+export const Header = ({ links, children }: { links?: { label: string; href: string }[]; children?: React.ReactNode }) => {
     return (
         <header className="site-header" role="banner">
             <div className="wrapper"><a className="site-title" rel="author" href="/">Joisse1101</a>
@@ -13,11 +13,16 @@ export const Header = () => {
                             </svg>
                         </span>
                     </label>
-
-                    <div className="trigger">
-                        <a className="page-link" href="/qol/granny-square/">Granny Square</a>
-                        <a className="page-link" href="/qol/goal-tracker/">Goal Tracker</a>
+                    <div className="children-container">
+                        {children}
                     </div>
+                    {links && links.length > 0 && (
+                        <div className="trigger">
+                            {links.map((link, index) => (
+                                <a className="page-link" href={link.href} key={index}>{link.label}</a>
+                            ))}
+                        </div>
+                    )}
                 </nav>
             </div>
         </header>
