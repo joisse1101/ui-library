@@ -65,11 +65,9 @@ export const CardCarousel: React.FC<CardCarouselProps> = ({ items }) => {
             <div className={`overlay-right overlay-right-main ${!canScrollRight ? 'hidden' : ''}`} />
             <div className="carousel__track overlay-component" ref={scrollContainerRef}>
                 {items.map((item) => {
-                    const isActive = String(item.id) === activeId;
-
                     return (
                         <div
-                            className={`carousel__slide ${isActive ? 'is-active' : ''}`}
+                            className={`carousel__slide`}
                             key={item.id}
                             data-id={String(item.id)}
                         >
