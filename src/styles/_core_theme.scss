@@ -283,12 +283,20 @@ section {
     left: -2px;
     transform-origin: left center;
     background: linear-gradient(to right, $bg-surface, transparent);
+
+    &-main {
+      background: linear-gradient(to right, $bg-main, transparent);
+    }
   }
 
   .overlay-right {
     right: -2px;
     transform-origin: right center;
     background: linear-gradient(to left, $bg-surface, transparent);
+
+    &-main {
+      background: linear-gradient(to left, $bg-main, transparent);
+    }
   }
 
   .overlay-component {
