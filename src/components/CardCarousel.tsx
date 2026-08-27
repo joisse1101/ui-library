@@ -1,4 +1,4 @@
-import { useCanSideScroll } from '@joisse1101/ui-library';
+import { useCanSideScroll } from '@hooks/useCanSideScroll';
 import React, { useRef, useState, useEffect } from 'react';
 
 export interface CardProps {
