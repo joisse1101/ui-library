@@ -1,7 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 
-export type ModalType = 'form' | 'destructive';
-
 export type ButtonText = {
     primary: string;
     secondary: string;
@@ -13,7 +11,7 @@ interface ModalProps {
     onSubmit: () => void;
     title?: string;
     children?: React.ReactNode;
-    modalType?: ModalType;
+    modalType?: 'form' | 'destructive' | 'confirmation';
     buttonText?: ButtonText;
 }
 
