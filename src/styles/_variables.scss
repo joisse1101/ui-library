@@ -111,6 +111,13 @@ $btn-ghost-hover-bg: rgba($bg-surface-hover, 0.6);
 $btn-ghost-hover-text: $text-main;
 $btn-ghost-hover-border: $border-subtle;
 
+// Success Variants
+$btn-success-bg: rgba($color-success, 0.12);
+$btn-success-text: $color-success;
+$btn-success-border: rgba($color-success, 0.25);
+$btn-success-hover-bg: rgba($color-success, 0.22);
+$btn-success-active-bg: rgba($color-success, 0.35);
+
 // Danger Variants
 $btn-danger-bg: rgba($color-danger, 0.12);
 $btn-danger-text: $color-danger;

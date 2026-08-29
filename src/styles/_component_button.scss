@@ -92,6 +92,21 @@
   }
 
 
+  // --- Success Variant ---
+  &-success {
+    background-color: $btn-success-bg;
+    color: $btn-success-text;
+    border-color: $btn-success-border;
+
+    &:hover:not(:disabled):not(.is-disabled) {
+      background-color: $btn-success-hover-bg;
+    }
+
+    &:active:not(:disabled):not(.is-disabled) {
+      background-color: $btn-success-active-bg;
+    }
+  }
+
   // --- Danger / Destructive Variant ---
   &-danger {
     background-color: $btn-danger-bg;
