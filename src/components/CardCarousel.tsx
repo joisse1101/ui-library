@@ -1,5 +1,5 @@
 import { useCanSideScroll } from '@hooks/useCanSideScroll';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 
 export interface CardProps {
     id: string | number;
@@ -20,37 +20,6 @@ export const CardCarousel: React.FC<CardCarouselProps> = ({ items }) => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const cardRefs = useRef<Map<string | number, HTMLDivElement>>(new Map());
     const { canScrollLeft, canScrollRight } = useCanSideScroll(scrollContainerRef);
-
-    const [activeId, setActiveId] = useState<string>(String(items[0]?.id ?? ''));
-
-    useEffect(() => {
-        const container = scrollContainerRef.current;
-        if (!container) return;
-
-        const observerOptions: IntersectionObserverInit = {
-            root: container,
-            rootMargin: '0px -40% 0px -40%',
-            threshold: 0.1,
-        };
-
-        const handleIntersect: IntersectionObserverCallback = (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const cardId = entry.target.getAttribute('data-id');
-                    if (cardId !== null) {
-                        setActiveId(cardId);
-                    }
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(handleIntersect, observerOptions);
-
-        const slides = container.querySelectorAll('.carousel__slide');
-        slides.forEach((slide) => observer.observe(slide));
-
-        return () => observer.disconnect();
-    }, [items]);
 
     const scrollToCard = (id: string | number) => {
         const card = cardRefs.current.get(id);

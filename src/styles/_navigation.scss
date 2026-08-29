@@ -74,11 +74,22 @@
       text-decoration: none;
     }
   }
+  
+  .children-container {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-right: 1rem;
+
+    &:empty {
+      display: none;
+    }
+  }
 
   @media screen and (max-width: 1024px) {
     label[for="nav-trigger"] {
-      display: block;
-      padding-top: 4px;
+      display: flex;
+      padding-top: 6px;
     }
 
     .trigger {
