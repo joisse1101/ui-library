@@ -1,4 +1,6 @@
-export const Header = ({ links, children }: { links?: { label: string; href: string }[]; children?: React.ReactNode }) => {
+import type { ReactNode } from 'react';
+
+export const Header = ({ links, children }: { links?: { label: string; href: string }[]; children?: ReactNode }) => {
     return (
         <header className="site-header" role="banner">
             <div className="wrapper"><a className="site-title" rel="author" href="/">Joisse1101</a>
