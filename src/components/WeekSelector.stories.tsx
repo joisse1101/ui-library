@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { WeekSelector, type WeekState } from './WeekSelector';
+import { ResponsiveMatrix } from '../stories/ResponsiveMatrix';
 
 // Helper to generate dynamic week dates
 const getWeekRange = (weekNumber: number): WeekState => {
@@ -31,6 +32,7 @@ type Story = StoryObj<typeof WeekSelector>;
 
 // 1. Default Static View
 export const Default: Story = {
+    render: (args) => <ResponsiveMatrix component={WeekSelector} args={args} />,
     args: {
         weekState: getWeekRange(5),
         maxWeeks: 52,

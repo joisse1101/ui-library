@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ColourPalettePicker } from './ColourPalettePicker';
+import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 
 const meta: Meta<typeof ColourPalettePicker> = {
     title: 'User Input/ColourPalettePicker',
@@ -18,7 +19,9 @@ export default meta;
 type Story = StoryObj<typeof ColourPalettePicker>;
 
 // 1. Default State (uses internal DEFAULT_PALETTE)
-export const Default: Story = {};
+export const Default: Story = {
+    render: () => <ResponsiveMatrix component={ColourPalettePicker} />,
+};
 
 // 2. Custom Initial Palette (2-step simple gradient)
 export const TwoColorGradient: Story = {

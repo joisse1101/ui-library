@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Tabs, type TabItem } from './Tabs';
+import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 
 const defaultTabs: TabItem[] = [
     {
@@ -40,6 +41,7 @@ type Story = StoryObj<typeof Tabs>;
 
 // 1. Uncontrolled Basic Usage
 export const Default: Story = {
+    render: (args) => <ResponsiveMatrix component={Tabs} args={args} />,
     args: {
         tabs: defaultTabs,
         defaultActiveId: 'tab-1',

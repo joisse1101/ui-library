@@ -136,13 +136,3 @@ export const Confirmation: Story = {
         children: <p>You are about to release version 1.0.0 to NPM public registry.</p>,
     },
 };
-
-// 4. Force open preview for Storybook Docs canvas
-export const AlwaysOpenPreview: Story = {
-    args: {
-        isOpen: true,
-        title: 'Static Open Canvas Preview',
-        modalType: 'form',
-        buttonText: { primary: 'Confirm', secondary: 'Dismiss' },
-    },
-};

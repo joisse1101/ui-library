@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { ButtonSelector } from './ButtonSelector';
 import type { Option } from '../types/selectors';
+import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 
 const sampleOptions: Option[] = [
     { label: 'React', value: 'react' },
@@ -31,6 +32,7 @@ type Story = StoryObj<typeof ButtonSelector>;
 
 // 1. Base Uncontrolled / Static Preview
 export const Default: Story = {
+    render: (args) => <ResponsiveMatrix component={ButtonSelector} args={args} />,
     args: {
         label: 'Select Frameworks',
         options: sampleOptions.slice(0, 4),

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CardCarousel, type CardProps } from './CardCarousel';
+import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 
 const mockCards: CardProps[] = [
     {
@@ -62,6 +63,7 @@ export default meta;
 type Story = StoryObj<typeof CardCarousel>;
 
 export const Default: Story = {
+    render: (args) => <ResponsiveMatrix component={CardCarousel} args={args} />,
     args: {
         items: mockCards,
     },

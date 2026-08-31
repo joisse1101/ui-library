@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { RadioSelector } from './RadioSelector';
 import type { Option } from '../types/selectors';
+import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 
 const sampleOptions: Option[] = [
     { label: 'Weekly', value: 'weekly' },
@@ -28,6 +29,7 @@ type Story = StoryObj<typeof RadioSelector>;
 
 // 1. Default Static Story
 export const Default: Story = {
+    render: (args) => <ResponsiveMatrix component={RadioSelector} args={args} />,
     args: {
         label: 'Billing Cycle',
         options: sampleOptions.slice(0, 3),

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { DateInput } from './DateInput';
+import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 
 const meta: Meta<typeof DateInput> = {
     title: 'User Input/DateInput',
@@ -21,6 +22,7 @@ type Story = StoryObj<typeof DateInput>;
 
 // 1. Default State
 export const Default: Story = {
+    render: (args) => <ResponsiveMatrix component={DateInput} args={args} />,
     args: {
         id: 'birth-date',
         label: 'Date of Birth',
