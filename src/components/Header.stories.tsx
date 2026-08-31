@@ -3,7 +3,7 @@ import '../styles/index.scss';
 import { Header } from './Header';
 
 const meta: Meta<typeof Header> = {
-    title: 'Components/Header',
+    title: 'Layout/Header',
     component: Header,
     tags: ['autodocs'],
     argTypes: {
