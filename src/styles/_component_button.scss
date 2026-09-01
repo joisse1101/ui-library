@@ -100,10 +100,12 @@
 
     &:hover:not(:disabled):not(.is-disabled) {
       background-color: $btn-success-hover-bg;
+      border-color: $btn-success-border;
     }
 
     &:active:not(:disabled):not(.is-disabled) {
       background-color: $btn-success-active-bg;
+      border-color: $btn-success-border;
     }
   }
 
@@ -115,10 +117,12 @@
 
     &:hover:not(:disabled):not(.is-disabled) {
       background-color: $btn-danger-hover-bg;
+      border-color: $btn-danger-border;
     }
 
     &:active:not(:disabled):not(.is-disabled) {
       background-color: $btn-danger-active-bg;
+      border-color: $btn-danger-border;
     }
   }
 
@@ -129,10 +133,12 @@
 
     &:hover:not(:disabled):not(.is-disabled) {
       background-color: $btn-danger-outline-hover-bg;
+      border-color: $btn-danger-border;
     }
 
     &:active:not(:disabled):not(.is-disabled) {
       background-color: $btn-danger-outline-active-bg;
+      border-color: $btn-danger-border;
     }
   }
 
