@@ -32,7 +32,7 @@ export const ButtonSelector: React.FC<ButtonSelectorProps> = ({ label, options, 
                         key={option.value}
                         onClick={() => onSelect(option.value)}
 
-                        className={`btn-option${selectedOptions?.includes(option.value) ? ' selected' : ''}`}
+                        className={`btn btn-option${selectedOptions?.includes(option.value) ? ' selected' : ''}`}
                     >
                         {option.label}
                     </button>

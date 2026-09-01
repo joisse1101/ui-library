@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { RadioSelector } from './RadioSelector';
 import type { Option } from '../types/selectors';
 import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
+import { DocsPage } from '@stories/DocsPage';
 
 const sampleOptions: Option[] = [
     { label: 'Weekly', value: 'weekly' },
@@ -16,6 +17,11 @@ const meta: Meta<typeof RadioSelector> = {
     title: 'User Input/RadioSelector',
     component: RadioSelector,
     tags: ['autodocs'],
+    parameters: {
+        docs: {
+            page: DocsPage,
+        },
+    },
     argTypes: {
         label: { control: 'text', description: 'Label text for the radio group' },
         options: { control: 'object', description: 'Array of radio options' },
@@ -27,55 +33,13 @@ const meta: Meta<typeof RadioSelector> = {
 export default meta;
 type Story = StoryObj<typeof RadioSelector>;
 
-// 1. Default Static Story
 export const Default: Story = {
-    render: (args) => <ResponsiveMatrix component={RadioSelector} args={args} />,
+    render: (args) => {
+        const [selected, setSelected] = useState<string | number>('monthly');
+        return <ResponsiveMatrix component={RadioSelector} args={{ ...args, selectedOptions: selected, onSelect: setSelected }} />;
+    },
     args: {
         label: 'Billing Cycle',
-        options: sampleOptions.slice(0, 3),
-        selectedOptions: 'monthly',
-    },
-};
-
-// 2. Interactive Single Selection
-export const Interactive: Story = {
-    render: function Render(args) {
-        const [selected, setSelected] = useState<string | number>('weekly');
-
-        return (
-            <RadioSelector
-                {...args}
-                selectedOptions={selected}
-                onSelect={(val) => {
-                    args.onSelect?.(val);
-                    setSelected(val);
-                }}
-            />
-        );
-    },
-    args: {
-        label: 'Notification Frequency',
-        options: sampleOptions,
-    },
-};
-
-// 3. Overflow / Scrollable Container
-export const Scrollable: Story = {
-    render: function Render(args) {
-        const [selected, setSelected] = useState<string | number>('biweekly');
-
-        return (
-            <div style={{ maxWidth: '300px' }}>
-                <RadioSelector
-                    {...args}
-                    selectedOptions={selected}
-                    onSelect={(val) => setSelected(val)}
-                />
-            </div>
-        );
-    },
-    args: {
-        label: 'Subscription Tier (Constrained)',
         options: sampleOptions,
     },
 };

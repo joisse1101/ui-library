@@ -9,6 +9,13 @@ interface RadioSelectorProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
     onSelect: (value: string | number) => void;
 }
 
+/**
+ * `RadioSelector` is a responsive radio button group component that allows users to select a single option from a list.
+ *
+ * ### Features
+ * - **Single Selection:** Designed for scenarios where only one option can be selected at a time.
+ * - **Responsive Handling:** Automatically turns into a horizontally scrollable container on small viewports to prevent overflow.
+ */
 export const RadioSelector: React.FC<RadioSelectorProps> = ({ label, options, selectedOptions, onSelect, ...props }) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const { canScrollLeft, canScrollRight } = useCanSideScroll(containerRef);
