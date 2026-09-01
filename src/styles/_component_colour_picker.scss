@@ -1,5 +1,5 @@
-@use 'variables' as *;
-@use 'sass:color';
+@use "variables" as *;
+@use "sass:color";
 
 // ==========================================================================
 // Color Picker Component
@@ -14,6 +14,7 @@
   margin-top: 0.5rem;
   grid-column: 1 / -1;
   box-sizing: border-box;
+  container-type: inline-size;
 
   /* Form & Actions Section */
   .controls {
@@ -30,8 +31,9 @@
   /* Grid container for input cards */
   .color-inputs-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 0.75rem;
+
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
   /* Visual Wrapper Row for Color Pickers */
@@ -40,11 +42,14 @@
     align-items: stretch; // 1. Stretch direct children (swatch & step-control) to full row height
     gap: 0.75rem;
     padding: 0.5rem 0.75rem;
-    background-color: inherit; 
+    background-color: inherit;
     border: 1px solid $border-subtle;
     border-radius: $radius-md;
     box-shadow: $shadow-sm;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
 
     &:hover {
       border-color: color.adjust($border-subtle, $lightness: 6%);
@@ -66,7 +71,6 @@
         box-shadow: none;
       }
     }
-
   }
 
   /* Step Controls & Action Grouping */
@@ -83,7 +87,6 @@
       width: 100%;
       text-align: center;
     }
-
   }
 
   /* Square Full-Height Danger Button */
@@ -93,17 +96,19 @@
     justify-content: center;
     flex: 0 0 auto;
     align-self: stretch; // 3. Expand button to 100% of the parent row container height
-    width: 2.25rem;      // Fixed width to keep button square
-    height: auto;        // Override any fixed/inherited height
+    width: 2.25rem; // Fixed width to keep button square
+    height: auto; // Override any fixed/inherited height
     padding: 0;
-    margin-left: auto;  
+    margin-left: auto;
     font-size: $font-xs;
     border-radius: $radius-sm;
     border: 1px solid transparent;
     background-color: rgba($color-danger, 0.12);
     color: $color-danger;
     cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
 
     &:hover {
       background-color: $color-danger;
@@ -141,6 +146,7 @@
     overflow: hidden;
     border: 1px solid $border-color;
     box-shadow: $shadow-sm;
+
   }
 
   .palette-swatch {
@@ -148,9 +154,11 @@
     height: 100%;
     transition: transform 0.2s ease;
 
-    &:hover {
-      transform: scaleY(1.08);
+    &:hover,
+    &.hovered {
+      transform: scale(1.5);
     }
+
   }
 
   /* Warm Rose & Charcoal Hex Code Chips */
@@ -174,7 +182,8 @@
       border-color 0.2s ease,
       background-color 0.2s ease;
 
-    &:hover {
+    &:hover,
+    &.hovered {
       border-color: $border-focus;
       background-color: $bg-surface;
     }
@@ -192,12 +201,14 @@
   border: 1px solid $border-color;
   border-radius: $radius-md;
   overflow: hidden;
-  transition: border-color 0.2s ease, opacity 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    opacity 0.2s ease;
 
   &:hover:not(.disabled):not([open]) {
     border-color: $border-focus;
   }
-  
+
   .accordion-header {
     padding: 0.875rem 1.25rem;
     font-size: $font-sm;
@@ -207,19 +218,19 @@
     cursor: pointer;
     user-select: none;
     transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-    
+      background-color 0.2s ease,
+      color 0.2s ease;
+
     &:hover:not(.disabled) {
       background-color: $bg-surface-hover;
       color: $brand-hover;
     }
-    
+
     &:not(.disabled)::marker {
       color: $brand-accent; // Warm Rose marker indicator
     }
   }
-  
+
   &[open] > .accordion-header:hover:not(.disabled) {
     background-color: transparent;
   }

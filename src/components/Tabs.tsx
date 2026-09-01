@@ -1,4 +1,5 @@
-import React, { useState, type ReactNode } from 'react';
+import { useCanSideScroll } from '@index';
+import React, { useRef, useState, type ReactNode } from 'react';
 
 export interface TabItem {
     id: string;
@@ -16,6 +17,16 @@ interface TabsProps {
     onTabAdd?: () => void;
 }
 
+/**
+ * The `Tabs` component organizes related content into separate views, allowing users 
+ * to switch between sections without leaving the page context.
+ * 
+ * ### Features
+ * - **Flexibility:** Supports both controlled (`value`) and uncontrolled (`defaultValue`) active states.
+ * - **Dynamic Management:** Add, remove, or update tabs programmatically via state.
+ * - **Accessibility & Constraints:** Handles disabled tabs cleanly and manages focus keyboard interactions.
+ * - **Responsive Design:** Includes scrollable tab headers with dynamic fade indicators for overflow content.
+ */
 export const Tabs: React.FC<TabsProps> = ({
     tabs,
     defaultActiveId,
@@ -40,45 +51,53 @@ export const Tabs: React.FC<TabsProps> = ({
         onTabChange?.(tabId);
     };
 
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const { canScrollLeft, canScrollRight } = useCanSideScroll(containerRef);
+
     return (
         <div className="tabs-container">
             {/* Tab Buttons Header */}
-            <div className="tabs-header">
-                {tabs.map((tab) => {
-                    const isActive = tab.id === activeTabId;
-                    return (
-                        <div
-                            key={tab.id}
-                            className={`tab-btn ${isActive ? 'active' : ''}`}
-                            data-tab={tab.id}
-                            onClick={() => handleTabClick(tab.id, tab.disabled)}
-                            role="button"
-                            aria-disabled={tab.disabled}
+            <div className={`overlay-wrapper`}>
+
+                <div className={`overlay-left ${!canScrollLeft ? 'hidden' : ''}`} />
+                <div className={`overlay-right ${!canScrollRight ? 'hidden' : ''}`} />
+                <div className="tabs-header overlay-component" ref={containerRef}>
+                    {tabs.map((tab) => {
+                        const isActive = tab.id === activeTabId;
+                        return (
+                            <div
+                                key={tab.id}
+                                className={`tab-btn ${isActive ? 'active' : ''}`}
+                                data-tab={tab.id}
+                                onClick={() => handleTabClick(tab.id, tab.disabled)}
+                                role="button"
+                                aria-disabled={tab.disabled}
+                            >
+                                {tab.label}
+                                {!tab.disabled && onTabDelete && (
+                                    <button
+                                        className="btn btn-danger btn-icon"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onTabDelete(tab.id);
+                                        }}
+                                    >
+                                        ✕
+                                    </button>
+                                )}
+                            </div>
+                        );
+                    })}
+                    {onTabAdd && (
+                        <button
+                            type="button"
+                            className="tab-btn"
+                            onClick={onTabAdd}
                         >
-                            {tab.label}
-                            {onTabDelete && (
-                                <button
-                                    className="btn btn-danger btn-icon"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        onTabDelete(tab.id);
-                                    }}
-                                >
-                                    ✕
-                                </button>
-                            )}
-                        </div>
-                    );
-                })}
-                {onTabAdd && (
-                    <button
-                        type="button"
-                        className="tab-btn"
-                        onClick={onTabAdd}
-                    >
-                        + Add Tab
-                    </button>
-                )}
+                            + Add Tab
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* Tab Contents */}

@@ -35,7 +35,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   &-storybook {
-    min-height: fit-content;
+    min-height: unset;
+    padding: 1rem;
+    background-color: transparent;
   }
 }
 

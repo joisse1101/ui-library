@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import '../styles/index.scss';
 import { Header } from './Header';
+import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 
 const meta: Meta<typeof Header> = {
-    title: 'Components/Header',
+    title: 'Layout/Header',
     component: Header,
     tags: ['autodocs'],
     argTypes: {
@@ -23,6 +24,7 @@ type Story = StoryObj<typeof Header>;
 
 // 1. Basic default state without links
 export const Default: Story = {
+    render: (args) => <ResponsiveMatrix component={Header} args={args} />,
     args: {},
 };
 

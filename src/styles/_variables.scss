@@ -36,7 +36,7 @@ $brand-surface-subtle: #fdf2f6; // Ultra-soft container or badge background
 
 // --- Text & Contrast ---
 $brand-text-dark: #6e2e43; // High-contrast text on soft pink backgrounds
-$brand-disabled: #edd6dd; // Disabled button states & subtle icons
+$brand-disabled: $text-dim; // Disabled button states & subtle icons
 
 // --- Feedback / State Colors ---
 $color-stretch: #06b6d4; // Electric Cyan

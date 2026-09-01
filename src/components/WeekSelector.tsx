@@ -11,6 +11,9 @@ type WeekSelectorProps = {
     maxWeeks: number; // Optional prop to limit the maximum number of weeks
 }
 
+/**
+ * `WeekSelector` component allows users to navigate through weeks, displaying the current week and its corresponding date range. It provides buttons to increment or decrement the week, with optional limits on the maximum number of weeks.
+ */
 export const WeekSelector = ({ weekState, incrementWeek, maxWeeks }: WeekSelectorProps) => {
     const { startDate, endDate, week } = weekState;
     const isDecrementDisabled = week <= 1; // Disable decrement button if week is 1 or less

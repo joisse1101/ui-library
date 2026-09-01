@@ -1,4 +1,4 @@
-@use 'variables' as *;
+@use "variables" as *;
 
 // ==========================================================================
 // Base Placeholders
@@ -25,7 +25,10 @@
   border: 1px solid $input-border;
   border-radius: $radius-md;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 
   &::placeholder {
     color: $text-dim;
@@ -85,8 +88,8 @@ label,
   display: flex;
   gap: 1rem;
 
-  >.form-group,
-  >.input-wrapper {
+  > .form-group,
+  > .input-wrapper {
     flex: 1;
     min-width: 0;
   }
@@ -106,12 +109,21 @@ label,
     stroke-linecap: round;
     stroke-linejoin: round;
     cursor: pointer;
-    transition: stroke 0.2s ease, transform 0.15s ease;
+    transition:
+      stroke 0.2s ease,
+      transform 0.15s ease;
 
     &:hover {
       stroke: var(--brand-hover);
       transform: scale(1.1);
     }
+  }
+
+  input:disabled + .input-icon {
+    stroke: $brand-disabled;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
   }
 
   .input-suffix {
@@ -138,7 +150,6 @@ select {
 
 // WebKit Spin Button Fixes
 input[type="number"] {
-
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     filter: invert(0.8) hue-rotate(180deg);
@@ -246,7 +257,10 @@ input[type="radio"] {
   border-radius: 50%;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 
   &::before {
     content: "";
@@ -302,7 +316,10 @@ input[type="radio"] {
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 
   &:hover input[type="radio"]:not(:disabled) {
     border-color: var(--brand-accent, $input-focus-border);

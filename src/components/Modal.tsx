@@ -15,6 +15,9 @@ interface ModalProps {
     buttonText?: ButtonText;
 }
 
+/**
+ * `Modal` component represents a dialog box that can be used for forms, destructive actions, or confirmations. It provides a header, body, and footer with customizable buttons.
+ */
 export const Modal: React.FC<ModalProps> = ({
     isOpen,
     onClose,

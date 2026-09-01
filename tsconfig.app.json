@@ -27,5 +27,13 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "src/**/*.stories.tsx",
+    "src/**/*.stories.jsx",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.js",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.tsx"
+  ]
 }
