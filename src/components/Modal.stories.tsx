@@ -23,7 +23,9 @@ const meta: Meta<typeof Modal> = {
 export default meta;
 type Story = StoryObj<typeof Modal>;
 
-// 1. Standard Form View (Interactive trigger wrapper)
+/**
+ * The standard modal view, typically used for forms or general information display. It includes a header, body, and footer with customizable buttons.
+ */
 export const FormModal: Story = {
     render: function Render(args) {
         const [isOpen, setIsOpen] = useState(false);
@@ -67,8 +69,10 @@ export const FormModal: Story = {
     },
 };
 
-// 2. Destructive Action View (Red danger button styling)
-export const Destructive: Story = {
+/**
+ * The destructive modal view, typically used for actions that cannot be undone. It includes a prominent warning and requires explicit user confirmation before proceeding.
+ */
+export const DestructiveModal: Story = {
     render: function Render(args) {
         const [isOpen, setIsOpen] = useState(false);
 
@@ -104,8 +108,10 @@ export const Destructive: Story = {
     },
 };
 
-// 3. Simple Confirmation View
-export const Confirmation: Story = {
+/**
+ * The simple confirmation modal view, typically used for actions that require user confirmation. It prompts the user to confirm their action before proceeding.
+ */
+export const ConfirmationModal: Story = {
     render: function Render(args) {
         const [isOpen, setIsOpen] = useState(false);
 
