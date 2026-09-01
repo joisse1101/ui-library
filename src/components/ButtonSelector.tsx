@@ -8,6 +8,14 @@ interface ButtonSelectorProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
     onSelect: (value: string | number) => void;
 }
 
+/**
+ * `ButtonSelector` is a flexible, responsive button-group component designed for choice selection.
+ *
+ * ### Features & Selection Modes
+ * - **Multi-Select (Default):** Pair with the `useArraySelection` hook to allow users to select multiple options.
+ * - **Single Select:** Intercept `onSelect` and set `selectedOptions` as a single-element array `[value]` to enforce single selection.
+ * - **Responsive Handling:** Automatically turns into a horizontally scrollable container on small viewports to prevent overflow.
+ */
 export const ButtonSelector: React.FC<ButtonSelectorProps> = ({ label, options, selectedOptions, onSelect, ...props }) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const { canScrollLeft, canScrollRight } = useCanSideScroll(containerRef);

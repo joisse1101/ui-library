@@ -29,7 +29,7 @@ export function ResponsiveMatrix<P extends object>({
                     <span style={{ fontSize: '0.8rem', color: '#a1a1aa', display: 'block', marginBottom: '0.5rem' }}>
                         {label}
                     </span>
-                    <div style={{ width, border: '1px dashed #27272a', padding: '1rem', borderRadius: '8px', boxSizing: 'border-box' }}>
+                    <div style={{ width, border: '1px dashed #b8738a', padding: '1rem', borderRadius: '8px', boxSizing: 'border-box' }}>
                         <Component {...args} />
                     </div>
                 </div>

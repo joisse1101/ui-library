@@ -17,8 +17,9 @@ export * from './components/CardCarousel';
 export { MainLayout } from './layouts/MainLayout';
 
 // Hooks
-export * from './hooks/display';
-export * from './hooks/useCanSideScroll';
+export { useMediaQuery } from './hooks/display';
+export { useArraySelection } from './hooks/useArraySelection';
+export { useCanSideScroll } from './hooks/useCanSideScroll';
 
 // Utils
 export * from './utils/colours';

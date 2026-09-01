@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import { useState } from 'react';
+import { useArraySelection } from '../hooks/useArraySelection';
 import { ButtonSelector } from './ButtonSelector';
 import type { Option } from '../types/selectors';
 import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
@@ -16,9 +18,26 @@ const sampleOptions: Option[] = [
 ];
 
 const meta: Meta<typeof ButtonSelector> = {
-    title: 'User Input/ButtonSelector',
+    title: 'User Input/Button Selector',
     component: ButtonSelector,
     tags: ['autodocs'],
+    parameters: {
+        docs: {
+            page: () => (
+                <>
+                    {/* Header elements */}
+                    <Title />
+                    <Subtitle />
+                    <Description />
+
+                    <Primary />
+                    <Controls />
+
+                    <Stories includePrimary={false} />
+                </>
+            ),
+        },
+    },
     argTypes: {
         label: { control: 'text', description: 'Label text for the group' },
         options: { control: 'object', description: 'List of options to select from' },
@@ -30,18 +49,39 @@ const meta: Meta<typeof ButtonSelector> = {
 export default meta;
 type Story = StoryObj<typeof ButtonSelector>;
 
-// 1. Base Uncontrolled / Static Preview
-export const Default: Story = {
-    render: (args) => <ResponsiveMatrix component={ButtonSelector} args={args} />,
+/**
+ * Responsive matrix preview showing multi-select behavior across viewports.
+ */
+export const ResponsiveView: Story = {
+    render: (args) => {
+        const { selectedOptions, toggleOption } = useArraySelection<(string | number)>([]);
+        return <ResponsiveMatrix component={ButtonSelector} args={{ ...args, selectedOptions, onSelect: toggleOption }} />;
+    },
     args: {
         label: 'Select Frameworks',
-        options: sampleOptions.slice(0, 4),
-        selectedOptions: ['react'],
+        options: sampleOptions,
     },
 };
 
-// 2. Interactive Single-Select Story
-export const SingleSelectInteractive: Story = {
+/**
+ * Uses `useArraySelection` to handle multi-option toggling. 
+ */
+export const MultiSelect: Story = {
+    name: 'Multi-Select',
+    render: (args) => {
+        const { selectedOptions, toggleOption } = useArraySelection<(string | number)>([]);
+        return <ButtonSelector {...args} selectedOptions={selectedOptions} onSelect={toggleOption} />;
+    },
+    args: {
+        label: 'Select Frameworks',
+        options: sampleOptions,
+    },
+};
+
+/**
+ * Single selection mode can be enforced by modifying `onSelect` to replace the array with a single selected item.
+ */
+export const SingleSelect: Story = {
     render: function Render(args) {
         const [selected, setSelected] = useState<(string | number)[] | null>(['typescript']);
 
@@ -61,56 +101,5 @@ export const SingleSelectInteractive: Story = {
     args: {
         label: 'Single Selection',
         options: sampleOptions.slice(0, 5),
-    },
-};
-
-// 3. Interactive Multi-Select Story
-export const MultiSelectInteractive: Story = {
-    render: function Render(args) {
-        const [selected, setSelected] = useState<(string | number)[] | null>(['react', 'scss']);
-
-        const handleSelect = (value: string | number) => {
-            args.onSelect?.(value);
-            setSelected((prev) => {
-                const exists = prev?.includes(value);
-                if (exists) {
-                    return prev?.filter((v) => v !== value) ?? null;
-                }
-                return [...(prev || []), value];
-            });
-        };
-
-        return (
-            <ButtonSelector
-                {...args}
-                selectedOptions={selected}
-                onSelect={handleSelect}
-            />
-        );
-    },
-    args: {
-        label: 'Multi Selection',
-        options: sampleOptions.slice(0, 5),
-    },
-};
-
-// 4. Overflowing Container (Tests custom hook `useCanSideScroll` overlays)
-export const HorizontalScroll: Story = {
-    render: function Render(args) {
-        const [selected, setSelected] = useState<(string | number)[] | null>(['vite']);
-
-        return (
-            <div style={{ maxWidth: '350px' }}>
-                <ButtonSelector
-                    {...args}
-                    selectedOptions={selected}
-                    onSelect={(val) => setSelected([val])}
-                />
-            </div>
-        );
-    },
-    args: {
-        label: 'Scrollable Options (Constraint Width)',
-        options: sampleOptions,
     },
 };
