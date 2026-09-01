@@ -5,6 +5,9 @@ interface DateInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     id: string;
 }
 
+/**
+ * `DateInput` is a React component that renders a date input field with an associated label and a clickable icon to open the browser's native datepicker popup. It accepts standard input attributes along with `label` and `id` props for accessibility.
+ */
 export const DateInput: React.FC<DateInputProps> = ({ label, id, ...props }) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 

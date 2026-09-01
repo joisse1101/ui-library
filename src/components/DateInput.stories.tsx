@@ -1,12 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
 import { DateInput } from './DateInput';
-import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
+import { DocsPage } from '@stories/DocsPage';
 
 const meta: Meta<typeof DateInput> = {
     title: 'User Input/DateInput',
     component: DateInput,
     tags: ['autodocs'],
+    parameters: {
+        docs: {
+            page: DocsPage,
+        },
+    },
     argTypes: {
         label: { control: 'text', description: 'Label text for the input field' },
         id: { control: 'text', description: 'Unique identifier linking label to input' },
@@ -20,38 +24,17 @@ const meta: Meta<typeof DateInput> = {
 export default meta;
 type Story = StoryObj<typeof DateInput>;
 
-// 1. Default State
 export const Default: Story = {
-    render: (args) => <ResponsiveMatrix component={DateInput} args={args} />,
+    render: (args) => <DateInput {...args} />,
     args: {
         id: 'birth-date',
         label: 'Date of Birth',
     },
 };
 
-// 2. Interactive Controlled Story
-export const Interactive: Story = {
-    render: function Render(args) {
-        const [selectedDate, setSelectedDate] = useState<string>('2026-08-31');
-
-        return (
-            <DateInput
-                {...args}
-                value={selectedDate}
-                onChange={(e) => {
-                    args.onChange?.(e);
-                    setSelectedDate(e.target.value);
-                }}
-            />
-        );
-    },
-    args: {
-        id: 'interactive-date',
-        label: 'Select Target Date',
-    },
-};
-
-// 3. Min/Max Range Constrained State
+/**
+ * Component accepts and passes default input properties, which can be used to constrain the selectable date range.
+ */
 export const ConstrainedRange: Story = {
     args: {
         id: 'booking-date',
@@ -62,7 +45,9 @@ export const ConstrainedRange: Story = {
     },
 };
 
-// 4. Disabled State
+/**
+ * Disabled state of the component prevents user interaction and visually indicates that the input is not editable.
+ */
 export const Disabled: Story = {
     args: {
         id: 'disabled-date',
