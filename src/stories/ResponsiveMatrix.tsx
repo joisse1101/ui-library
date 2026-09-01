@@ -6,8 +6,8 @@ interface ScreenSize {
 }
 
 const defaultSizes: ScreenSize[] = [
-    { label: 'Horizontal Scroll View (360px)', width: '360px' },
-    { label: 'Full View (100%)', width: '100%' },
+    { label: 'Compact View', width: '360px' },
+    { label: 'Full View', width: '100%' },
 ];
 
 interface ResponsiveMatrixProps<P> {

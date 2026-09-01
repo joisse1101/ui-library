@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { WeekSelector, type WeekState } from './WeekSelector';
-import { ResponsiveMatrix } from '../stories/ResponsiveMatrix';
+import { DocsPage } from '@stories/DocsPage';
 
 // Helper to generate dynamic week dates
 const getWeekRange = (weekNumber: number): WeekState => {
@@ -20,6 +20,11 @@ const meta: Meta<typeof WeekSelector> = {
     title: 'Display/WeekSelector',
     component: WeekSelector,
     tags: ['autodocs'],
+    parameters: {
+        docs: {
+            page: DocsPage,
+        },
+    },
     argTypes: {
         weekState: { control: 'object', description: 'Object containing week number, startDate, and endDate' },
         maxWeeks: { control: 'number', description: 'Upper boundary for maximum allowed weeks' },
@@ -30,19 +35,9 @@ const meta: Meta<typeof WeekSelector> = {
 export default meta;
 type Story = StoryObj<typeof WeekSelector>;
 
-// 1. Default Static View
-export const Default: Story = {
-    render: (args) => <ResponsiveMatrix component={WeekSelector} args={args} />,
-    args: {
-        weekState: getWeekRange(5),
-        maxWeeks: 52,
-    },
-};
-
-// 2. Interactive Controlled State
 export const Interactive: Story = {
     render: function Render(args) {
-        const [weekNum, setWeekNum] = useState<number>(12);
+        const [weekNum, setWeekNum] = useState<number>(2);
 
         const handleIncrement = (step: number) => {
             args.incrementWeek?.(step);
@@ -58,35 +53,6 @@ export const Interactive: Story = {
         );
     },
     args: {
-        maxWeeks: 20,
-    },
-};
-
-// 3. Lower Limit (Decrement Disabled)
-export const FirstWeek: Story = {
-    args: {
-        weekState: getWeekRange(1),
-        maxWeeks: 12,
-    },
-};
-
-// 4. Upper Limit (Increment Disabled)
-export const LastWeek: Story = {
-    args: {
-        weekState: getWeekRange(12),
-        maxWeeks: 12,
-    },
-};
-
-// 5. Mobile Layout Responsive Test
-export const MobileView: Story = {
-    parameters: {
-        viewport: {
-            defaultViewport: 'mobile1',
-        },
-    },
-    args: {
-        weekState: getWeekRange(3),
-        maxWeeks: 52,
+        maxWeeks: 3,
     },
 };
