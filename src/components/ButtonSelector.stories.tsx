@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { DocsPage } from '@stories/DocsPage';
 import { useState } from 'react';
 import { useArraySelection } from '../hooks/useArraySelection';
 import { ButtonSelector } from './ButtonSelector';
@@ -23,19 +23,7 @@ const meta: Meta<typeof ButtonSelector> = {
     tags: ['autodocs'],
     parameters: {
         docs: {
-            page: () => (
-                <>
-                    {/* Header elements */}
-                    <Title />
-                    <Subtitle />
-                    <Description />
-
-                    <Primary />
-                    <Controls />
-
-                    <Stories includePrimary={false} />
-                </>
-            ),
+            page: DocsPage,
         },
     },
     argTypes: {
@@ -49,9 +37,6 @@ const meta: Meta<typeof ButtonSelector> = {
 export default meta;
 type Story = StoryObj<typeof ButtonSelector>;
 
-/**
- * Responsive matrix preview showing multi-select behavior across viewports.
- */
 export const ResponsiveView: Story = {
     render: (args) => {
         const { selectedOptions, toggleOption } = useArraySelection<(string | number)>([]);

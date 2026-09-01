@@ -24,6 +24,13 @@ const DEFAULT_PALETTE: PaletteItem[] = [
     { id: 4, hex: '#343648', stepsToNext: 0 },
 ];
 
+/**
+ * `ColourPalettePicker` is a React component that allows users to create and manage a color palette. 
+ * 
+ * ### Features
+ * - Users can add, remove, and modify colors in the palette.
+ * - Each color can have a specified number of interpolation steps to the next color.
+ */
 export const ColourPalettePicker: React.FC<ColourPalettePickerProps> = ({
     initialPalette = DEFAULT_PALETTE,
     onChange,
@@ -51,7 +58,7 @@ export const ColourPalettePicker: React.FC<ColourPalettePickerProps> = ({
         }
 
         return generated;
-    }, [paletteState]); // Removed `onChange` dependency
+    }, [paletteState]);
 
     useEffect(() => {
         onChange?.(fullPalette);
@@ -82,6 +89,9 @@ export const ColourPalettePicker: React.FC<ColourPalettePickerProps> = ({
         if (paletteState.length <= 2) return;
         setPaletteState((prev) => prev.filter((item) => item.id !== id));
     };
+
+    const [hexChipHovered, setHexChipHovered] = useState<number | null>(null);
+    const [swatchHovered, setSwatchHovered] = useState<number | null>(null);
 
     return (
         <div className="color-picker-component">
@@ -142,9 +152,11 @@ export const ColourPalettePicker: React.FC<ColourPalettePickerProps> = ({
                 {fullPalette.map((hexCode, idx) => (
                     <div
                         key={`${hexCode}-${idx}`}
-                        className="palette-swatch"
+                        className={`palette-swatch${hexChipHovered === idx ? ' hovered' : ''}`}
                         style={{ backgroundColor: hexCode }}
                         title={hexCode}
+                        onMouseEnter={() => setSwatchHovered(idx)}
+                        onMouseLeave={() => setSwatchHovered(null)}
                     />
                 ))}
             </div>
@@ -152,7 +164,11 @@ export const ColourPalettePicker: React.FC<ColourPalettePickerProps> = ({
             {/* Hex Codes Display */}
             <div className="hex-codes" id="hex-codes">
                 {fullPalette.map((hexCode, idx) => (
-                    <span key={`${hexCode}-${idx}`} className="hex-chip">
+                    <span
+                        key={`${hexCode}-${idx}`} className={`hex-chip${swatchHovered === idx ? ' hovered' : ''}`}
+                        onMouseEnter={() => setHexChipHovered(idx)}
+                        onMouseLeave={() => setHexChipHovered(null)}
+                    >
                         {hexCode}
                     </span>
                 ))}
