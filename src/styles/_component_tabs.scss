@@ -4,7 +4,6 @@
   display: flex;
   gap: 0.5rem;
   border-bottom: 1px solid $border-subtle; //
-  margin-bottom: 1.5rem; //
 
   .tab-btn {
     padding: 0.625rem 1rem; //
@@ -26,6 +25,9 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+
+    white-space: nowrap;
+    width: fit-content;
 
     // Hover state (only applies when not disabled)
     &:hover:not(:disabled):not(.disabled):not([aria-disabled="true"]) {

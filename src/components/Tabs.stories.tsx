@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Tabs, type TabItem } from './Tabs';
 import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
+import { DocsPage } from '@stories/DocsPage';
 
 const defaultTabs: TabItem[] = [
     {
@@ -26,6 +27,11 @@ const meta: Meta<typeof Tabs> = {
     title: 'Display/Tabs',
     component: Tabs,
     tags: ['autodocs'],
+    parameters: {
+        docs: {
+            page: DocsPage,
+        },
+    },
     argTypes: {
         tabs: { control: 'object', description: 'Array of tab items with id, label, content, and optional disabled state.' },
         defaultActiveId: { control: 'text', description: 'Initial active tab ID for uncontrolled mode.' },
@@ -39,7 +45,6 @@ const meta: Meta<typeof Tabs> = {
 export default meta;
 type Story = StoryObj<typeof Tabs>;
 
-// 1. Uncontrolled Basic Usage
 export const Default: Story = {
     render: (args) => <ResponsiveMatrix component={Tabs} args={args} />,
     args: {
@@ -48,19 +53,17 @@ export const Default: Story = {
     },
 };
 
-// 2. Interactive Controlled State
-export const Controlled: Story = {
+/**
+ * Demonstrates standard tabbed navigation. Use this pattern for static section 
+ * switching where the set of tabs does not change after render.
+ */
+export const Standard: Story = {
     render: function Render(args) {
-        const [activeId, setActiveId] = useState<string>('tab-2');
-
         return (
             <Tabs
                 {...args}
-                activeId={activeId}
-                onTabChange={(id) => {
-                    args.onTabChange?.(id);
-                    setActiveId(id);
-                }}
+                onTabAdd={undefined}
+                onTabDelete={undefined}
             />
         );
     },
@@ -69,7 +72,10 @@ export const Controlled: Story = {
     },
 };
 
-// 3. Dynamic Adding & Deleting Tabs
+/**
+ * Demonstrates dynamic tab management. Shows how to handle active state, insertion, 
+ * and removal when tabs are managed externally via React state.
+ */
 export const DynamicManagement: Story = {
     render: function Render(args) {
         const [tabList, setTabList] = useState<TabItem[]>([
