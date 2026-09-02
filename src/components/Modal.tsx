@@ -9,6 +9,7 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: () => void;
+    onCancel?: () => void;
     title?: string;
     children?: React.ReactNode;
     modalType?: 'form' | 'destructive' | 'confirmation';
@@ -24,6 +25,7 @@ export const Modal: React.FC<ModalProps> = ({
     title = '',
     children,
     onSubmit,
+    onCancel,
     modalType = 'form',
     buttonText = { primary: 'Save Changes', secondary: 'Cancel' }
 }) => {
@@ -79,7 +81,10 @@ export const Modal: React.FC<ModalProps> = ({
                     <button
                         type="button"
                         className="btn btn-secondary"
-                        onClick={onClose}
+                        onClick={() => {
+                            onCancel?.();
+                            onClose();
+                        }}
                     >
                         {buttonText.secondary}
                     </button>

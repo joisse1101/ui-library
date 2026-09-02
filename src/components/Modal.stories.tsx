@@ -15,8 +15,9 @@ const meta: Meta<typeof Modal> = {
             description: 'Changes styling/variant of the primary call-to-action button',
         },
         buttonText: { control: 'object', description: 'Custom labels for primary and secondary buttons' },
-        onClose: { action: 'closed' },
-        onSubmit: { action: 'submitted' },
+        onClose: { action: 'closed', description: 'Triggered when the modal is requested to be closed' },
+        onSubmit: { action: 'submitted', description: 'Triggered when the primary action button is clicked' },
+        onCancel: { action: 'cancelled', description: 'Triggered when the secondary action button is clicked' },
     },
 };
 
@@ -44,6 +45,10 @@ export const FormModal: Story = {
                     }}
                     onSubmit={() => {
                         args.onSubmit?.();
+                        setIsOpen(false);
+                    }}
+                    onCancel={() => {
+                        args.onCancel?.();
                         setIsOpen(false);
                     }}
                 />
