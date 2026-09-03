@@ -17,6 +17,10 @@ interface CardCarouselProps {
     isInfinite?: boolean;
 }
 
+/**
+ * `CardCarousel` component that renders a carousel of cards, supporting infinite scrolling if specified.
+ */
+
 export const CardCarousel: React.FC<CardCarouselProps> = ({ items, isInfinite = false }) => {
     const displayItems = items;
     return (
@@ -27,12 +31,13 @@ export const CardCarousel: React.FC<CardCarouselProps> = ({ items, isInfinite = 
                 return (
                     <div
                         className="card"
+                        style={{ '--bg-image': item.image ? `url(${item.image})` : 'none' } as React.CSSProperties}
                     >
-                        <div className="">
-                            <h3 className="">{item.title}</h3>
-                            <p className="">{item.description}</p>
+                        <div className="card__content">
+                            <h3 className="card__title">{item.title}</h3>
+                            <p className="card__description">{item.description}</p>
                             {item.link && (
-                                <a href={item.link.url} className="">
+                                <a href={item.link.url} className="card__link">
                                     {item.link.label}
                                 </a>
                             )}
@@ -41,15 +46,5 @@ export const CardCarousel: React.FC<CardCarouselProps> = ({ items, isInfinite = 
                 );
             })}
         </Carousel>
-        // <div className={`carousel overlay-wrapper ${isInfinite ? 'carousel--infinite' : ''}`}>
-        //     <div className={`overlay-left overlay-left-main ${!canScrollLeft && !isInfinite ? 'hidden' : ''}`} />
-        //     <div className={`overlay-right overlay-right-main ${!canScrollRight && !isInfinite ? 'hidden' : ''}`} />
-        //     <div
-        //         className="carousel__track overlay-component"
-        //         ref={scrollContainerRef}
-        //         onScroll={handleScroll}
-        //     >
-        //     </div>
-        // </div>
     );
 };

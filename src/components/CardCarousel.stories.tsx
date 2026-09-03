@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CardCarousel, type CardProps } from './CardCarousel';
 import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
+import { DocsPage } from '@stories/DocsPage';
 
 const mockCards: CardProps[] = [
     {
@@ -44,6 +45,11 @@ const meta: Meta<typeof CardCarousel> = {
     title: 'Display/CardCarousel',
     component: CardCarousel,
     tags: ['autodocs'],
+    parameters: {
+        docs: {
+            page: DocsPage,
+        },
+    },
     argTypes: {
         items: {
             control: 'object',
@@ -71,6 +77,27 @@ export const Default: Story = {
     args: {
         items: mockCards,
         isInfinite: false,
+    },
+};
+
+/**
+ * Singular card variant of the CardCarousel, demonstrating how the carousel behaves with only one card.
+ */
+export const SingularCard: Story = {
+    render: (args) => {
+        return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div style={{ width: '360px', border: '1px dashed #b8738a', padding: '1rem', borderRadius: '8px', boxSizing: 'border-box' }}>
+                    <CardCarousel {...args} isInfinite={false} />
+                </div>
+                <div style={{ width: '100%', border: '1px dashed #b8738a', padding: '1rem', borderRadius: '8px', boxSizing: 'border-box' }}>
+                    <CardCarousel {...args} isInfinite={true} />
+                </div>
+            </div>
+        );
+    },
+    args: {
+        items: [mockCards[0]],
     },
 };
 

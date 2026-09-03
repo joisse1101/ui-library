@@ -5,6 +5,9 @@ export interface CarouselProps {
     infinite?: boolean;
 }
 
+/**
+ * `Carousel` component that renders a carousel of child elements, supporting infinite scrolling if specified.
+ */
 export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true }) => {
     const items = React.Children.toArray(children);
     const totalItems = items.length;
