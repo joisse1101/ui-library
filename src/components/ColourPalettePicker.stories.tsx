@@ -17,6 +17,10 @@ const meta: Meta<typeof ColourPalettePicker> = {
             control: 'object',
             description: 'Initial list of palette items (hex code, steps, and id)',
         },
+        palette: {
+            control: 'object',
+            description: 'Controlled palette state with current state and setter function',
+        },
     },
 };
 

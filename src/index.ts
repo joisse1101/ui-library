@@ -3,7 +3,7 @@ import './styles/index.scss';
 
 // Components
 export { ButtonSelector } from './components/ButtonSelector';
-export { ColourPalettePicker } from './components/ColourPalettePicker';
+export { type PaletteItem, ColourPalettePicker } from './components/ColourPalettePicker';
 export { DateInput } from './components/DateInput';
 export { Footer } from './components/Footer';
 export { Header } from './components/Header';
