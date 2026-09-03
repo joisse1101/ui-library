@@ -49,6 +49,10 @@ const meta: Meta<typeof CardCarousel> = {
             control: 'object',
             description: 'List of card data objects to render inside the carousel track.',
         },
+        isInfinite: {
+            control: 'boolean',
+            description: 'Enable or disable infinite rotation mode for the carousel.',
+        },
     },
     decorators: [
         (Story) => (
@@ -66,17 +70,25 @@ export const Default: Story = {
     render: (args) => <ResponsiveMatrix component={CardCarousel} args={args} />,
     args: {
         items: mockCards,
+        isInfinite: false,
     },
 };
 
+/**
+ * Text-only variant of the CardCarousel, where images are removed from the cards.
+ */
 export const TextOnly: Story = {
     args: {
         items: mockCards.map(({ image, ...rest }) => rest),
     },
 };
 
-export const StaticTrack: Story = {
+/**
+ * Infinite rotation variant of the CardCarousel, where the carousel continuously loops through the cards.
+ */
+export const Infinite: Story = {
     args: {
-        items: mockCards.slice(0, 2),
+        items: mockCards,
+        isInfinite: true,
     },
 };
