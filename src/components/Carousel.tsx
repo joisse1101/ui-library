@@ -17,13 +17,19 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
     const [currentIndex, setCurrentIndex] = useState(isInfinite ? totalItems : 0);
     const [isTransitioning, setIsTransitioning] = useState(true);
     const [isAnimating, setIsAnimating] = useState(false);
-    const [offset, setOffset] = useState(0);
     const [trackPadding, setTrackPadding] = useState({ left: 0, right: 0 });
 
     const viewportRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
 
-    // 1. Calculate inline padding strictly for non-infinite mode
+    // Track active swipe state to prevent useLayoutEffect from overriding DOM transitions
+    const isWheelSwipingRef = useRef(false);
+
+    const currentIndexRef = useRef(currentIndex);
+    useEffect(() => {
+        currentIndexRef.current = currentIndex;
+    }, [currentIndex]);
+
     const updatePadding = useCallback(() => {
         if (!trackRef.current || !viewportRef.current || isInfinite) {
             setTrackPadding({ left: 0, right: 0 });
@@ -47,7 +53,6 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
         }
     }, [isInfinite]);
 
-    // 2. Pure offset calculation using target card's left position
     const calculateOffset = useCallback((index: number) => {
         if (!trackRef.current || !viewportRef.current) return 0;
 
@@ -65,38 +70,155 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
         return 0;
     }, []);
 
+    const applyTransform = useCallback((targetOffset: number) => {
+        if (trackRef.current) {
+            trackRef.current.style.transform = `translateX(-${targetOffset}px)`;
+        }
+    }, []);
+
+    // Only apply layout offset when NOT actively wheeling
     useLayoutEffect(() => {
         updatePadding();
-        const initialOffset = calculateOffset(currentIndex);
-        setOffset(initialOffset);
-    }, [currentIndex, calculateOffset, updatePadding]);
+        if (!isWheelSwipingRef.current) {
+            const newOffset = calculateOffset(currentIndex);
+            applyTransform(newOffset);
+        }
+    }, [currentIndex, calculateOffset, updatePadding, applyTransform]);
 
     useEffect(() => {
         const handleResize = () => {
             updatePadding();
-            setOffset(calculateOffset(currentIndex));
+            applyTransform(calculateOffset(currentIndexRef.current));
         };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [currentIndex, calculateOffset, updatePadding]);
+    }, [calculateOffset, updatePadding, applyTransform]);
 
-    const nextSlide = () => {
+    const nextSlide = useCallback(() => {
         if (isAnimating) return;
         if (!infinite && currentIndex >= totalItems - 1) return;
 
         setIsAnimating(true);
         setIsTransitioning(true);
         setCurrentIndex((prev) => prev + 1);
-    };
+    }, [isAnimating, infinite, currentIndex, totalItems]);
 
-    const prevSlide = () => {
+    const prevSlide = useCallback(() => {
         if (isAnimating) return;
         if (!infinite && currentIndex <= 0) return;
 
         setIsAnimating(true);
         setIsTransitioning(true);
         setCurrentIndex((prev) => prev - 1);
-    };
+    }, [isAnimating, infinite, currentIndex]);
+
+    // --- WHEEL HANDLER ---
+    useEffect(() => {
+        const viewport = viewportRef.current;
+        const track = trackRef.current;
+        if (!viewport || !track) return;
+
+        let accumulatedDelta = 0;
+        let endSwipeTimer: NodeJS.Timeout | null = null;
+        let moduloTimer: NodeJS.Timeout | null = null;
+
+        const handleWheel = (e: WheelEvent) => {
+            const absX = Math.abs(e.deltaX);
+            const absY = Math.abs(e.deltaY);
+
+            if (absY >= absX) return;
+            e.preventDefault();
+
+            const activeIndex = currentIndexRef.current;
+
+            if (!isWheelSwipingRef.current) {
+                isWheelSwipingRef.current = true;
+                setIsTransitioning(false);
+                track.style.transition = 'none';
+            }
+
+            accumulatedDelta += e.deltaX * 0.7;
+
+            const baseOffset = calculateOffset(activeIndex);
+            let currentLiveOffset = baseOffset + accumulatedDelta;
+
+            const minTrackOffset = calculateOffset(0);
+            const maxTrackOffset = calculateOffset(displayItems.length - 1);
+            currentLiveOffset = Math.max(minTrackOffset, Math.min(currentLiveOffset, maxTrackOffset));
+
+            applyTransform(currentLiveOffset);
+
+            if (endSwipeTimer) clearTimeout(endSwipeTimer);
+            if (moduloTimer) clearTimeout(moduloTimer);
+
+            endSwipeTimer = setTimeout(() => {
+                const slideElements = track.children;
+                const viewportWidth = viewport.offsetWidth;
+                const targetCenter = currentLiveOffset + viewportWidth / 2;
+
+                let closestIndex = activeIndex;
+                let smallestDistance = Infinity;
+
+                Array.from(slideElements).forEach((slide, index) => {
+                    const element = slide as HTMLElement;
+                    const cardCenter = element.offsetLeft + element.offsetWidth / 2;
+                    const dist = Math.abs(cardCenter - targetCenter);
+
+                    if (dist < smallestDistance) {
+                        smallestDistance = dist;
+                        closestIndex = index;
+                    }
+                });
+
+                accumulatedDelta = 0;
+
+                // 1. Enable smooth CSS transition
+                setIsTransitioning(true);
+                track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+
+                // 2. Force browser reflow to commit transition property
+                void track.offsetHeight;
+
+                // 3. Apply target position for transition
+                const targetOffset = calculateOffset(closestIndex);
+                applyTransform(targetOffset);
+
+                // 4. Update index state
+                setCurrentIndex(closestIndex);
+
+                // 5. Reset wheel swipe guard after animation ends
+                setTimeout(() => {
+                    isWheelSwipingRef.current = false;
+                }, 400);
+
+                // Phase 2: Infinite Teleport Adjustment
+                if (isInfinite) {
+                    moduloTimer = setTimeout(() => {
+                        const middleIndex = totalItems + (((closestIndex % totalItems) + totalItems) % totalItems);
+
+                        if (middleIndex === closestIndex) return;
+
+                        setIsTransitioning(false);
+                        track.style.transition = 'none';
+
+                        void track.offsetHeight;
+
+                        const silentOffset = calculateOffset(middleIndex);
+                        applyTransform(silentOffset);
+                        setCurrentIndex(middleIndex);
+                    }, 400);
+                }
+            }, 120);
+        };
+
+        viewport.addEventListener('wheel', handleWheel, { passive: false });
+
+        return () => {
+            viewport.removeEventListener('wheel', handleWheel);
+            if (endSwipeTimer) clearTimeout(endSwipeTimer);
+            if (moduloTimer) clearTimeout(moduloTimer);
+        };
+    }, [totalItems, displayItems.length, isInfinite, calculateOffset, applyTransform]);
 
     const handleTransitionEnd = () => {
         if (!isInfinite) {
@@ -104,12 +226,10 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
             return;
         }
 
-        if (currentIndex === totalItems * 2) {
+        if (currentIndex >= totalItems * 2 || currentIndex < totalItems) {
+            const normalizedIndex = totalItems + (((currentIndex % totalItems) + totalItems) % totalItems);
             setIsTransitioning(false);
-            setCurrentIndex(totalItems);
-        } else if (currentIndex === totalItems - 1) {
-            setIsTransitioning(false);
-            setCurrentIndex(totalItems * 2 - 1);
+            setCurrentIndex(normalizedIndex);
         }
 
         setIsAnimating(false);
@@ -138,7 +258,6 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
                         className={`carousel__track ${!isTransitioning ? 'carousel__track--no-transition' : ''}`}
                         onTransitionEnd={handleTransitionEnd}
                         style={{
-                            transform: `translateX(-${offset}px)`,
                             paddingLeft: !isInfinite ? `${trackPadding.left}px` : 0,
                             paddingRight: !isInfinite ? `${trackPadding.right}px` : 0,
                         }}
