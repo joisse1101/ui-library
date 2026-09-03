@@ -19,10 +19,11 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
     const [isAnimating, setIsAnimating] = useState(false);
     const [trackPadding, setTrackPadding] = useState({ left: 0, right: 0 });
 
+    const [liveOffset, setLiveOffset] = useState<number | null>(null);
+
     const viewportRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
 
-    // Track active swipe state to prevent useLayoutEffect from overriding DOM transitions
     const isWheelSwipingRef = useRef(false);
 
     const currentIndexRef = useRef(currentIndex);
@@ -43,8 +44,8 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
             const firstSlide = slideElements[0] as HTMLElement;
             const lastSlide = slideElements[slideElements.length - 1] as HTMLElement;
 
-            const leftPad = (viewportWidth / 2) - (firstSlide.offsetWidth / 2);
-            const rightPad = (viewportWidth / 2) - (lastSlide.offsetWidth / 2);
+            const leftPad = (viewportWidth - firstSlide.offsetWidth) / 2;
+            const rightPad = (viewportWidth - lastSlide.offsetWidth) / 2;
 
             setTrackPadding({
                 left: Math.max(0, leftPad),
@@ -53,22 +54,29 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
         }
     }, [isInfinite]);
 
-    const calculateOffset = useCallback((index: number) => {
+    const calculateOffset = useCallback((index: number, alignment: 'center' | 'left' | 'right' = 'center') => {
         if (!trackRef.current || !viewportRef.current) return 0;
 
-        const slideElements = trackRef.current.children;
         const viewportWidth = viewportRef.current.offsetWidth;
+        const slideElements = trackRef.current.children;
         const targetSlide = slideElements[index] as HTMLElement;
 
         if (targetSlide) {
             const cardLeftPosition = targetSlide.offsetLeft;
             const cardWidth = targetSlide.offsetWidth;
 
+            if (alignment === 'left') {
+                return cardLeftPosition - trackPadding.left;
+            }
+            if (alignment === 'right') {
+                return cardLeftPosition + cardWidth - viewportWidth + trackPadding.right;
+            }
+
             return cardLeftPosition - (viewportWidth / 2) + (cardWidth / 2);
         }
 
         return 0;
-    }, []);
+    }, [trackPadding]);
 
     const applyTransform = useCallback((targetOffset: number) => {
         if (trackRef.current) {
@@ -76,14 +84,16 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
         }
     }, []);
 
-    // Only apply layout offset when NOT actively wheeling
     useLayoutEffect(() => {
         updatePadding();
+    }, [updatePadding]);
+
+    useLayoutEffect(() => {
         if (!isWheelSwipingRef.current) {
             const newOffset = calculateOffset(currentIndex);
             applyTransform(newOffset);
         }
-    }, [currentIndex, calculateOffset, updatePadding, applyTransform]);
+    }, [currentIndex, trackPadding, calculateOffset, applyTransform]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -142,11 +152,12 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
             const baseOffset = calculateOffset(activeIndex);
             let currentLiveOffset = baseOffset + accumulatedDelta;
 
-            const minTrackOffset = calculateOffset(0);
-            const maxTrackOffset = calculateOffset(displayItems.length - 1);
+            const minTrackOffset = calculateOffset(0, 'left');
+            const maxTrackOffset = calculateOffset(displayItems.length - 1, 'right');
             currentLiveOffset = Math.max(minTrackOffset, Math.min(currentLiveOffset, maxTrackOffset));
 
             applyTransform(currentLiveOffset);
+            setLiveOffset(currentLiveOffset);
 
             if (endSwipeTimer) clearTimeout(endSwipeTimer);
             if (moduloTimer) clearTimeout(moduloTimer);
@@ -172,42 +183,38 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
 
                 accumulatedDelta = 0;
 
-                // 1. Enable smooth CSS transition
-                setIsTransitioning(true);
-                track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                requestAnimationFrame(() => {
+                    setIsTransitioning(true);
+                    track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
 
-                // 2. Force browser reflow to commit transition property
-                void track.offsetHeight;
+                    requestAnimationFrame(() => {
+                        const targetOffset = calculateOffset(closestIndex);
+                        applyTransform(targetOffset);
+                        setCurrentIndex(closestIndex);
 
-                // 3. Apply target position for transition
-                const targetOffset = calculateOffset(closestIndex);
-                applyTransform(targetOffset);
+                        setTimeout(() => {
+                            isWheelSwipingRef.current = false;
+                            setLiveOffset(null);
+                        }, 400);
 
-                // 4. Update index state
-                setCurrentIndex(closestIndex);
+                        if (isInfinite) {
+                            moduloTimer = setTimeout(() => {
+                                const middleIndex = totalItems + (((closestIndex % totalItems) + totalItems) % totalItems);
 
-                // 5. Reset wheel swipe guard after animation ends
-                setTimeout(() => {
-                    isWheelSwipingRef.current = false;
-                }, 400);
+                                if (middleIndex === closestIndex) return;
 
-                // Phase 2: Infinite Teleport Adjustment
-                if (isInfinite) {
-                    moduloTimer = setTimeout(() => {
-                        const middleIndex = totalItems + (((closestIndex % totalItems) + totalItems) % totalItems);
+                                setIsTransitioning(false);
+                                track.style.transition = 'none';
 
-                        if (middleIndex === closestIndex) return;
+                                void track.offsetHeight;
 
-                        setIsTransitioning(false);
-                        track.style.transition = 'none';
-
-                        void track.offsetHeight;
-
-                        const silentOffset = calculateOffset(middleIndex);
-                        applyTransform(silentOffset);
-                        setCurrentIndex(middleIndex);
-                    }, 400);
-                }
+                                const silentOffset = calculateOffset(middleIndex);
+                                applyTransform(silentOffset);
+                                setCurrentIndex(middleIndex);
+                            }, 400);
+                        }
+                    });
+                });
             }, 120);
         };
 
@@ -235,8 +242,12 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
         setIsAnimating(false);
     };
 
-    const canScrollLeft = isInfinite ? true : currentIndex > 0;
-    const canScrollRight = isInfinite ? true : currentIndex < totalItems - 1;
+    const minOffset = calculateOffset(0, 'left');
+    const maxOffset = calculateOffset(displayItems.length - 1, 'right');
+    const activeOffset = liveOffset !== null ? liveOffset : calculateOffset(currentIndex);
+
+    const canScrollLeft = isInfinite ? true : activeOffset > minOffset + 1;
+    const canScrollRight = isInfinite ? true : activeOffset < maxOffset - 1;
 
     return (
         <div className="carousel">
