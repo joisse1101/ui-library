@@ -1,5 +1,5 @@
 import { interpolateColors } from '@utils/colours';
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 
 export interface PaletteItem {
     id: number;
@@ -10,10 +10,15 @@ export interface PaletteItem {
 interface ColourPalettePickerProps {
     /** Optional initial palette state */
     initialPalette?: PaletteItem[];
+    palette?: {
+        state: PaletteItem[];
+        setState: (state: PaletteItem[]) => void;
+    }
     /** Optional callback triggered whenever the generated full palette updates */
     onChange?: (fullPalette: string[]) => void;
 }
 
+type PaletteStateUpdater = PaletteItem[] | ((prevState: PaletteItem[]) => PaletteItem[]);
 
 // --- Default Initial State ---
 
@@ -33,9 +38,27 @@ const DEFAULT_PALETTE: PaletteItem[] = [
  */
 export const ColourPalettePicker: React.FC<ColourPalettePickerProps> = ({
     initialPalette = DEFAULT_PALETTE,
+    palette,
     onChange,
 }) => {
-    const [paletteState, setPaletteState] = useState<PaletteItem[]>(initialPalette);
+    const [internalPaletteState, setInternalPaletteState] = useState<PaletteItem[]>(initialPalette);
+    const isControlled = palette !== undefined && palette.setState !== undefined;
+    const paletteState = isControlled ? palette!.state : internalPaletteState;
+    const setPaletteState = useCallback(
+        (updates: PaletteStateUpdater) => {
+            const currentPalette = isControlled ? palette!.state : internalPaletteState;
+
+            const nextPalette = typeof updates === 'function' ? updates(currentPalette) : updates;
+
+            if (isControlled) {
+                palette!.setState(nextPalette);
+            } else {
+                setInternalPaletteState(nextPalette);
+            }
+        },
+        [isControlled, palette, internalPaletteState]
+    );
+    // const [paletteState, setPaletteState] = useState<PaletteItem[]>(initialPalette);
     const [nextId, setNextId] = useState<number>(() =>
         Math.max(...initialPalette.map((p) => p.id), 0) + 1
     );
