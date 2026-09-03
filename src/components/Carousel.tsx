@@ -115,6 +115,9 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
         setIsAnimating(false);
     };
 
+    const canScrollLeft = isInfinite ? true : currentIndex > 0;
+    const canScrollRight = isInfinite ? true : currentIndex < totalItems - 1;
+
     return (
         <div className="carousel">
             <button
@@ -126,22 +129,26 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
                 &#10094;
             </button>
 
-            <div className="carousel__viewport" ref={viewportRef}>
-                <div
-                    ref={trackRef}
-                    className={`carousel__track ${!isTransitioning ? 'carousel__track--no-transition' : ''}`}
-                    onTransitionEnd={handleTransitionEnd}
-                    style={{
-                        transform: `translateX(-${offset}px)`,
-                        paddingLeft: !isInfinite ? `${trackPadding.left}px` : 0,
-                        paddingRight: !isInfinite ? `${trackPadding.right}px` : 0,
-                    }}
-                >
-                    {displayItems.map((child, idx) => (
-                        <div className="carousel__slide" key={idx}>
-                            {child}
-                        </div>
-                    ))}
+            <div className="overlay-wrapper">
+                <div className={`overlay-left ${!canScrollLeft ? 'hidden' : ''}`} />
+                <div className={`overlay-right ${!canScrollRight ? 'hidden' : ''}`} />
+                <div className="carousel__viewport" ref={viewportRef}>
+                    <div
+                        ref={trackRef}
+                        className={`carousel__track ${!isTransitioning ? 'carousel__track--no-transition' : ''}`}
+                        onTransitionEnd={handleTransitionEnd}
+                        style={{
+                            transform: `translateX(-${offset}px)`,
+                            paddingLeft: !isInfinite ? `${trackPadding.left}px` : 0,
+                            paddingRight: !isInfinite ? `${trackPadding.right}px` : 0,
+                        }}
+                    >
+                        {displayItems.map((child, idx) => (
+                            <div className="carousel__slide" key={idx}>
+                                {child}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
