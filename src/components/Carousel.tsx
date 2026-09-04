@@ -81,6 +81,27 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
         return 0;
     }, [trackPadding]);
 
+    const defaultWidths = { left: '35%', right: '35%' };
+    const getOverlayWidths = useCallback((index: number) => {
+        if (!trackRef.current) return defaultWidths;
+        const viewportWidth = viewportRef.current?.offsetWidth ?? 0;
+        const slideElements = trackRef.current.children;
+        const targetSlideWidth = (slideElements[index] as HTMLElement).offsetWidth ?? 0;
+        const TOLERANCE = 10;
+
+        if (Math.abs(viewportWidth - targetSlideWidth) <= TOLERANCE) {
+            return defaultWidths;
+        }
+        if (!isInfinite) return {
+            left: trackPadding.left + 'px',
+            right: trackPadding.right + 'px',
+        };
+
+        const width = viewportWidth - targetSlideWidth;
+
+        return targetSlideWidth ? { left: width / 2 + 'px', right: width / 2 + 'px' } : { left: '0px', right: '0px' };
+    }, [isInfinite, trackPadding]);
+
     const applyTransform = useCallback((targetOffset: number) => {
         if (trackRef.current) {
             trackRef.current.style.transform = `translateX(-${targetOffset}px)`;
@@ -254,18 +275,15 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
 
     return (
         <div className="carousel">
-            <button
-                className="carousel__button carousel__button--prev"
-                onClick={prevSlide}
-                disabled={isAnimating}
-                aria-label="Previous slide"
-            >
-                &#10094;
-            </button>
-
             <div className="overlay-wrapper">
-                <div className={`overlay-left ${!canScrollLeft ? 'hidden' : ''}`} />
-                <div className={`overlay-right ${!canScrollRight ? 'hidden' : ''}`} />
+                <button
+                    className={`overlay-left ${!canScrollLeft ? 'hidden' : ''}`}
+                    style={{ width: getOverlayWidths(currentIndex).left, pointerEvents: !canScrollLeft ? 'none' : 'auto', cursor: !canScrollLeft ? 'default' : 'pointer' }}
+                    onClick={(e) => { e.stopPropagation(); prevSlide(); }} />
+                <button
+                    className={`overlay-right ${!canScrollRight ? 'hidden' : ''}`}
+                    style={{ width: getOverlayWidths(currentIndex).right, pointerEvents: !canScrollRight ? 'none' : 'auto', cursor: !canScrollRight ? 'default' : 'pointer' }}
+                    onClick={(e) => { e.stopPropagation(); nextSlide(); }} />
                 <div className="carousel__viewport" ref={viewportRef}>
                     <div
                         ref={trackRef}
@@ -284,15 +302,6 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
                     </div>
                 </div>
             </div>
-
-            <button
-                className="carousel__button carousel__button--next"
-                onClick={nextSlide}
-                disabled={isAnimating}
-                aria-label="Next slide"
-            >
-                &#10095;
-            </button>
         </div>
     );
 };
