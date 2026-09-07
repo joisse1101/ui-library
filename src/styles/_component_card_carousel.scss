@@ -1,67 +1,21 @@
 @use 'variables' as *;
 @use 'component_button' as *;
 
-$card-width-mobile: 85%; // Adjust this value based on your card width
-$card-width-tablet: 45%; // Adjust this value based on your card width
-$card-width-desktop: 30%; // Adjust this value based on your card width
+$card-width-mobile: 85%;
+$card-width-tablet: 45%;
+$card-width-desktop: 30%;
 
 .carousel {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  &__track {
-    display: flex;
-    gap: 1.5rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    padding: 1rem 0;
-
-    // Center the first and last cards in the viewport
-    padding-inline: calc(50% - #{$card-width-mobile} / 2);
-    @media (min-width: 640px) {
-      padding-inline: calc(50% - #{$card-width-tablet} / 2);
-    }
-    @media (min-width: 1024px) {
-      padding-inline: calc(50% - #{$card-width-desktop} / 2);
-    }
-
-    // Hide scrollbars while retaining scroll functionality
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  &__slide {
-    // Default for Mobile (1 main card focused in the middle)
-    flex: 0 0 $card-width-mobile;
-    min-width: $card-width-mobile;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-
-    @media (min-width: 640px) {
-      // Tablet (~2 cards visible)
-      flex: 0 0 $card-width-tablet;
-    }
-
-    @media (min-width: 1024px) {
-      // Desktop (3 cards visible with middle card centered)
-      flex: 0 0 $card-width-desktop;
-    }
-  }
-
   .card {
     overflow: hidden;
     position: relative;
     height: 100%;
-    min-height: 50dvh;
     display: flex;
     flex-direction: column;
     padding: $card-padding-lg;
-    
+    aspect-ratio: 3 / 4;
+    box-sizing: border-box;
+
     &::before {
       position: absolute;
       content: "";
@@ -69,14 +23,14 @@ $card-width-desktop: 30%; // Adjust this value based on your card width
       left: 0;
       width: 100%;
       height: 100%;
-  
-      background-image: var(--bg-image);
+
+      background-image: linear-gradient(transparent, 30%, rgba($bg-main, 1)), var(--bg-image);
       background-size: cover;
       background-position: center;
-  
+
       opacity: 0.8; 
       filter: blur(1px);
-  
+
       z-index: 0;
     }
 
@@ -112,6 +66,50 @@ $card-width-desktop: 30%; // Adjust this value based on your card width
 
     &__link {
       @include base-button;
+    }
+  }
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+
+  &__viewport {
+    overflow: hidden;
+    width: 100%;
+    touch-action: pan-y; 
+  }
+
+  &__track {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+
+    &--no-transition {
+      transition: none !important;
+    }
+  }
+
+  &__slide {
+    flex: 0 0 auto;
+    margin: 0 10px;
+    box-sizing: border-box;
+    user-select: none;
+
+    /* Mobile: Uses 85% width for a peek effect, but enforces a 100% viewport max bound */
+    width: calc(#{$card-width-mobile} - 20px);
+    min-width: calc(100% - 20px);
+
+    /* Tablet breakpoint */
+    @media (min-width: 640px) {
+      width: calc(#{$card-width-tablet} - 20px);
+      min-width: 280px; /* Prevents cards from getting squished too narrow */
+    }
+
+    /* Desktop breakpoint */
+    @media (min-width: 1024px) {
+      width: calc(#{$card-width-desktop} - 20px);
+      min-width: 320px;
     }
   }
 }

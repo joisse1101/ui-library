@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CardCarousel, type CardProps } from './CardCarousel';
 import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
+import { DocsPage } from '@stories/DocsPage';
 
 const mockCards: CardProps[] = [
     {
@@ -44,10 +45,19 @@ const meta: Meta<typeof CardCarousel> = {
     title: 'Display/CardCarousel',
     component: CardCarousel,
     tags: ['autodocs'],
+    parameters: {
+        docs: {
+            page: DocsPage,
+        },
+    },
     argTypes: {
         items: {
             control: 'object',
             description: 'List of card data objects to render inside the carousel track.',
+        },
+        isInfinite: {
+            control: 'boolean',
+            description: 'Enable or disable infinite rotation mode for the carousel.',
         },
     },
     decorators: [
@@ -66,17 +76,46 @@ export const Default: Story = {
     render: (args) => <ResponsiveMatrix component={CardCarousel} args={args} />,
     args: {
         items: mockCards,
+        isInfinite: false,
     },
 };
 
+/**
+ * Singular card variant of the CardCarousel, demonstrating how the carousel behaves with only one card.
+ */
+export const SingularCard: Story = {
+    render: (args) => {
+        return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div style={{ width: '360px', border: '1px dashed #b8738a', padding: '1rem', borderRadius: '8px', boxSizing: 'border-box' }}>
+                    <CardCarousel {...args} isInfinite={false} />
+                </div>
+                <div style={{ width: '100%', border: '1px dashed #b8738a', padding: '1rem', borderRadius: '8px', boxSizing: 'border-box' }}>
+                    <CardCarousel {...args} isInfinite={true} />
+                </div>
+            </div>
+        );
+    },
+    args: {
+        items: [mockCards[0]],
+    },
+};
+
+/**
+ * Text-only variant of the CardCarousel, where images are removed from the cards.
+ */
 export const TextOnly: Story = {
     args: {
         items: mockCards.map(({ image, ...rest }) => rest),
     },
 };
 
-export const StaticTrack: Story = {
+/**
+ * Infinite rotation variant of the CardCarousel, where the carousel continuously loops through the cards.
+ */
+export const Infinite: Story = {
     args: {
-        items: mockCards.slice(0, 2),
+        items: mockCards,
+        isInfinite: true,
     },
 };

@@ -1,4 +1,4 @@
-@use 'variables' as *;
+@use "variables" as *;
 
 /* ==========================================
    Base Reset & Document Defaults
@@ -38,6 +38,7 @@ body {
     min-height: unset;
     padding: 1rem;
     background-color: transparent;
+    --overlay-bg: #{$bg-surface};
   }
 }
 
@@ -187,7 +188,10 @@ section {
   border-radius: $radius-lg;
   padding: 1.5rem;
   box-shadow: $shadow-md;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
     border-color: $border-color;
@@ -232,7 +236,7 @@ section {
   margin-right: auto;
   color: $text-main;
 
-  >*+* {
+  > * + * {
     margin-top: $card-gap-md;
   }
 }
@@ -271,12 +275,12 @@ section {
     top: 0;
     bottom: 0;
     width: 35%;
-    /* Adjust width of the shadow area as needed */
-    pointer-events: none;
-    /* Allows user interactions/scroll through the overlay */
     z-index: 2;
-    /* Keeps overlay on top of the scrolling list */
     transition: all 0.3s ease-in-out;
+
+    background-color: var(--overlay-bg, #{$bg-main});
+    outline: none;
+    border: none;
 
     &.hidden {
       opacity: 0;
@@ -288,21 +292,15 @@ section {
   .overlay-left {
     left: -2px;
     transform-origin: left center;
-    background: linear-gradient(to right, $bg-surface, transparent);
-
-    &-main {
-      background: linear-gradient(to right, $bg-main, transparent);
-    }
+    -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 0%, transparent 100%);
   }
 
   .overlay-right {
     right: -2px;
     transform-origin: right center;
-    background: linear-gradient(to left, $bg-surface, transparent);
-
-    &-main {
-      background: linear-gradient(to left, $bg-main, transparent);
-    }
+    -webkit-mask-image: linear-gradient(to left, #000 0%, transparent 100%);
+    mask-image: linear-gradient(to left, #000 0%, transparent 100%);
   }
 
   .overlay-component {

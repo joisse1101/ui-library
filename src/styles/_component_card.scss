@@ -10,12 +10,14 @@
   font-size: $font-sm;
   color: $text-muted;
   background-color: $bg-surface;
+  --overlay-bg: #{$bg-surface};
   border: 1px solid $border-color;
   width: 100%;
 }
 
 .card {
   @include base-card;
+  --overlay-bg: #{$bg-surface};
 
   /* Control Panel Variation */
   &-control-panel {
