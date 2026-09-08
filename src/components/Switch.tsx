@@ -10,6 +10,10 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
     onChange?: (checked: boolean) => void;
 }
 
+/**
+ * A switch component that allows users to toggle between two states (on/off).
+ * Supports controlled and uncontrolled usage, with optional labels and size variations.
+ */
 export const Switch: React.FC<SwitchProps> = ({
     size = 'md',
     checked,

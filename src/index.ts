@@ -13,6 +13,7 @@ export { RadioSelector } from './components/RadioSelector';
 export { Tabs, type TabItem } from './components/Tabs';
 export { WeekSelector } from './components/WeekSelector';
 export { Switch } from './components/Switch';
+export { TextArea } from './components/TextArea';
 export * from './components/CardCarousel';
 
 // Layouts

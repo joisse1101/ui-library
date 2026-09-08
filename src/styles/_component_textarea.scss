@@ -1,0 +1,52 @@
+@use "variables" as *;
+
+.textarea-wrapper {
+  position: relative;
+  width: 100%;
+  container-type: inline-size;
+
+  textarea {
+    width: 100%;
+    resize: none;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    padding-bottom: 2rem;
+    min-height: 6em;
+  }
+}
+
+.textarea-hint {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 0.75rem;
+  color: $text-dim;
+  pointer-events: none;
+  user-select: none;
+
+  .desktop {
+    display: inline-block;
+
+    @container (max-width: 600px) {
+      display: none;
+    }
+  }
+
+  .mobile {
+    display: none;
+
+    @container (max-width: 600px) {
+      display: inline-block;
+      pointer-events: auto;
+    }
+  }
+
+  kbd {
+    background-color: transparent;
+    border: 1px solid $brand-border-muted;
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 0.7rem;
+    font-family: inherit;
+  }
+}
