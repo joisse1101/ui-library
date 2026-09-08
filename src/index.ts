@@ -2,6 +2,7 @@
 import './styles/index.scss';
 
 // Components
+export { Button } from './components/Button';
 export { ButtonSelector } from './components/ButtonSelector';
 export { type PaletteItem, ColourPalettePicker } from './components/ColourPalettePicker';
 export { DateInput } from './components/DateInput';
