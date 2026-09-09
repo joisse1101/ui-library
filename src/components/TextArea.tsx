@@ -6,6 +6,13 @@ export interface TextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTex
     onSubmit: (text: string) => void;
 };
 
+/**
+ * `TextArea` is a React component that renders a resizable textarea input field with a submit button.
+ * 
+ * ### Features:
+ * - Resizable textarea that adjusts its height based on the content entered.
+ * - Submit functionality triggered by "Ctrl + Enter" (or "Cmd + Enter" on Mac) or by clicking the submit button.
+ */
 export const TextArea = ({ onSubmit, ...props }: TextAreaProps) => {
     const [text, setText] = useState('');
     const hasContent = text.trim().length > 0;
