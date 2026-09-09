@@ -1,0 +1,18 @@
+@use "variables" as *;
+@use "component_input" as *;
+
+.select-wrapper {
+  @extend %input-base;
+  padding: 0 0.75rem 0 0;
+
+  label {
+    @extend %label-base;
+    padding: 0.5rem 0.75rem 0;
+    margin: 0;
+  }
+
+  select {
+    border: none;
+    box-shadow: none;
+  }
+}

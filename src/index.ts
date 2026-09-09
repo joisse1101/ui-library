@@ -14,6 +14,7 @@ export { Tabs, type TabItem } from './components/Tabs';
 export { WeekSelector } from './components/WeekSelector';
 export { Switch } from './components/Switch';
 export { TextArea } from './components/TextArea';
+export { InlineSelect } from './components/InlineSelect';
 export * from './components/CardCarousel';
 
 // Layouts
