@@ -2,14 +2,18 @@ import React, { useRef, useState } from 'react';
 import { Button } from './Button';
 import '../styles/_component_textarea.scss';
 
-export const TextArea = ({ onSubmit }: { onSubmit: (text: string) => void }) => {
-    const [logEntry, setLogEntry] = useState('');
-    const hasContent = logEntry.trim().length > 0;
+export interface TextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'onSubmit'> {
+    onSubmit: (text: string) => void;
+};
+
+export const TextArea = ({ onSubmit, ...props }: TextAreaProps) => {
+    const [text, setText] = useState('');
+    const hasContent = text.trim().length > 0;
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const textarea = e.target;
-        setLogEntry(textarea.value);
+        setText(textarea.value);
 
         textarea.style.height = 'auto';
 
@@ -18,8 +22,8 @@ export const TextArea = ({ onSubmit }: { onSubmit: (text: string) => void }) => 
 
     const handleSubmit = () => {
         if (hasContent) {
-            onSubmit(logEntry);
-            setLogEntry('');
+            onSubmit(text.trim());
+            setText('');
             if (textAreaRef.current) {
                 textAreaRef.current.style.height = 'auto';
             }
@@ -29,9 +33,10 @@ export const TextArea = ({ onSubmit }: { onSubmit: (text: string) => void }) => 
     return (
         <div className="textarea-wrapper">
             <textarea
+                {...props}
                 ref={textAreaRef}
-                placeholder="What's up?"
-                value={logEntry}
+                placeholder={props.placeholder ?? "What's up?"}
+                value={text}
                 onChange={handleInputChange}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
