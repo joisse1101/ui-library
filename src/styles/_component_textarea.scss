@@ -8,10 +8,11 @@
   textarea {
     width: 100%;
     resize: none;
-    overflow-y: hidden;
+    overflow-y: auto;
     box-sizing: border-box;
     padding-bottom: 2rem;
     min-height: 6em;
+    max-height: 85dvh;
   }
 }
 
