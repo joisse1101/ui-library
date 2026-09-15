@@ -29,7 +29,7 @@
   &-output-logs {
     @include base-card;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    padding: 0.75rem;
+    padding: $card-padding-sm;
     background-color: $bg-main;
     border-color: $border-subtle;
   }
@@ -37,12 +37,38 @@
   /* Accent Highlight Card (Warm Rose Theme) */
   &-rose {
     @include base-card;
-    padding: 1rem;
+    padding: $card-padding-md;
     font-size: $font-base;
     color: $text-main;
     background-color: rgba($brand-accent, 0.06);
     border-color: $brand-accent;
     box-shadow: $shadow-glow;
+  }
+
+  /* Padding Variants — override a variant's default padding, or add padding to the plain card */
+  &-padding-none {
+    padding: 0;
+    border-radius: $card-radius-sm;
+  }
+
+  &-padding-sm {
+    padding: $card-padding-sm;
+    border-radius: $card-radius-md;
+  }
+
+  &-padding-md {
+    padding: $card-padding-md;
+    border-radius: $card-radius-lg;
+  }
+
+  &-padding-lg {
+    padding: $card-padding-lg;
+    border-radius: $card-radius-xl;
+  }
+
+  &-padding-xl {
+    padding: $card-padding-xl;
+    border-radius: $card-radius-xl;
   }
 }
 

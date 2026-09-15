@@ -34,12 +34,12 @@
     color: $text-dim;
   }
 
-  &:focus {
+  &:focus, &:focus-within {
     border-color: $input-focus-border;
     box-shadow: 0 0 0 3px $input-focus-ring;
   }
 
-  &:disabled {
+  &:disabled, &:has(:disabled) {
     background-color: $disabled-bg;
     color: $disabled-text;
     cursor: not-allowed;

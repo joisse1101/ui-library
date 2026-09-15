@@ -2,7 +2,9 @@
 import './styles/index.scss';
 
 // Components
+export { Button } from './components/Button';
 export { ButtonSelector } from './components/ButtonSelector';
+export { Card } from './components/Card';
 export { type PaletteItem, ColourPalettePicker } from './components/ColourPalettePicker';
 export { DateInput } from './components/DateInput';
 export { Footer } from './components/Footer';
@@ -11,6 +13,9 @@ export { Modal } from './components/Modal';
 export { RadioSelector } from './components/RadioSelector';
 export { Tabs, type TabItem } from './components/Tabs';
 export { WeekSelector } from './components/WeekSelector';
+export { Switch } from './components/Switch';
+export { TextArea } from './components/TextArea';
+export { InlineSelect } from './components/InlineSelect';
 export * from './components/CardCarousel';
 
 // Layouts
