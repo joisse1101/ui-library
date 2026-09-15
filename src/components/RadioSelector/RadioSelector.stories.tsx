@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { RadioSelector } from './RadioSelector';
-import type { Option } from '../types/selectors';
+import type { Option } from '../../types/selectors';
 import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 import { DocsPage } from '@stories/DocsPage';
 

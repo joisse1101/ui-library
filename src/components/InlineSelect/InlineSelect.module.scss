@@ -1,5 +1,5 @@
-@use "variables" as *;
-@use "component_input" as *;
+@use "../../styles/variables" as *;
+@use "../../styles/component_input" as *;
 
 .select-wrapper {
   @extend %input-base;

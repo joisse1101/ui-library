@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DocsPage } from '@stories/DocsPage';
 import { useState } from 'react';
-import { useArraySelection } from '../hooks/useArraySelection';
+import { useArraySelection } from '../../hooks/useArraySelection';
 import { ButtonSelector } from './ButtonSelector';
-import type { Option } from '../types/selectors';
+import type { Option } from '../../types/selectors';
 import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 
 const sampleOptions: Option[] = [

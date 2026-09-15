@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import type { Option } from '../types/selectors';
-import '../styles/_component_inline_select.scss';
+import type { Option } from '../../types/selectors';
+import styles from './InlineSelect.module.scss';
 
 export interface InlineSelectProps {
     options: Option[];
@@ -28,8 +28,8 @@ export const InlineSelect: React.FC<InlineSelectProps> = ({ options, value, onCh
     );
 
     return (
-        <div className="select-wrapper">
-            <label className="select-label" htmlFor={selectUUID}>{label ?? 'Choose an option:'}</label>
+        <div className={styles['select-wrapper']}>
+            <label className={styles['select-label']} htmlFor={selectUUID}>{label ?? 'Choose an option:'}</label>
             <select
                 id={selectUUID}
                 value={selectedValue}

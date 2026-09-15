@@ -1,5 +1,6 @@
 import { interpolateColors } from '@utils/colours';
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import './ColourPalettePicker.scss';
 
 export interface PaletteItem {
     id: number;

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import '../styles/index.scss';
+import '../../styles/index.scss';
 import { Header } from './Header';
 import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 

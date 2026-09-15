@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import styles from './Modal.module.scss';
 
 export type ButtonText = {
     primary: string;
@@ -53,15 +54,15 @@ export const Modal: React.FC<ModalProps> = ({
         <dialog
             ref={dialogRef}
             onCancel={handleCancel}
-            className="modal"
+            className={styles.modal}
         >
-            <div className="modal-container">
+            <div className={styles['modal-container']}>
                 {/* Header */}
-                <header className="modal-header">
-                    <h2 className="modal-title">{title}</h2>
+                <header className={styles['modal-header']}>
+                    <h2 className={styles['modal-title']}>{title}</h2>
                     <button
                         type="button"
-                        className="modal-close-btn"
+                        className={styles['modal-close-btn']}
                         onClick={onClose}
                         aria-label="Close modal"
                     >
@@ -70,14 +71,14 @@ export const Modal: React.FC<ModalProps> = ({
                 </header>
 
                 {/* Body */}
-                <div className="modal-body">
+                <div className={styles['modal-body']}>
                     {children || (
                         <p>Set up your targets and parameters for this goal.</p>
                     )}
                 </div>
 
                 {/* Footer */}
-                <footer className="modal-footer">
+                <footer className={styles['modal-footer']}>
                     <button
                         type="button"
                         className="btn btn-secondary"

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/_component_switch.scss';
+import styles from './Switch.module.scss';
 
 export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
     size?: 'sm' | 'md';
@@ -46,7 +46,7 @@ export const Switch: React.FC<SwitchProps> = ({
     };
 
     return (
-        <label className={`switch ${size === 'sm' ? 'switch-sm' : ''}`}>
+        <label className={`${styles.switch} ${size === 'sm' ? styles['switch-sm'] : ''}`}>
             <input
                 {...restProps}
                 type="checkbox"
@@ -58,10 +58,10 @@ export const Switch: React.FC<SwitchProps> = ({
                 disabled={disabled}
                 onChange={handleChange}
             />
-            <span className="switch-track" aria-hidden="true">
-                <span className="switch-thumb" />
+            <span className={styles['switch-track']} aria-hidden="true">
+                <span className={styles['switch-thumb']} />
             </span>
-            {label && <span className="switch-label">{label}</span>}
+            {label && <span className={styles['switch-label']}>{label}</span>}
         </label>
     );
 };

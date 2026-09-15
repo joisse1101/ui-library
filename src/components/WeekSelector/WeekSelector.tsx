@@ -1,4 +1,5 @@
 import { useMediaQuery } from "@hooks/display";
+import styles from './WeekSelector.module.scss';
 
 export type WeekState = {
     startDate: Date;
@@ -32,7 +33,7 @@ export const WeekSelector = ({ weekState, incrementWeek, maxWeeks }: WeekSelecto
     const weekString = isPhone ? `Week ${week}\n${startDate.toDateString()} - ${endDate.toDateString()}` : `Week ${week}: ${startDate.toDateString()} - ${endDate.toDateString()}`;
 
     return (
-        <div className="week-selector-wrapper">
+        <div className={styles['week-selector-wrapper']}>
             <button className="btn btn-invisible" onClick={onDecrWeek} disabled={isDecrementDisabled}>
                 〈
             </button>

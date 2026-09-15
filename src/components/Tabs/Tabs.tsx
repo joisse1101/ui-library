@@ -1,5 +1,6 @@
 import { useCanSideScroll } from '@index';
 import React, { useRef, useState, type ReactNode } from 'react';
+import styles from './Tabs.module.scss';
 
 export interface TabItem {
     id: string;
@@ -61,13 +62,13 @@ export const Tabs: React.FC<TabsProps> = ({
 
                 <div className={`overlay-left ${!canScrollLeft ? 'hidden' : ''}`} />
                 <div className={`overlay-right ${!canScrollRight ? 'hidden' : ''}`} />
-                <div className="tabs-header overlay-component" ref={containerRef}>
+                <div className={`${styles['tabs-header']} overlay-component`} ref={containerRef}>
                     {tabs.map((tab) => {
                         const isActive = tab.id === activeTabId;
                         return (
                             <div
                                 key={tab.id}
-                                className={`tab-btn ${isActive ? 'active' : ''}`}
+                                className={`${styles['tab-btn']} ${isActive ? styles.active : ''}`}
                                 data-tab={tab.id}
                                 onClick={() => handleTabClick(tab.id, tab.disabled)}
                                 role="button"
@@ -91,7 +92,7 @@ export const Tabs: React.FC<TabsProps> = ({
                     {onTabAdd && (
                         <button
                             type="button"
-                            className="tab-btn"
+                            className={styles['tab-btn']}
                             onClick={onTabAdd}
                         >
                             + Add Tab
@@ -101,14 +102,14 @@ export const Tabs: React.FC<TabsProps> = ({
             </div>
 
             {/* Tab Contents */}
-            <div className="tabs-body">
+            <div className={styles['tabs-body']}>
                 {tabs.map((tab) => {
                     const isActive = tab.id === activeTabId;
                     return (
                         <div
                             key={tab.id}
                             id={tab.id}
-                            className={`tab-content ${isActive ? 'active' : ''}`}
+                            className={`${styles['tab-content']} ${isActive ? styles.active : ''}`}
                         >
                             {tab.content}
                         </div>

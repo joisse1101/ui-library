@@ -1,5 +1,6 @@
 import React from 'react';
 import { Carousel } from './Carousel';
+import './CardCarousel.scss';
 
 export interface CardProps {
     id: string | number;

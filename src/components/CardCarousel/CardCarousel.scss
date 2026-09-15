@@ -1,5 +1,5 @@
-@use 'variables' as *;
-@use 'component_button' as *;
+@use '../../styles/variables' as *;
+@use '../../styles/component_button' as *;
 
 $card-width-mobile: 85%;
 $card-width-tablet: 45%;
