@@ -1,6 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Modal } from './Modal';
+import { useForm } from '@form/useForm';
+import { FormProvider } from '@form/FormProvider';
+import { TextInput } from '@components/TextInput';
+import { NumberInput } from '@components/NumberInput';
+import { DateInput } from '@components/DateInput';
+import { ButtonSelector } from '@components/ButtonSelector';
+import { RadioSelector } from '@components/RadioSelector';
+import type { Option } from '../../types/selectors';
 
 const meta: Meta<typeof Modal> = {
     title: 'Display/Modal',
@@ -145,5 +153,119 @@ export const ConfirmationModal: Story = {
         modalType: 'confirmation',
         buttonText: { primary: 'Publish v1.0.0', secondary: 'Back to Editing' },
         children: <p>You are about to release version 1.0.0 to NPM public registry.</p>,
+    },
+};
+
+const dayOptions: Option[] = [
+    { label: 'Sun', value: 0 },
+    { label: 'Mon', value: 1 },
+    { label: 'Tue', value: 2 },
+    { label: 'Wed', value: 3 },
+    { label: 'Thu', value: 4 },
+    { label: 'Fri', value: 5 },
+    { label: 'Sat', value: 6 },
+];
+
+interface GoalFormValues {
+    goalTitle: string;
+    startDate: string;
+    endDate: string;
+    expectedProgress: number | '';
+    targets: string;
+    overloadDays: (string | number)[];
+    firstDayOfWeek: string | number;
+}
+
+/**
+ * Demonstrates composing the form abstraction (`useForm` + `FormProvider`) with field
+ * components (`TextInput`, `NumberInput`, `DateInput`, `ButtonSelector`, `RadioSelector`)
+ * inside a `Modal`. Every field binds to form state via its `name` prop alone — no manual
+ * `useState`/`onChange` wiring, and validation errors render inline per field.
+ */
+export const FormWithValidation: Story = {
+    render: function Render(args) {
+        const [isOpen, setIsOpen] = useState(false);
+
+        const form = useForm<GoalFormValues>({
+            defaultValues: {
+                goalTitle: '',
+                startDate: '',
+                endDate: '',
+                expectedProgress: '',
+                targets: '',
+                overloadDays: [],
+                firstDayOfWeek: 1,
+            },
+            rules: {
+                startDate: { required: 'Start date is required.' },
+                endDate: {
+                    required: 'End date is required.',
+                    validate: (value, values) =>
+                        values.startDate && value && new Date(values.startDate as string) > new Date(value)
+                            ? 'Start date cannot be after end date.'
+                            : undefined,
+                },
+                expectedProgress: { required: 'Expected progress per day is required.' },
+                targets: {
+                    required: 'Goal targets are required.',
+                    pattern: {
+                        value: /^\s*\d+(\s*,\s*\d+)*\s*$/,
+                        message: 'Goal targets must be a list of comma-separated numbers.',
+                    },
+                },
+                overloadDays: { required: 'At least one overload day must be selected.' },
+                firstDayOfWeek: { required: 'First day of the week must be selected.' },
+            },
+        });
+
+        const handleValidSubmit = (values: GoalFormValues) => {
+            args.onSubmit?.();
+            console.log('Goal tracker configuration updated:', values);
+            setIsOpen(false);
+        };
+
+        return (
+            <>
+                <button type="button" className="btn btn-primary" onClick={() => setIsOpen(true)}>
+                    Configure Goal
+                </button>
+                <FormProvider form={form}>
+                    <Modal
+                        {...args}
+                        isOpen={isOpen}
+                        onClose={() => {
+                            args.onClose?.();
+                            setIsOpen(false);
+                        }}
+                        onSubmit={form.handleSubmit(handleValidSubmit)}
+                        onCancel={() => {
+                            args.onCancel?.();
+                            setIsOpen(false);
+                        }}
+                    >
+                        <div className="form-container">
+                            <TextInput name="goalTitle" id="goal-title" label="Goal Name:" placeholder="What is your goal?" />
+                            <div className="form-row">
+                                <DateInput name="startDate" id="start-date" label="Start Date:" />
+                                <DateInput name="endDate" id="end-date" label="End Date:" />
+                            </div>
+                            <NumberInput name="expectedProgress" id="expected-progress" label="Expected Progress Per Day:" placeholder="e.g., 5" suffix="km" />
+                            <TextInput name="targets" id="targets" label="Goal Targets:" placeholder="Enter a list of comma-separated numbers" />
+                            <ButtonSelector
+                                name="overloadDays"
+                                label="Select overload days:"
+                                options={dayOptions}
+                                title="Select days of the week that you want to set as overload days. These days will be used to make up for missed progress."
+                            />
+                            <RadioSelector name="firstDayOfWeek" label="Select first day of week:" options={dayOptions} />
+                        </div>
+                    </Modal>
+                </FormProvider>
+            </>
+        );
+    },
+    args: {
+        title: 'Configure Goal',
+        modalType: 'form',
     },
 };
