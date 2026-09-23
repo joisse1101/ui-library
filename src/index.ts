@@ -27,15 +27,17 @@ export { MainLayout } from './layouts/MainLayout';
 export { useMediaQuery } from './hooks/display';
 export { useArraySelection } from './hooks/useArraySelection';
 export { useCanSideScroll } from './hooks/useCanSideScroll';
+export { useForm } from './hooks/useForm';
+export type { UseFormOptions, UseFormReturn, FormValues, FormRules } from './hooks/useForm';
+export { useField } from './hooks/useField';
+export type { UseFieldOptions, UseFieldResult } from './hooks/useField';
 
-// Forms
-export { useForm } from './form/useForm';
-export type { UseFormOptions, UseFormReturn, FormValues, FormRules } from './form/useForm';
-export { FormProvider } from './form/FormProvider';
-export { useFormContext } from './form/FormContext';
-export { useField } from './form/useField';
-export type { UseFieldOptions, UseFieldResult } from './form/useField';
-export type { FieldRules } from './form/types';
+// Providers
+export { FormProvider } from './providers/FormProvider';
+export { useFormContext } from './providers/FormContext';
+
+// Types
+export type { FieldRules } from './types/form';
 
 // Utils
 export * from './utils/colours';

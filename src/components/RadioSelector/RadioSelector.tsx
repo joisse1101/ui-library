@@ -1,6 +1,6 @@
 import React, { useRef, useId } from 'react';
 import { useCanSideScroll } from '@hooks/useCanSideScroll';
-import { useField } from '@form/useField';
+import { useField } from '@hooks/useField';
 import type { Option } from '../../types/selectors';
 
 interface RadioSelectorProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {

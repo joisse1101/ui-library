@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import type { FieldRules } from './types';
+import type { FieldRules } from '../types/form';
 
 export type FormValues = Record<string, unknown>;
 

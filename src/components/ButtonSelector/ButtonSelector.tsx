@@ -1,5 +1,5 @@
 import { useCanSideScroll } from "@hooks/useCanSideScroll";
-import { useField } from "@form/useField";
+import { useField } from "@hooks/useField";
 import { useRef } from "react";
 import type { Option } from "../../types/selectors";
 interface ButtonSelectorProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {

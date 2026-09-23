@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Modal } from './Modal';
-import { useForm } from '@form/useForm';
-import { FormProvider } from '@form/FormProvider';
+import { useForm } from '@hooks/useForm';
+import { FormProvider } from '@providers/FormProvider';
 import { TextInput } from '@components/TextInput';
 import { NumberInput } from '@components/NumberInput';
 import { DateInput } from '@components/DateInput';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useField } from '@form/useField';
+import { useField } from '@hooks/useField';
 
 export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string;

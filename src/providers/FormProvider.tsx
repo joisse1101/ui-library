@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormContext } from './FormContext';
-import type { FormValues, UseFormReturn } from './useForm';
+import type { FormValues, UseFormReturn } from '../hooks/useForm';
 
 export interface FormProviderProps<TValues extends object> {
     form: UseFormReturn<TValues>;

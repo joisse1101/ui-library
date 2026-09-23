@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { FormValues, UseFormReturn } from './useForm';
+import type { FormValues, UseFormReturn } from '../hooks/useForm';
 
 export const FormContext = createContext<UseFormReturn<FormValues> | null>(null);
 

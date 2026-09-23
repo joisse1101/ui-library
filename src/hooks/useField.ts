@@ -1,4 +1,4 @@
-import { useFormContext } from './FormContext';
+import { useFormContext } from '../providers/FormContext';
 
 export interface UseFieldOptions<T> {
     /** When set and a `FormProvider` ancestor exists, the field binds to that key in form state. */

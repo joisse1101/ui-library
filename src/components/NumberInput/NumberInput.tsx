@@ -1,5 +1,5 @@
 import React from 'react';
-import { useField } from '@form/useField';
+import { useField } from '@hooks/useField';
 
 export interface NumberInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'> {
     label: string;
