@@ -1,0 +1,46 @@
+import { useMediaQuery } from "@hooks/display";
+import styles from './WeekSelector.module.scss';
+
+export type WeekState = {
+    startDate: Date;
+    endDate: Date;
+    week: number;
+};
+type WeekSelectorProps = {
+    weekState: WeekState;
+    incrementWeek: (increment: number) => void;
+    maxWeeks: number; // Optional prop to limit the maximum number of weeks
+}
+
+/**
+ * `WeekSelector` component allows users to navigate through weeks, displaying the current week and its corresponding date range. It provides buttons to increment or decrement the week, with optional limits on the maximum number of weeks.
+ */
+export const WeekSelector = ({ weekState, incrementWeek, maxWeeks }: WeekSelectorProps) => {
+    const { startDate, endDate, week } = weekState;
+    const isDecrementDisabled = week <= 1; // Disable decrement button if week is 1 or less
+    const isIncrementDisabled = week >= maxWeeks; // Disable increment button if week is at maxWeeks
+
+    const onIncrWeek = () => {
+        incrementWeek(1);
+    };
+
+    const onDecrWeek = () => {
+        if (isDecrementDisabled) return; // Prevent decrementing below week 1
+        incrementWeek(-1);
+    };
+
+    const isPhone = !useMediaQuery(600); // Adjust the breakpoint as needed
+    const weekString = isPhone ? `Week ${week}\n${startDate.toDateString()} - ${endDate.toDateString()}` : `Week ${week}: ${startDate.toDateString()} - ${endDate.toDateString()}`;
+
+    return (
+        <div className={styles['week-selector-wrapper']}>
+            <button type="button" className="btn btn-invisible" onClick={onDecrWeek} disabled={isDecrementDisabled}>
+                〈
+            </button>
+            <span>{weekString}</span>
+            <button type="button" className="btn btn-invisible" onClick={onIncrWeek} disabled={isIncrementDisabled}>
+                〉
+            </button>
+        </div>
+    )
+}

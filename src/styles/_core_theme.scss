@@ -203,6 +203,11 @@ section {
   }
 }
 
+.error-message {
+  color: $color-danger;
+  font-size: $font-sm;
+}
+
 .error-messages {
   .error-message {
     color: $color-danger;
