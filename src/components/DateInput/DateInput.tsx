@@ -36,7 +36,7 @@ export const DateInput: React.FC<DateInputProps> = ({ label, id, name, value, on
                     type="date"
                     id={id}
                     name={name}
-                    value={field.value}
+                    value={field.value ?? ''}
                     onChange={handleChange}
                     {...props}
                 />

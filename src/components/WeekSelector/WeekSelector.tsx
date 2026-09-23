@@ -34,11 +34,11 @@ export const WeekSelector = ({ weekState, incrementWeek, maxWeeks }: WeekSelecto
 
     return (
         <div className={styles['week-selector-wrapper']}>
-            <button className="btn btn-invisible" onClick={onDecrWeek} disabled={isDecrementDisabled}>
+            <button type="button" className="btn btn-invisible" onClick={onDecrWeek} disabled={isDecrementDisabled}>
                 〈
             </button>
             <span>{weekString}</span>
-            <button className="btn btn-invisible" onClick={onIncrWeek} disabled={isIncrementDisabled}>
+            <button type="button" className="btn btn-invisible" onClick={onIncrWeek} disabled={isIncrementDisabled}>
                 〉
             </button>
         </div>

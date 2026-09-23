@@ -43,8 +43,8 @@ export const ButtonSelector: React.FC<ButtonSelectorProps> = ({ label, options, 
 
                     <button
                         key={option.value}
+                        type="button"
                         onClick={() => handleSelect(option.value)}
-
                         className={`btn btn-option${selected.includes(option.value) ? ' selected' : ''}`}
                     >
                         {option.label}

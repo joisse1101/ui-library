@@ -45,7 +45,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
                     id={id}
                     name={name}
                     className={[noSpinner ? 'no-spinner' : '', className].filter(Boolean).join(' ')}
-                    value={field.value}
+                    value={field.value ?? ''}
                     onChange={handleChange}
                     {...props}
                 />

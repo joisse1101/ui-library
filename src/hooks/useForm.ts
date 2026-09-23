@@ -19,7 +19,7 @@ export interface UseFormReturn<TValues extends object> {
     getValue: <K extends keyof TValues>(name: K) => TValues[K];
     reset: (values?: TValues) => void;
     validate: () => boolean;
-    handleSubmit: (onValid: (values: TValues) => void) => () => void;
+    handleSubmit: (onValid: (values: TValues) => void) => (event?: { preventDefault?: () => void }) => void;
 }
 
 function isEmpty(value: unknown): boolean {
@@ -64,16 +64,17 @@ export function useForm<TValues extends object>({
         if (!fieldRules) return undefined;
 
         if (fieldRules.required && isEmpty(value)) return fieldRules.required;
-        if (isEmpty(value)) return undefined;
 
-        if (fieldRules.pattern && typeof value === 'string' && !fieldRules.pattern.value.test(value)) {
-            return fieldRules.pattern.message;
-        }
-        if (fieldRules.min && typeof value === 'number' && value < fieldRules.min.value) {
-            return fieldRules.min.message;
-        }
-        if (fieldRules.max && typeof value === 'number' && value > fieldRules.max.value) {
-            return fieldRules.max.message;
+        if (!isEmpty(value)) {
+            if (fieldRules.pattern && typeof value === 'string' && !fieldRules.pattern.value.test(value)) {
+                return fieldRules.pattern.message;
+            }
+            if (fieldRules.min && typeof value === 'number' && value < fieldRules.min.value) {
+                return fieldRules.min.message;
+            }
+            if (fieldRules.max && typeof value === 'number' && value > fieldRules.max.value) {
+                return fieldRules.max.message;
+            }
         }
         if (fieldRules.validate) {
             return fieldRules.validate(value, values as Record<string, unknown>);
@@ -91,7 +92,8 @@ export function useForm<TValues extends object>({
         return Object.keys(nextErrors).length === 0;
     }, [rules, values, validateField]);
 
-    const handleSubmit = useCallback((onValid: (values: TValues) => void) => () => {
+    const handleSubmit = useCallback((onValid: (values: TValues) => void) => (event?: { preventDefault?: () => void }) => {
+        event?.preventDefault?.();
         if (validate()) onValid(values);
     }, [validate, values]);
 

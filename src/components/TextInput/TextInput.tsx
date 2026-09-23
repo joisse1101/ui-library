@@ -26,7 +26,7 @@ export const TextInput: React.FC<TextInputProps> = ({ label, id, name, value, on
                 type={type}
                 id={id}
                 name={name}
-                value={field.value}
+                value={field.value ?? ''}
                 onChange={handleChange}
                 {...props}
             />
