@@ -63,7 +63,4 @@ Styles fall into two categories, and it matters which one you're touching:
 - Releases are published to GitHub Packages (`npm.pkg.github.com`, scope `@joisse1101`) via `.github/workflows/publish.yml`, triggered by a published GitHub Release (not on every merge to `main`).
 
 ## Known issues (to fix)
-- `npm run lint` currently fails with 8 pre-existing errors, surfaced once the `lint` script was added:
-  - `src/components/CardCarousel/Carousel.tsx` — three `react-hooks/refs` errors (reading `.current` during render instead of in an effect/event handler).
-  - `src/hooks/display.ts` — one `react-hooks/set-state-in-effect` error (calling `setMatches` synchronously in the effect body instead of via `useState`'s lazy initializer or `useSyncExternalStore`).
 - No CI gate runs `npm run lint` / `npm test` on PRs or before publish. `.github/workflows/publish.yml` and `.github/workflows/deploy-storybook.yml` only run `npm ci` + build steps. A CI workflow for lint+test would also need `npx playwright install --with-deps chromium` since tests run in a real headless Chromium via `@storybook/addon-vitest`.

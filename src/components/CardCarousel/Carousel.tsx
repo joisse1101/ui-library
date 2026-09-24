@@ -5,6 +5,8 @@ export interface CarouselProps {
     infinite?: boolean;
 }
 
+const DEFAULT_OVERLAY_WIDTHS = { left: '35%', right: '35%' };
+
 /**
  * `Carousel` component that renders a carousel of child elements, supporting infinite scrolling if specified.
  */
@@ -81,16 +83,15 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
         return 0;
     }, [trackPadding]);
 
-    const defaultWidths = { left: '35%', right: '35%' };
     const getOverlayWidths = useCallback((index: number) => {
-        if (!trackRef.current) return defaultWidths;
+        if (!trackRef.current) return DEFAULT_OVERLAY_WIDTHS;
         const viewportWidth = viewportRef.current?.offsetWidth ?? 0;
         const slideElements = trackRef.current.children;
         const targetSlideWidth = (slideElements[index] as HTMLElement).offsetWidth ?? 0;
         const TOLERANCE = 10;
 
         if (Math.abs(viewportWidth - targetSlideWidth) <= TOLERANCE) {
-            return defaultWidths;
+            return DEFAULT_OVERLAY_WIDTHS;
         }
         if (!isInfinite) return {
             left: trackPadding.left + 'px',
@@ -266,23 +267,47 @@ export const Carousel: React.FC<CarouselProps> = ({ children, infinite = true })
         setIsAnimating(false);
     };
 
-    const minOffset = calculateOffset(0, 'left');
-    const maxOffset = calculateOffset(displayItems.length - 1, 'right');
-    const activeOffset = liveOffset !== null ? liveOffset : calculateOffset(currentIndex);
+    const leftOverlayRef = useRef<HTMLButtonElement>(null);
+    const rightOverlayRef = useRef<HTMLButtonElement>(null);
 
-    const canScrollLeft = isInfinite ? true : activeOffset > minOffset + 1;
-    const canScrollRight = isInfinite ? true : activeOffset < maxOffset - 1;
+    const updateOverlays = useCallback(() => {
+        const leftOverlay = leftOverlayRef.current;
+        const rightOverlay = rightOverlayRef.current;
+        if (!leftOverlay || !rightOverlay) return;
+
+        const min = calculateOffset(0, 'left');
+        const max = calculateOffset(displayItems.length - 1, 'right');
+        const active = liveOffset !== null ? liveOffset : calculateOffset(currentIndex);
+
+        const canScrollLeft = isInfinite ? true : active > min + 1;
+        const canScrollRight = isInfinite ? true : active < max - 1;
+        const widths = getOverlayWidths(currentIndex);
+
+        leftOverlay.classList.toggle('hidden', !canScrollLeft);
+        leftOverlay.style.width = widths.left;
+        leftOverlay.style.pointerEvents = canScrollLeft ? 'auto' : 'none';
+        leftOverlay.style.cursor = canScrollLeft ? 'pointer' : 'default';
+
+        rightOverlay.classList.toggle('hidden', !canScrollRight);
+        rightOverlay.style.width = widths.right;
+        rightOverlay.style.pointerEvents = canScrollRight ? 'auto' : 'none';
+        rightOverlay.style.cursor = canScrollRight ? 'pointer' : 'default';
+    }, [calculateOffset, getOverlayWidths, displayItems.length, liveOffset, currentIndex, isInfinite]);
+
+    useLayoutEffect(() => {
+        updateOverlays();
+    }, [updateOverlays]);
 
     return (
         <div className="carousel">
             <div className="overlay-wrapper">
                 <button
-                    className={`overlay-left ${!canScrollLeft ? 'hidden' : ''}`}
-                    style={{ width: getOverlayWidths(currentIndex).left, pointerEvents: !canScrollLeft ? 'none' : 'auto', cursor: !canScrollLeft ? 'default' : 'pointer' }}
+                    ref={leftOverlayRef}
+                    className="overlay-left"
                     onClick={(e) => { e.stopPropagation(); prevSlide(); }} />
                 <button
-                    className={`overlay-right ${!canScrollRight ? 'hidden' : ''}`}
-                    style={{ width: getOverlayWidths(currentIndex).right, pointerEvents: !canScrollRight ? 'none' : 'auto', cursor: !canScrollRight ? 'default' : 'pointer' }}
+                    ref={rightOverlayRef}
+                    className="overlay-right"
                     onClick={(e) => { e.stopPropagation(); nextSlide(); }} />
                 <div className="carousel__viewport" ref={viewportRef}>
                     <div

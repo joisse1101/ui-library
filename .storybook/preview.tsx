@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react-vite'
 import { useGlobals } from 'storybook/preview-api';
-// @ts-ignore
+// @ts-expect-error - no type declarations for scss imports
 import '../src/styles/index.scss'
 import storybookTheme from './theme';
 import { ThemeProvider } from '../src/providers/ThemeProvider';
