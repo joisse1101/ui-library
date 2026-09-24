@@ -174,7 +174,7 @@
     font-size: $font-xs;
     padding: 0.25rem 0.5rem;
     background-color: var(--bg-main);
-    color: var(--brand-accent); // Soft Warm Rose Accent
+    color: var(--brand-text); // Soft Warm Rose Accent
     border: 1px solid var(--border-subtle);
     border-radius: $radius-sm;
     transition:
@@ -222,7 +222,7 @@
 
     &:hover:not(.disabled) {
       background-color: var(--bg-surface-hover);
-      color: var(--brand-hover);
+      color: var(--brand-text-hover);
     }
 
     &:not(.disabled)::marker {

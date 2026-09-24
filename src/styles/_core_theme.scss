@@ -141,7 +141,7 @@ code {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: $radius-sm;
-  color: var(--brand-hover);
+  color: var(--brand-text);
 }
 
 pre {
@@ -161,13 +161,13 @@ pre {
 
 /* Links */
 a {
-  color: var(--brand-accent);
+  color: var(--brand-text);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.15s ease-in-out;
 
   &:hover {
-    color: var(--brand-hover);
+    color: var(--brand-text-hover);
     text-decoration: underline;
     text-underline-offset: 4px;
   }

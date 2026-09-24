@@ -31,7 +31,7 @@
   }
 
   &:hover {
-    color: var(--brand-hover);
+    color: var(--brand-text-hover);
   }
 }
 
@@ -70,7 +70,7 @@
 
     &:hover,
     &:focus {
-      color: var(--brand-hover);
+      color: var(--brand-text-hover);
       text-decoration: none;
     }
   }
@@ -196,7 +196,7 @@
 
     &:hover,
     &:focus {
-      color: var(--brand-hover);
+      color: var(--brand-text-hover);
       text-decoration: none;
     }
   }

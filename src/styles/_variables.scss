@@ -27,20 +27,32 @@ $light-bg-glass: rgba(255, 255, 255, 0.75);
 // --- Typography (High Contrast) ---
 $dark-text-main: #ffffff; // Pure white for primary body text
 $dark-text-muted: #a1a1aa; // High-contrast muted gray for secondary text
-$dark-text-dim: #71717a; // Tertiary / disabled text
+$dark-text-dim: #94949d; // Tertiary text (AA on every surface incl. overlay)
 
 $light-text-main: #241820; // Warm near-black for primary body text
 $light-text-muted: #6b5a61; // High-contrast muted for secondary text
-$light-text-dim: #9c8b92; // Tertiary / disabled text
+$light-text-dim: #7a686f; // Tertiary text (AA on page, surface, hover and overlay)
 
 // --- Brand & Accents (Accessible Warm Rose) ---
-$dark-brand-accent: #9d5a70; // Muted, dusty mauve-rose
-$dark-brand-hover: #b0677e; // Slightly lighter/richer on hover
-$dark-brand-active: #884c60; // Deeper shade on press
+$dark-brand-accent: #96556c; // Muted, dusty mauve-rose
+$dark-brand-hover: #a5607a; // Slightly lighter on hover — capped so white label stays AA (4.6:1)
+$dark-brand-active: #7d4457; // Deeper shade on press
 
 $light-brand-accent: #8a4a5e; // Deepened for AA on lighter page
 $light-brand-hover: #9d5a70; // Reuses dark theme's base tone
 $light-brand-active: #6f3b4b;
+
+// Label colour on brand-accent fills (primary button). Separate from --text-main, which flips dark in light theme.
+$dark-text-on-accent: #ffffff;
+$light-text-on-accent: #ffffff;
+
+// Accent used as *text* (links, selected labels, inline code). The fill tokens above have to stay
+// dark enough for a white label, which in dark theme is too dark to read as text on the page.
+$dark-brand-text: #d17f9b;
+$dark-brand-text-hover: #e8a2ba;
+
+$light-brand-text: $light-brand-accent;
+$light-brand-text-hover: $light-brand-active;
 
 // --- Borders & Rules ---
 $dark-brand-border-strong: #b8738a; // Soft accent border
@@ -53,7 +65,7 @@ $light-brand-border-muted: #f0d8de;
 $dark-accent-pink-soft: #fce7f3; // Extra light accent fill
 $dark-brand-surface-subtle: #fdf2f6; // Ultra-soft container or badge background
 
-$light-accent-pink-soft: #f7dbe4; // More saturated to stay visible on light page
+$light-accent-pink-soft: #a1345f; // Used as text (syntax functions), so it must be dark on the light theme
 $light-brand-surface-subtle: #f6e3ea;
 
 // --- Text & Contrast ---
@@ -62,6 +74,13 @@ $dark-brand-disabled: $dark-text-dim; // Disabled button states & subtle icons
 
 $light-brand-text-dark: #6e2e43; // Already dark text on a soft pink chip; unchanged
 $light-brand-disabled: $light-text-dim;
+
+// --- Syntax Highlighting ---
+$dark-syntax-keyword: #c084fc; // Violet
+$dark-syntax-string: #34d399; // Emerald
+
+$light-syntax-keyword: #7e22ce;
+$light-syntax-string: #047857;
 
 // --- Feedback / State Colors ---
 $dark-color-stretch: #06b6d4; // Electric Cyan
@@ -73,9 +92,9 @@ $dark-disabled-bg: #27272a; // Soft dark gray matching $dark-border-subtle
 $dark-disabled-text: $dark-text-dim; // Tertiary text color
 
 $light-color-stretch: #0e7490;
-$light-color-success: #047857;
+$light-color-success: #036b4d; // Dark enough to stay AA on its own hover/pressed tints
 $light-color-warning: #b45309; // Amber is the biggest offender against white
-$light-color-danger: #dc2626;
+$light-color-danger: #b91c1c; // Dark enough to stay AA on its own hover/pressed tints
 $light-color-info: #0369a1;
 $light-disabled-bg: #ece6e8;
 $light-disabled-text: $light-text-dim;
@@ -121,12 +140,12 @@ $light-border-active: $light-brand-border-muted;
 
 // --- Input-Specific Variables ---
 $dark-input-bg: #18181b; // Deep dark surface for inputs
-$dark-input-border: $dark-border-subtle; // Standard input border
+$dark-input-border: #6b6b73; // 3:1 against the field and surface (WCAG 1.4.11), unlike the decorative border-subtle
 $dark-input-focus-border: $dark-border-focus; // Focus state border (Warm Rose / Indigo accent)
 $dark-input-focus-ring: rgba($dark-border-focus, 0.25);
 
 $light-input-bg: #ffffff;
-$light-input-border: $light-border-subtle;
+$light-input-border: #8f7f86; // 3:1 against the field and page (WCAG 1.4.11)
 $light-input-focus-border: $light-border-focus;
 $light-input-focus-ring: rgba($light-border-focus, 0.25);
 
@@ -138,12 +157,12 @@ $dark-border-subtle-rgb: 39 39 42;
 $dark-brand-border-strong-rgb: 184 115 138;
 $dark-bg-glass-rgb: 26 26 30;
 // brand-accent-rgb added during task 2.3 for `.card-rose`'s alpha fill (rgba($brand-accent, 0.06)) — not in D3's original list, but the same pattern.
-$dark-brand-accent-rgb: 157 90 112;
+$dark-brand-accent-rgb: 150 85 108;
 // bg-main-rgb added during task 3.2 for Modal's backdrop fade (rgba($bg-main, 0 / 0.5)) — same pattern, not in D3's original list.
 $dark-bg-main-rgb: 18 18 20;
 
-$light-color-success-rgb: 4 120 87;
-$light-color-danger-rgb: 220 38 38;
+$light-color-success-rgb: 3 107 77;
+$light-color-danger-rgb: 185 28 28;
 $light-bg-surface-hover-rgb: 247 238 241;
 $light-border-subtle-rgb: 231 223 226;
 $light-brand-border-strong-rgb: 201 141 160;
@@ -194,20 +213,20 @@ $btn-ghost-hover-text: $dark-text-main;
 $btn-ghost-hover-border: $dark-border-subtle;
 
 // Success Variants
-$btn-success-bg: rgba($dark-color-success, 0.12);
+$btn-success-bg: rgba($dark-color-success, 0.08);
 $btn-success-text: $dark-color-success;
 $btn-success-border: rgba($dark-color-success, 0.25);
-$btn-success-hover-bg: rgba($dark-color-success, 0.22);
-$btn-success-active-bg: rgba($dark-color-success, 0.35);
+$btn-success-hover-bg: rgba($dark-color-success, 0.14);
+$btn-success-active-bg: rgba($dark-color-success, 0.2);
 
 // Danger Variants
-$btn-danger-bg: rgba($dark-color-danger, 0.12);
+$btn-danger-bg: rgba($dark-color-danger, 0.08);
 $btn-danger-text: $dark-color-danger;
 $btn-danger-border: rgba($dark-color-danger, 0.25);
 
 // Soft Danger States (Filled variant)
-$btn-danger-hover-bg: rgba($dark-color-danger, 0.22);
-$btn-danger-active-bg: rgba($dark-color-danger, 0.35);
+$btn-danger-hover-bg: rgba($dark-color-danger, 0.14);
+$btn-danger-active-bg: rgba($dark-color-danger, 0.2);
 
 // Outline Danger States (Transparent variant)
 $btn-danger-outline-hover-bg: rgba($dark-color-danger, 0.08); // Soft tint on hover
@@ -414,6 +433,11 @@ $max-width: 1200px;
   --brand-accent: #{$dark-brand-accent};
   --brand-hover: #{$dark-brand-hover};
   --brand-active: #{$dark-brand-active};
+  --text-on-accent: #{$dark-text-on-accent};
+  --brand-text: #{$dark-brand-text};
+  --brand-text-hover: #{$dark-brand-text-hover};
+  --syntax-keyword: #{$dark-syntax-keyword};
+  --syntax-string: #{$dark-syntax-string};
 
   --brand-border-muted: #{$dark-brand-border-muted};
   --brand-border-strong: #{$dark-brand-border-strong};
@@ -493,6 +517,11 @@ $max-width: 1200px;
   --brand-accent: #{$light-brand-accent};
   --brand-hover: #{$light-brand-hover};
   --brand-active: #{$light-brand-active};
+  --text-on-accent: #{$light-text-on-accent};
+  --brand-text: #{$light-brand-text};
+  --brand-text-hover: #{$light-brand-text-hover};
+  --syntax-keyword: #{$light-syntax-keyword};
+  --syntax-string: #{$light-syntax-string};
 
   --brand-border-muted: #{$light-brand-border-muted};
   --brand-border-strong: #{$light-brand-border-strong};

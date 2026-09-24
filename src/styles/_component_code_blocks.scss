@@ -5,7 +5,7 @@
   display: inline-block;
   vertical-align: baseline;
   background-color: var(--bg-overlay);
-  color: var(--brand-hover);
+  color: var(--brand-text);
   border: 1px solid var(--border-subtle);
   border-radius: $radius-sm;
   padding: 0.1rem 0.35rem;
@@ -35,9 +35,9 @@
   }
 
   /* Updated Syntax Tokens for Dark Surface Contrast */
-  .k, .kd, .kn { color: #a855f7; } // Violet (Keywords/Declarations)
+  .k, .kd, .kn { color: var(--syntax-keyword); } // Violet (Keywords/Declarations)
   .nf, .nb     { color: var(--accent-pink-soft); } // Cyan (Functions/Built-ins)
-  .s1, .s2, .si { color: #34d399; } // Emerald (Strings)
+  .s1, .s2, .si { color: var(--syntax-string); } // Emerald (Strings)
   .c1, .c      { color: var(--text-dim); font-style: italic; } // Dim Gray (Comments)
   .p, .n       { color: var(--text-main); } // White/Off-white (Punctuation/Names)
 }
