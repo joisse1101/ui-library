@@ -12,7 +12,7 @@
 html {
   scrollbar-gutter: stable;
   scroll-behavior: smooth;
-  color-scheme: dark;
+  color-scheme: var(--color-scheme);
   scroll-padding-top: 10px; // For smooth scroll alignment with fixed headers
 }
 
