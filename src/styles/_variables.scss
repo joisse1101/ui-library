@@ -131,25 +131,25 @@ $light-input-focus-border: $light-border-focus;
 $light-input-focus-ring: rgba($light-border-focus, 0.25);
 
 // --- RGB Triplets (for runtime alpha-derived values, see design.md D3) ---
-$dark-color-success-rgb: 52, 211, 153;
-$dark-color-danger-rgb: 248, 113, 113;
-$dark-bg-surface-hover-rgb: 38, 38, 43;
-$dark-border-subtle-rgb: 39, 39, 42;
-$dark-brand-border-strong-rgb: 184, 115, 138;
-$dark-bg-glass-rgb: 26, 26, 30;
+$dark-color-success-rgb: 112 244 195;
+$dark-color-danger-rgb: 248 113 113;
+$dark-bg-surface-hover-rgb: 38 38 43;
+$dark-border-subtle-rgb: 39 39 42;
+$dark-brand-border-strong-rgb: 184 115 138;
+$dark-bg-glass-rgb: 26 26 30;
 // brand-accent-rgb added during task 2.3 for `.card-rose`'s alpha fill (rgba($brand-accent, 0.06)) — not in D3's original list, but the same pattern.
-$dark-brand-accent-rgb: 157, 90, 112;
+$dark-brand-accent-rgb: 157 90 112;
 // bg-main-rgb added during task 3.2 for Modal's backdrop fade (rgba($bg-main, 0 / 0.5)) — same pattern, not in D3's original list.
-$dark-bg-main-rgb: 18, 18, 20;
+$dark-bg-main-rgb: 18 18 20;
 
-$light-color-success-rgb: 4, 120, 87;
-$light-color-danger-rgb: 220, 38, 38;
-$light-bg-surface-hover-rgb: 247, 238, 241;
-$light-border-subtle-rgb: 231, 223, 226;
-$light-brand-border-strong-rgb: 201, 141, 160;
-$light-bg-glass-rgb: 255, 255, 255;
-$light-brand-accent-rgb: 138, 74, 94;
-$light-bg-main-rgb: 243, 238, 240;
+$light-color-success-rgb: 4 120 87;
+$light-color-danger-rgb: 220 38 38;
+$light-bg-surface-hover-rgb: 247 238 241;
+$light-border-subtle-rgb: 231 223 226;
+$light-brand-border-strong-rgb: 201 141 160;
+$light-bg-glass-rgb: 255 255 255;
+$light-brand-accent-rgb: 138 74 94;
+$light-bg-main-rgb: 243 238 240;
 
 // --- Button Specific Tokens ---
 $btn-font-family: $font-family-body;

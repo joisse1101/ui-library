@@ -268,6 +268,10 @@ const AUDIT_CSS = `
 .ta-block { display: flex; flex-direction: column; gap: .875rem; min-width: 0; }
 .ta-block > h3 { margin: 0; padding-bottom: .375rem; border-bottom: 1px solid var(--border-subtle); font-size: var(--font-sm); text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
 .ta-note { margin: 0; font-size: var(--font-sm); color: var(--text-muted); }
+.ta-note p { margin: 0; }
+.ta-legend { list-style: none; margin: .5rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .25rem; }
+.ta-legend li { display: flex; gap: .5rem; align-items: baseline; }
+.ta-legend .ta-badge { flex: 0 0 5.5rem; text-align: center; }
 .ta-sub { margin: .25rem 0 0; font-size: var(--font-xs); text-transform: uppercase; letter-spacing: .08em; color: var(--text-dim); }
 .ta-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: .75rem; }
 .ta-swatch { display: flex; flex-direction: column; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; background: var(--bg-surface); }
@@ -302,12 +306,28 @@ const AUDIT_CSS = `
 // Building blocks
 // ==========================================================================
 
-const Block: React.FC<{ title: string; note?: string; children: React.ReactNode }> = ({ title, note, children }) => (
+const Block: React.FC<{ title: string; note?: React.ReactNode; children: React.ReactNode }> = ({ title, note, children }) => (
     <div className="ta-block">
         <h3>{title}</h3>
-        {note && <p className="ta-note">{note}</p>}
+        {note && <div className="ta-note">{note}</div>}
         {children}
     </div>
+);
+
+const ContrastLegend: React.FC = () => (
+    <>
+        <p>
+            Pairs are the foreground/background combinations the components actually render (translucent fills are
+            composited over their backdrop). The ratio runs from 1:1 (invisible) to 21:1 (black on white).
+        </p>
+        <ul className="ta-legend">
+            <li><span className="ta-badge" data-tone="good">AAA</span>7:1 or more. Comfortable for normal text.</li>
+            <li><span className="ta-badge" data-tone="good">AA</span>4.5:1 to 7:1. Meets the standard for normal-sized text. This is the target.</li>
+            <li><span className="ta-badge" data-tone="warn">Large only</span>3:1 to 4.5:1. Too faint for normal text; only OK for large text (about 24px, or 18.5px bold). Darken or lighten a colour to fix.</li>
+            <li><span className="ta-badge" data-tone="bad">Fail</span>Under 3:1 for text, or under 3:1 for a UI element. Hard to see for many people.</li>
+            <li><span className="ta-badge" data-tone="good">Pass</span>Non-text pairs (borders, focus outlines, switch on-state): 3:1 or more.</li>
+        </ul>
+    </>
 );
 
 interface Probe {
@@ -415,7 +435,7 @@ const ThemePanel: React.FC<{ mode: 'global' | 'light' | 'dark'; onToggleTheme?: 
         if (!probe) return [];
         return RGB_PAIRS.map((p) => {
             const triplet = probe.raw(p.rgb);
-            const [r, g, b] = triplet.split(',').map((n) => Number(n.trim()));
+            const [r, g, b] = triplet.split(/[\s,]+/).map(Number);
             const hex = probe.colour(`var(${p.hex})`);
             const inSync = !!hex && hex.r === r && hex.g === g && hex.b === b;
             return { ...p, triplet, hex, inSync };
@@ -500,7 +520,7 @@ const ThemePanel: React.FC<{ mode: 'global' | 'light' | 'dark'; onToggleTheme?: 
                 </div>
             </Block>
 
-            <Block title="Contrast" note="Pairs are the foreground/background combinations the components actually render (translucent fills are composited over their backdrop). Text needs 4.5:1; non-text needs 3:1.">
+            <Block title="Contrast" note={<ContrastLegend />}>
                 <table className="ta-table">
                     <thead>
                         <tr><th>Pair</th><th>Sample</th><th>Ratio</th><th>Result</th><th>Where</th></tr>
