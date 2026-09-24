@@ -48,6 +48,6 @@
 
 ## 7. Final verification
 
-- [ ] 7.1 Run `npm run build` and confirm it completes with no type or build errors.
-- [ ] 7.2 Run `npm run build-storybook` and confirm it completes with no errors.
-- [ ] 7.3 Grep `src/` for any remaining references to the original unprefixed themeable token names (the D1 list) outside of `_variables.scss` itself, confirming the conversion in sections 2-3 is complete.
+- [x] 7.1 Run `npm run build` and confirm it completes with no type or build errors.
+- [x] 7.2 Run `npm run build-storybook` and confirm it completes with no errors.
+- [x] 7.3 Grep `src/` for any remaining references to the original unprefixed themeable token names (the D1 list) outside of `_variables.scss` itself, confirming the conversion in sections 2-3 is complete.
