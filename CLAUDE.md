@@ -12,8 +12,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run storybook` — runs Storybook dev server on port 6006. This is the primary way to visually develop/verify components.
 - `npm run build-storybook` — builds the static Storybook site (same output GitHub Pages deploys from).
 - `npm run yalc:push` — builds then pushes to a local `yalc` store, for testing this library inside a consuming project without publishing.
-
-There is no lint script or test script defined in `package.json` (ESLint config exists but must be run via `npx eslint .`; no test files exist yet despite `vitest`/`playwright` devDependencies being present).
+- `npm run lint` — runs ESLint over the repo.
+- `npm test` — runs `vitest run` once (CI-friendly); `npm run test:watch` runs it in watch mode. There are no separate `*.test.tsx` files — the `@storybook/addon-vitest` addon (wired in `vite.config.ts`'s `test.projects` and `.storybook/main.ts`'s `addons`) runs every `*.stories.tsx` file as a browser test via `vitest`'s Playwright provider (Chromium, headless). Writing/adjusting stories *is* writing/adjusting tests for that component.
 
 ## Architecture
 
@@ -61,3 +61,9 @@ Styles fall into two categories, and it matters which one you're touching:
 
 ### Publishing
 - Releases are published to GitHub Packages (`npm.pkg.github.com`, scope `@joisse1101`) via `.github/workflows/publish.yml`, triggered by a published GitHub Release (not on every merge to `main`).
+
+## Known issues (to fix)
+- `npm run lint` currently fails with 8 pre-existing errors, surfaced once the `lint` script was added:
+  - `src/components/CardCarousel/Carousel.tsx` — three `react-hooks/refs` errors (reading `.current` during render instead of in an effect/event handler).
+  - `src/hooks/display.ts` — one `react-hooks/set-state-in-effect` error (calling `setMatches` synchronously in the effect body instead of via `useState`'s lazy initializer or `useSyncExternalStore`).
+- No CI gate runs `npm run lint` / `npm test` on PRs or before publish. `.github/workflows/publish.yml` and `.github/workflows/deploy-storybook.yml` only run `npm ci` + build steps. A CI workflow for lint+test would also need `npx playwright install --with-deps chromium` since tests run in a real headless Chromium via `@storybook/addon-vitest`.
