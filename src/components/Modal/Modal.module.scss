@@ -34,7 +34,7 @@
 
   /* --- Backdrop Styling --- */
   &::backdrop {
-    background-color: rgba($bg-main, 0); // hide overlay
+    background-color: rgb(var(--bg-main-rgb) / 0); // hide overlay
     backdrop-filter: blur(0px);
     transition:
       background-color var(--transition-speed) ease-out,
@@ -44,11 +44,11 @@
   }
 
   &[open]::backdrop {
-    background-color: rgba($bg-main, 0.5); // overlay colour
+    background-color: rgb(var(--bg-main-rgb) / 0.5); // overlay colour
     backdrop-filter: blur(4px);
 
     @starting-style {
-      background-color: rgba($bg-main, 0);
+      background-color: rgb(var(--bg-main-rgb) / 0);
       backdrop-filter: blur(0px);
     }
   }

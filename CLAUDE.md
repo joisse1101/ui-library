@@ -12,8 +12,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run storybook` — runs Storybook dev server on port 6006. This is the primary way to visually develop/verify components.
 - `npm run build-storybook` — builds the static Storybook site (same output GitHub Pages deploys from).
 - `npm run yalc:push` — builds then pushes to a local `yalc` store, for testing this library inside a consuming project without publishing.
-
-There is no lint script or test script defined in `package.json` (ESLint config exists but must be run via `npx eslint .`; no test files exist yet despite `vitest`/`playwright` devDependencies being present).
+- `npm run lint` — runs ESLint over the repo.
+- `npm test` — runs `vitest run` once (CI-friendly); `npm run test:watch` runs it in watch mode. There are no separate `*.test.tsx` files — the `@storybook/addon-vitest` addon (wired in `vite.config.ts`'s `test.projects` and `.storybook/main.ts`'s `addons`) runs every `*.stories.tsx` file as a browser test via `vitest`'s Playwright provider (Chromium, headless). Writing/adjusting stories *is* writing/adjusting tests for that component.
 
 ## Architecture
 
@@ -45,7 +45,14 @@ Styles fall into two categories, and it matters which one you're touching:
   - Where the component's own stylesheet nests overrides of a shared global class (e.g. `ColourPalettePicker`'s `.color-row .btn-danger` override, or `CardCarousel`'s `.carousel .card` targeting the global `.card`), it stays a **plain, non-hashed SCSS file** colocated and self-imported (e.g. `import './ColourPalettePicker.scss'`) rather than a `.module.scss` — CSS Modules would hash the nested global class reference and silently break the override. Current examples: `ColourPalettePicker`, `CardCarousel`.
   - Any `@use 'variables'` / `@use 'component_button'` etc. inside a colocated file needs the relative path adjusted to `../../styles/...` since it no longer lives in `src/styles/`.
 - `variables.module.scss` (in `src/styles/`) re-exports select SCSS variables (`colorStretch`, `colorSuccess`, etc.) as a JS-importable CSS module for components that need design tokens in TS (e.g. color computations in `ColourPalettePicker`/`utils/colours.ts`).
-- The theme is dark-only (`color-scheme: dark` in `_core_theme.scss`); there is no light-mode toggle.
+
+### Theming (dark/light)
+- Every themeable (color/shadow) SCSS token in `_variables.scss` is split into a `$dark-*` / `$light-*` pair (e.g. `$dark-bg-main` / `$light-bg-main`); non-themeable tokens (typography, spacing, radii, sizing) keep their plain unprefixed names and don't get a light counterpart. When adding a new themeable token, add both the `$dark-*` and `$light-*` SCSS variables and a value for each in the two `[data-theme]` blocks below — never introduce a new plain unprefixed color/shadow variable.
+- All component stylesheets and CSS modules consume these tokens exclusively via `var(--token)` (e.g. `var(--bg-main)`), never the SCSS variable directly — theme switching happens at paint time, not build time. The CSS custom-property *names* (`--bg-main`, `--brand-accent`, etc.) are stable across the rename; only the backing SCSS variable names differ per theme.
+- `_variables.scss` emits `:root, [data-theme='dark'] { --bg-main: #{$dark-bg-main}; ... }` and a separate `[data-theme='light'] { --bg-main: #{$light-bg-main}; ... }` block. Dark is the implicit default (bare `:root` carries dark values), so any consumer that never sets `data-theme` sees no change. `--color-scheme` is themed the same way and consumed via `html { color-scheme: var(--color-scheme); }` in `_core_theme.scss`, so native form controls/scrollbars follow the active theme.
+- Alpha-derived colors (e.g. `rgba($color-success, 0.12)`) can't be precomputed per theme without doubling the token count, so their base tokens also get a `$dark-*-rgb` / `$light-*-rgb` triplet (e.g. `--color-success-rgb: 52, 211, 153;`), and usages read `rgb(var(--color-success-rgb) / 0.12)` at runtime instead of a baked-in literal. Shadows are the exception — they're declared as full per-theme literals (not the RGB-channel trick) since some (e.g. the hover glow) need to flip hue between themes, not just dim.
+- `ThemeProvider` (`src/providers/ThemeProvider.tsx`) and `useTheme` (`src/providers/ThemeContext.ts`), exported from `src/index.ts`, set `data-theme` on `document.documentElement`. Supports uncontrolled (`defaultTheme`, defaults to `"dark"`) and controlled (`theme` + `onThemeChange`) usage, following the `FormContext`/`FormProvider` pattern. No persistence (localStorage) or `prefers-color-scheme` detection — theme choice is in-memory only.
+- Storybook's toolbar has a `theme` global (`.storybook/preview.tsx`) wired to `ThemeProvider` in controlled mode, defaulting to dark, so every story can be previewed in both themes.
 
 ### Storybook
 - Stories live alongside components and are auto-discovered (`src/**/*.stories.tsx`).
@@ -54,3 +61,6 @@ Styles fall into two categories, and it matters which one you're touching:
 
 ### Publishing
 - Releases are published to GitHub Packages (`npm.pkg.github.com`, scope `@joisse1101`) via `.github/workflows/publish.yml`, triggered by a published GitHub Release (not on every merge to `main`).
+
+## Known issues (to fix)
+- No CI gate runs `npm run lint` / `npm test` on PRs or before publish. `.github/workflows/publish.yml` and `.github/workflows/deploy-storybook.yml` only run `npm ci` + build steps. A CI workflow for lint+test would also need `npx playwright install --with-deps chromium` since tests run in a real headless Chromium via `@storybook/addon-vitest`.

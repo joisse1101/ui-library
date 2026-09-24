@@ -106,6 +106,7 @@ export const SingularCard: Story = {
  */
 export const TextOnly: Story = {
     args: {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars -- destructured to omit `image` from the rest
         items: mockCards.map(({ image, ...rest }) => rest),
     },
 };

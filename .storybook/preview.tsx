@@ -1,7 +1,9 @@
 import type { Preview } from '@storybook/react-vite'
-// @ts-ignore
+import { useGlobals } from 'storybook/preview-api';
+// @ts-expect-error - no type declarations for scss imports
 import '../src/styles/index.scss'
 import storybookTheme from './theme';
+import { ThemeProvider } from '../src/providers/ThemeProvider';
 
 const customViewports = {
   mobile: {
@@ -23,12 +25,36 @@ const customViewports = {
 };
 
 const preview: Preview = {
+  initialGlobals: {
+    theme: 'dark',
+  },
+  globalTypes: {
+    theme: {
+      description: 'Global theme for components',
+      toolbar: {
+        icon: 'circlehollow',
+        items: [
+          { value: 'dark', icon: 'circle', title: 'Dark' },
+          { value: 'light', icon: 'circlehollow', title: 'Light' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
   decorators: [
-    (Story) => (
-      <div className="layout layout-storybook">
-        <Story />
-      </div>
-    ),
+    (Story, context) => {
+      const [, updateGlobals] = useGlobals();
+      return (
+        <ThemeProvider
+          theme={context.globals.theme}
+          onThemeChange={(theme) => updateGlobals({ theme })}
+        >
+          <div className="layout layout-storybook">
+            <Story />
+          </div>
+        </ThemeProvider>
+      );
+    },
   ],
   parameters: {
     docs: {
