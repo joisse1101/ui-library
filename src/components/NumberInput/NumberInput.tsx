@@ -1,5 +1,6 @@
 import React from 'react';
 import { useField } from '@hooks/useField';
+import { useFormContext } from '@providers/FormContext';
 
 export interface NumberInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'> {
     label: string;
@@ -29,6 +30,10 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     ...props
 }) => {
     const field = useField<number | ''>({ name, value });
+    const form = useFormContext();
+    // Form-bound fields are always controlled by form state; standalone ones stay controlled
+    // only if the consumer passes `value`, otherwise they're uncontrolled (and honour `defaultValue`).
+    const inputValue = name && form ? (field.value ?? '') : value;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const next = e.target.value === '' ? '' : Number(e.target.value);
@@ -45,7 +50,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
                     id={id}
                     name={name}
                     className={[noSpinner ? 'no-spinner' : '', className].filter(Boolean).join(' ')}
-                    value={field.value ?? ''}
+                    value={inputValue}
                     onChange={handleChange}
                     {...props}
                 />

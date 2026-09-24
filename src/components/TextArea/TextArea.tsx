@@ -13,8 +13,8 @@ export interface TextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTex
  * - Resizable textarea that adjusts its height based on the content entered.
  * - Submit functionality triggered by "Ctrl + Enter" (or "Cmd + Enter" on Mac) or by clicking the submit button.
  */
-export const TextArea = ({ onSubmit, ...props }: TextAreaProps) => {
-    const [text, setText] = useState('');
+export const TextArea = ({ onSubmit, defaultValue, ...props }: TextAreaProps) => {
+    const [text, setText] = useState(defaultValue === undefined ? '' : String(defaultValue));
     const hasContent = text.trim().length > 0;
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 

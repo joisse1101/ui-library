@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { DocsPage } from '@stories/DocsPage';
 import { Button } from './Button';
 
@@ -132,3 +133,46 @@ export const Invisible: Story = {
         </div>;
     },
 }
+
+/**
+ * A single button wired to an `onClick` handler, used to verify click behaviour.
+ */
+export const Clickable: Story = {
+    args: {
+        children: 'Click me',
+        onClick: fn(),
+    },
+    play: async ({ args, canvasElement }) => {
+        const canvas = within(canvasElement);
+        const button = canvas.getByRole('button', { name: 'Click me' });
+
+        await userEvent.click(button);
+        await expect(args.onClick).toHaveBeenCalledTimes(1);
+
+        await userEvent.click(button);
+        await expect(args.onClick).toHaveBeenCalledTimes(2);
+    },
+};
+
+/**
+ * A disabled button ignores clicks, so its `onClick` handler is never called.
+ */
+export const DisabledIgnoresClick: Story = {
+    args: {
+        children: 'Cannot click',
+        disabled: true,
+        onClick: fn(),
+    },
+    play: async ({ args, canvasElement }) => {
+        const canvas = within(canvasElement);
+        const button = canvas.getByRole('button', { name: 'Cannot click' });
+
+        await expect(button).toBeDisabled();
+
+        // Disabled buttons get `pointer-events: none`, so skip user-event's pointer check
+        // to prove the click is ignored even if it were dispatched.
+        const user = userEvent.setup({ pointerEventsCheck: 0 });
+        await user.click(button);
+        await expect(args.onClick).not.toHaveBeenCalled();
+    },
+};

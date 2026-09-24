@@ -21,14 +21,14 @@
 
 ## 3. Simple inputs (T2)
 
-- [ ] 3.1 Add play functions to `Button` stories: click fires `onClick`, disabled does not; verify under `npm test`
-- [ ] 3.2 Extend `Switch` play functions: toggle on/off, controlled vs uncontrolled, disabled; verify under `npm test`
-- [ ] 3.3 Add play functions to `TextInput` stories: typing updates value/`onChange`, form-bound value and validation error shown after submit, disabled; verify under `npm test`
-- [ ] 3.4 Add play functions to `TextArea` stories: typing, character/value handling, form-bound error, disabled; verify under `npm test`
-- [ ] 3.5 Add play functions to `NumberInput` stories: typing numbers, min/max handling, form-bound error, disabled; verify under `npm test`
-- [ ] 3.6 Add play functions to `DateInput` stories: entering a date updates value, form-bound error, disabled; verify under `npm test`
+- [x] 3.1 Add play functions to `Button` stories: click fires `onClick`, disabled does not; verify under `npm test`
+- [x] 3.2 Extend `Switch` play functions: toggle on/off, controlled vs uncontrolled, disabled; verify under `npm test`
+- [x] 3.3 Add play functions to `TextInput` stories: typing updates value/`onChange`, form-bound value and validation error shown after submit, disabled; verify under `npm test`
+- [x] 3.4 Add play functions to `TextArea` stories: typing, character/value handling, form-bound error, disabled; verify under `npm test` (form-bound error not applicable: `TextArea` has no form binding, recorded in CLAUDE.md Known issues)
+- [x] 3.5 Add play functions to `NumberInput` stories: typing numbers, min/max handling, form-bound error, disabled; verify under `npm test`
+- [x] 3.6 Add play functions to `DateInput` stories: entering a date updates value, form-bound error, disabled; verify under `npm test`
 
-- [ ] 3.7 Fix the controlled/uncontrolled bug in `TextInput`, `DateInput` and `NumberInput` (found in 1.1: React logs "contains an input ... with both `value` and `defaultValue` props"). Suspected cause: each renders `value={field.value ?? ''}`, so the input is always controlled while a consumer's `defaultValue` arrives via `...props`. Do this only after 3.3, 3.5 and 3.6 have pinned the working behaviour (controlled `value`/`onChange`, form-bound), in this order: (a) reproduce and record what `defaultValue` and typing without `value` actually do today; (b) confirm the intended standalone semantics with the maintainer before changing code; (c) add play functions for that behaviour and see them fail; (d) fix the components without changing their public props; (e) check `TextArea` for the same class of issue; (f) verify `npm test` is green and the warning no longer appears in the run output
+- [x] 3.7 Fix the controlled/uncontrolled bug in `TextInput`, `DateInput` and `NumberInput` (found in 1.1: React logs "contains an input ... with both `value` and `defaultValue` props"). Suspected cause: each renders `value={field.value ?? ''}`, so the input is always controlled while a consumer's `defaultValue` arrives via `...props`. Do this only after 3.3, 3.5 and 3.6 have pinned the working behaviour (controlled `value`/`onChange`, form-bound), in this order: (a) reproduce and record what `defaultValue` and typing without `value` actually do today; (b) confirm the intended standalone semantics with the maintainer before changing code; (c) add play functions for that behaviour and see them fail; (d) fix the components without changing their public props; (e) check `TextArea` for the same class of issue; (f) verify `npm test` is green and the warning no longer appears in the run output
 
 ## 4. Selector family (T3)
 

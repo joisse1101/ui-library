@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useField } from '@hooks/useField';
+import { useFormContext } from '@providers/FormContext';
 
 interface DateInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string;
@@ -14,6 +15,10 @@ interface DateInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export const DateInput: React.FC<DateInputProps> = ({ label, id, name, value, onChange, ...props }) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const field = useField<string>({ name, value: value as string | undefined });
+    const form = useFormContext();
+    // Form-bound fields are always controlled by form state; standalone ones stay controlled
+    // only if the consumer passes `value`, otherwise they're uncontrolled (and honour `defaultValue`).
+    const inputValue = name && form ? (field.value ?? '') : value;
 
     // Opens the browser's native datepicker popup when clicking the icon
     const handleIconClick = () => {
@@ -36,7 +41,7 @@ export const DateInput: React.FC<DateInputProps> = ({ label, id, name, value, on
                     type="date"
                     id={id}
                     name={name}
-                    value={field.value ?? ''}
+                    value={inputValue}
                     onChange={handleChange}
                     {...props}
                 />

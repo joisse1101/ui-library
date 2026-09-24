@@ -64,3 +64,4 @@ Styles fall into two categories, and it matters which one you're touching:
 
 ## Known issues (to fix)
 - No CI gate runs `npm run lint` / `npm test` on PRs or before publish. `.github/workflows/publish.yml` and `.github/workflows/deploy-storybook.yml` only run `npm ci` + build steps. A CI workflow for lint+test would also need `npx playwright install --with-deps chromium` since tests run in a real headless Chromium via `@storybook/addon-vitest`.
+- `TextArea` isn't form-bound: unlike `TextInput`/`NumberInput`/`DateInput`, it has no `name` prop or `useField` integration, so it can't read/write `FormProvider` state or show a validation error. It keeps its own internal `text` state and only reports via `onSubmit`. To be revisited when the form provider is refined.

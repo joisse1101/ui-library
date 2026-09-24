@@ -66,3 +66,71 @@ export const Icon: Story = {
         </div>;
     },
 }
+
+/**
+ * With `checked` supplied the parent owns the state: `onChange` reports the requested value,
+ * but the switch only changes when the parent re-renders with a new `checked`.
+ */
+export const Controlled: Story = {
+    args: {
+        label: 'Controlled Switch',
+        checked: true,
+        onChange: fn(),
+    },
+    play: async ({ args, canvasElement }) => {
+        const canvas = within(canvasElement);
+        const toggle = canvas.getByRole('switch', { name: 'Controlled Switch' });
+
+        await expect(toggle).toBeChecked();
+
+        await userEvent.click(toggle);
+        await expect(args.onChange).toHaveBeenLastCalledWith(false);
+        await expect(toggle).toBeChecked();
+    },
+};
+
+/**
+ * Without `checked` the switch keeps its own state, starting from `defaultChecked`.
+ */
+export const Uncontrolled: Story = {
+    args: {
+        label: 'Uncontrolled Switch',
+        defaultChecked: true,
+        onChange: fn(),
+    },
+    play: async ({ args, canvasElement }) => {
+        const canvas = within(canvasElement);
+        const toggle = canvas.getByRole('switch', { name: 'Uncontrolled Switch' });
+
+        await expect(toggle).toBeChecked();
+
+        await userEvent.click(toggle);
+        await expect(toggle).not.toBeChecked();
+        await expect(args.onChange).toHaveBeenLastCalledWith(false);
+
+        await userEvent.click(toggle);
+        await expect(toggle).toBeChecked();
+        await expect(args.onChange).toHaveBeenLastCalledWith(true);
+    },
+};
+
+/**
+ * A disabled switch ignores clicks: its state doesn't change and `onChange` is never called.
+ */
+export const DisabledIgnoresClick: Story = {
+    args: {
+        label: 'Disabled Switch',
+        disabled: true,
+        onChange: fn(),
+    },
+    play: async ({ args, canvasElement }) => {
+        const canvas = within(canvasElement);
+        const toggle = canvas.getByRole('switch', { name: 'Disabled Switch' });
+
+        await expect(toggle).toBeDisabled();
+
+        await userEvent.click(toggle);
+        await expect(toggle).not.toBeChecked();
+        await expect(args.onChange).not.toHaveBeenCalled();
+    },
+};
