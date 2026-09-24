@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, waitFor } from 'storybook/test';
 import { CardCarousel, type CardProps } from './CardCarousel';
 import { ResponsiveMatrix } from '@stories/ResponsiveMatrix';
 import { DocsPage } from '@stories/DocsPage';
@@ -72,11 +73,98 @@ const meta: Meta<typeof CardCarousel> = {
 export default meta;
 type Story = StoryObj<typeof CardCarousel>;
 
+const titles = mockCards.map((card) => card.title);
+
+/**
+ * The carousel's navigation overlays and slides have no role, name or text, so they're located by
+ * their structural class names (the overlays are the same global `.overlay-*` pattern the
+ * scroll-overlay helper uses) and the "current card" is read from layout: the slide whose centre
+ * is nearest the viewport centre.
+ */
+const getCarousels = (canvasElement: HTMLElement) =>
+    Array.from(canvasElement.querySelectorAll<HTMLElement>('.carousel'));
+
+const getOverlay = (carousel: HTMLElement, side: 'left' | 'right') => {
+    const overlay = carousel.querySelector<HTMLElement>(`.overlay-${side}`);
+    if (!overlay) throw new Error(`Carousel has no ${side} overlay`);
+    return overlay;
+};
+
+const getActiveCard = (carousel: HTMLElement) => {
+    const viewport = carousel.querySelector<HTMLElement>('.carousel__viewport');
+    if (!viewport) throw new Error('Carousel has no viewport');
+    const viewportRect = viewport.getBoundingClientRect();
+    const viewportCentre = viewportRect.left + viewportRect.width / 2;
+
+    let title: string | null = null;
+    let distance = Infinity;
+    carousel.querySelectorAll<HTMLElement>('.carousel__slide').forEach((slide) => {
+        const rect = slide.getBoundingClientRect();
+        const slideDistance = Math.abs(rect.left + rect.width / 2 - viewportCentre);
+        if (slideDistance < distance) {
+            distance = slideDistance;
+            title = slide.querySelector('h3')?.textContent ?? null;
+        }
+    });
+    return { title, distance };
+};
+
+/** Waits until `title` is the centred card and the slide animation has come to rest. */
+const expectActiveCard = async (carousel: HTMLElement, title: string) => {
+    const track = carousel.querySelector<HTMLElement>('.carousel__track');
+    if (!track) throw new Error('Carousel has no track');
+    await waitFor(() => {
+        expect(getActiveCard(carousel).title).toBe(title);
+        expect(getActiveCard(carousel).distance).toBeLessThan(2);
+        expect(track.getAnimations()).toHaveLength(0);
+    });
+    // Navigation is locked until the track's `transitionend` handler has run; let React apply it.
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+};
+
+const go = (carousel: HTMLElement, side: 'left' | 'right') => userEvent.click(getOverlay(carousel, side));
+
+/** Clicks a hidden overlay, bypassing the `pointer-events: none` check, to prove the handler itself respects the bounds. */
+const forceClick = (overlay: HTMLElement) =>
+    userEvent.setup({ pointerEventsCheck: 0 }).click(overlay);
+
 export const Default: Story = {
     render: (args) => <ResponsiveMatrix component={CardCarousel} args={args} />,
     args: {
         items: mockCards,
         isInfinite: false,
+    },
+    play: async ({ canvasElement }) => {
+        const carousels = getCarousels(canvasElement);
+        // Compact (360px) and full-width renderings must behave the same.
+        await expect(carousels).toHaveLength(2);
+
+        for (const carousel of carousels) {
+            // Start on the first card: nothing to the left.
+            await expectActiveCard(carousel, titles[0]);
+            await expect(getOverlay(carousel, 'left')).toHaveClass('hidden');
+            await expect(getOverlay(carousel, 'right')).not.toHaveClass('hidden');
+            await forceClick(getOverlay(carousel, 'left'));
+            await expectActiveCard(carousel, titles[0]);
+
+            // Step forward to the last card, one card per click.
+            for (const title of titles.slice(1)) {
+                await go(carousel, 'right');
+                await expectActiveCard(carousel, title);
+            }
+            await expect(getOverlay(carousel, 'left')).not.toHaveClass('hidden');
+            await expect(getOverlay(carousel, 'right')).toHaveClass('hidden');
+            await expect(getOverlay(carousel, 'right')).toHaveStyle({ pointerEvents: 'none' });
+
+            // Already on the last card: forward does nothing.
+            await forceClick(getOverlay(carousel, 'right'));
+            await expectActiveCard(carousel, titles[titles.length - 1]);
+
+            // And back one card.
+            await go(carousel, 'left');
+            await expectActiveCard(carousel, titles[titles.length - 2]);
+            await expect(getOverlay(carousel, 'right')).not.toHaveClass('hidden');
+        }
     },
 };
 
@@ -99,6 +187,17 @@ export const SingularCard: Story = {
     args: {
         items: [mockCards[0]],
     },
+    play: async ({ canvasElement }) => {
+        // Finite and "infinite" alike: a single card has nowhere to go, so both overlays stay hidden.
+        const carousels = getCarousels(canvasElement);
+        await expect(carousels).toHaveLength(2);
+
+        for (const carousel of carousels) {
+            await expectActiveCard(carousel, titles[0]);
+            await expect(getOverlay(carousel, 'left')).toHaveClass('hidden');
+            await expect(getOverlay(carousel, 'right')).toHaveClass('hidden');
+        }
+    },
 };
 
 /**
@@ -118,5 +217,29 @@ export const Infinite: Story = {
     args: {
         items: mockCards,
         isInfinite: true,
+    },
+    play: async ({ canvasElement }) => {
+        const [carousel] = getCarousels(canvasElement);
+
+        // No bounds: both directions are always available.
+        await expectActiveCard(carousel, titles[0]);
+        await expect(getOverlay(carousel, 'left')).not.toHaveClass('hidden');
+        await expect(getOverlay(carousel, 'right')).not.toHaveClass('hidden');
+
+        // Backwards from the first card wraps to the last.
+        await go(carousel, 'left');
+        await expectActiveCard(carousel, titles[titles.length - 1]);
+
+        // Forwards from the last card wraps to the first, then walks the whole loop.
+        await go(carousel, 'right');
+        await expectActiveCard(carousel, titles[0]);
+        for (const title of titles.slice(1)) {
+            await go(carousel, 'right');
+            await expectActiveCard(carousel, title);
+        }
+        await go(carousel, 'right');
+        await expectActiveCard(carousel, titles[0]);
+        await expect(getOverlay(carousel, 'left')).not.toHaveClass('hidden');
+        await expect(getOverlay(carousel, 'right')).not.toHaveClass('hidden');
     },
 };

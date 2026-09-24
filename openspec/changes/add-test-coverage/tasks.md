@@ -41,9 +41,9 @@
 
 ## 5. Complex components (T4)
 
-- [ ] 5.1 Extend `Modal` play functions: open, close via button and backdrop/Escape as implemented today, content rendered while open and absent while closed, and the form-in-modal story's submit-with-errors flow; verify under `npm test`
-- [ ] 5.2 Add play functions to `CardCarousel` stories: navigation controls move between cards and respect the first/last bounds as implemented today; verify under `npm test`
-- [ ] 5.3 Add play functions to `ColourPalettePicker` stories: add, edit and remove a colour, and the resulting `onChange` payload; verify under `npm test`
+- [x] 5.1 Extend `Modal` play functions: open, close via button and backdrop/Escape as implemented today, content rendered while open and absent while closed, and the form-in-modal story's submit-with-errors flow; verify under `npm test` (Escape and backdrop both leave the modal open today: Escape is asserted via the dialog's `cancel` event being default-prevented, since synthetic key events don't trigger the native cancel)
+- [x] 5.2 Add play functions to `CardCarousel` stories: navigation controls move between cards and respect the first/last bounds as implemented today; verify under `npm test` (covers the finite bounds, infinite wrap-around and the single-card case; the wheel/swipe handler is not covered)
+- [x] 5.3 Add play functions to `ColourPalettePicker` stories: add, edit and remove a colour, and the resulting `onChange` payload; verify under `npm test` (added a `Controlled` story for the `palette` prop, which had none)
 
 ## 6. Static components and exports (T5)
 
@@ -60,3 +60,6 @@
 
 - [ ] 8.1 Run `npm run lint`, `npm test` and `npm run build` together on the final branch and verify all pass with no test files present in `dist/`
 - [ ] 8.2 List any other real bugs the tests exposed (the `defaultValue` bug is handled in 3.7) that are not fixed here, so they can be raised as separate changes
+  - Candidates so far (pinned as current behaviour by tests, not fixed):
+    - `ColourPalettePicker` in controlled mode seeds `nextId` from `initialPalette` (default palette, ids 1-4) rather than `palette.state`, so a controlled palette with ids above that range could get a duplicate id on "+ Add Color". The `Controlled` story pins the new id as 5.
+    - `CardCarousel` maps `items` to `<div className="card">` without a `key`. No React warning appears in the test run (`Carousel` re-keys via `Children.toArray`), so this is a code smell, not an observed bug.
