@@ -8,7 +8,7 @@
   display: block;
   font-size: $label-font-size;
   font-weight: $label-font-weight;
-  color: $label-color;
+  color: var(--text-muted);
   margin: 0 0 $label-margin-bottom 0;
   white-space: nowrap;
 }
@@ -20,9 +20,9 @@
   padding: 0.5rem 0.75rem;
   font-family: inherit;
   font-size: $font-sm;
-  color: $text-main;
-  background-color: $input-bg;
-  border: 1px solid $input-border;
+  color: var(--text-main);
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: $radius-md;
   outline: none;
   transition:
@@ -31,17 +31,17 @@
     background-color 0.2s ease;
 
   &::placeholder {
-    color: $text-dim;
+    color: var(--text-dim);
   }
 
   &:focus, &:focus-within {
-    border-color: $input-focus-border;
-    box-shadow: 0 0 0 3px $input-focus-ring;
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 3px var(--input-focus-ring);
   }
 
   &:disabled, &:has(:disabled) {
-    background-color: $disabled-bg;
-    color: $disabled-text;
+    background-color: var(--disabled-bg);
+    color: var(--disabled-text);
     cursor: not-allowed;
   }
 }
@@ -120,7 +120,7 @@ label,
   }
 
   input:disabled + .input-icon {
-    stroke: $brand-disabled;
+    stroke: var(--brand-disabled);
     cursor: not-allowed;
     pointer-events: none;
     transform: none;
@@ -130,7 +130,7 @@ label,
     position: absolute;
     right: 0.75rem;
     font-size: $font-sm;
-    color: $text-dim;
+    color: var(--text-dim);
     pointer-events: none;
   }
 }
@@ -182,7 +182,7 @@ input[type="color"] {
   background: transparent;
   border: 0;
   border-radius: $radius-md;
-  box-shadow: $shadow-sm;
+  box-shadow: var(--shadow-sm);
   outline: none;
   cursor: pointer;
   flex-shrink: 0;
@@ -197,17 +197,17 @@ input[type="color"] {
 
   &::-webkit-color-swatch,
   &::-moz-color-swatch {
-    border: 1px solid $border-color;
+    border: 1px solid var(--border-color);
     border-radius: $radius-md;
     box-sizing: border-box;
   }
 
   &:hover {
-    box-shadow: $shadow-hover-glow;
+    box-shadow: var(--shadow-hover-glow);
   }
 
   &:focus {
-    box-shadow: $shadow-focus-ring;
+    box-shadow: var(--shadow-focus-ring);
   }
 }
 
@@ -252,8 +252,8 @@ input[type="radio"] {
   flex-shrink: 0;
   display: grid;
   place-content: center;
-  background-color: $input-bg;
-  border: 1px solid $input-border;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: 50%;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -267,17 +267,17 @@ input[type="radio"] {
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
-    background-color: var(--brand-accent, $text-main);
+    background-color: var(--brand-accent, var(--text-main));
     transform: scale(0);
     transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover:not(:disabled) {
-    border-color: var(--brand-accent, $input-focus-border);
+    border-color: var(--brand-accent, var(--input-focus-border));
   }
 
   &:checked {
-    border-color: var(--brand-accent, $input-focus-border);
+    border-color: var(--brand-accent, var(--input-focus-border));
 
     &::before {
       transform: scale(1);
@@ -286,17 +286,17 @@ input[type="radio"] {
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px $input-focus-ring;
+    box-shadow: 0 0 0 3px var(--input-focus-ring);
   }
 
   &:disabled {
-    background-color: $disabled-bg;
-    border-color: $input-border;
+    background-color: var(--disabled-bg);
+    border-color: var(--input-border);
     opacity: 0.6;
     cursor: not-allowed;
 
     &::before {
-      background-color: $disabled-text;
+      background-color: var(--disabled-text);
     }
   }
 }
@@ -308,7 +308,7 @@ input[type="radio"] {
   padding: 0.5rem 0.75rem;
   font-size: $font-sm;
   font-weight: normal;
-  color: $text-main;
+  color: var(--text-main);
   white-space: nowrap;
   background-color: transparent;
   border: 1px solid transparent;
@@ -322,15 +322,15 @@ input[type="radio"] {
     color 0.2s ease;
 
   &:hover input[type="radio"]:not(:disabled) {
-    border-color: var(--brand-accent, $input-focus-border);
+    border-color: var(--brand-accent, var(--input-focus-border));
   }
 
   &.selected {
-    color: var(--brand-accent, $text-main);
+    color: var(--brand-accent, var(--text-main));
   }
 
   &:has(input[type="radio"]:disabled) {
-    color: $disabled-text;
+    color: var(--disabled-text);
     cursor: not-allowed;
   }
 }

@@ -3,9 +3,9 @@
 .site-header {
   position: relative;
   min-height: 56px;
-  background-color: $bg-surface;
-  border-top: 3px solid $brand-accent; // Changed from border-color to accent highlight
-  border-bottom: 1px solid $border-subtle;
+  background-color: var(--bg-surface);
+  border-top: 3px solid var(--brand-accent); // Changed from border-color to accent highlight
+  border-bottom: 1px solid var(--border-subtle);
 
   .wrapper {
     max-width: $max-width;
@@ -23,7 +23,7 @@
 
   &,
   &:visited {
-    color: $text-main; // Neutral white title for better hierarchy
+    color: var(--text-main); // Neutral white title for better hierarchy
     font-size: 1.25rem;
     font-weight: 600;
     text-decoration: none;
@@ -31,7 +31,7 @@
   }
 
   &:hover {
-    color: $brand-hover;
+    color: var(--brand-hover);
   }
 }
 
@@ -62,7 +62,7 @@
     &,
     &:link,
     &:visited {
-      color: $text-muted; // Muted links until hovered for cleaner nav aesthetic
+      color: var(--text-muted); // Muted links until hovered for cleaner nav aesthetic
       line-height: 1.5;
       text-decoration: none;
       transition: color 0.15s ease-in-out;
@@ -70,7 +70,7 @@
 
     &:hover,
     &:focus {
-      color: $brand-hover;
+      color: var(--brand-hover);
       text-decoration: none;
     }
   }
@@ -98,12 +98,12 @@
       position: absolute;
       top: 100%;
       right: 0;
-      background-color: var(--bg-overlay, #1e293b);
-      border: 1px solid var(--border-color, #374151);
-      border-radius: var(--radius-md, 0.5rem);
+      background-color: var(--bg-overlay);
+      border: 1px solid var(--border-color);
+      border-radius: $radius-md;
       text-align: right;
       padding: 0.75rem 1.25rem;
-      box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.6));
+      box-shadow: var(--shadow-lg);
       z-index: 99999;
     }
 
@@ -126,11 +126,11 @@
 .site-footer {
   position: relative;
   margin-top: auto; // Keeps footer grounded with body flexbox setup
-  background-color: $bg-surface;
-  border-top: 1px solid $border-subtle;
-  border-bottom: 3px solid $brand-accent; // Mirrored accent border from header
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 3px solid var(--brand-accent); // Mirrored accent border from header
   padding: 2rem 0;
-  color: $text-muted;
+  color: var(--text-muted);
 
   .wrapper {
     max-width: $max-width;
@@ -139,7 +139,7 @@
   }
 
   .footer-heading {
-    color: $text-main;
+    color: var(--text-main);
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
@@ -181,7 +181,7 @@
 
   .p-name {
     font-weight: 600;
-    color: $text-main;
+    color: var(--text-main);
   }
 
   a {
@@ -189,14 +189,14 @@
     &,
     &:link,
     &:visited {
-      color: $text-muted;
+      color: var(--text-muted);
       text-decoration: none;
       transition: color 0.15s ease-in-out;
     }
 
     &:hover,
     &:focus {
-      color: $brand-hover;
+      color: var(--brand-hover);
       text-decoration: none;
     }
   }

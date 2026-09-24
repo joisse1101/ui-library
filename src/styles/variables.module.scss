@@ -1,8 +1,10 @@
 @use "variables" as *;
 
+// These feed colours.ts, a JS-consumed SCSS module resolved at build time, so they
+// stay pinned to the dark-theme literals (no live var(--token) equivalent for JS).
 :export {
-    colorStretch: $color-stretch;
-    colorSuccess: $color-success;
-    colorWarning: $color-warning;
-    colorDanger: $color-danger;
+    colorStretch: $dark-color-stretch;
+    colorSuccess: $dark-color-success;
+    colorWarning: $dark-color-warning;
+    colorDanger: $dark-color-danger;
 }

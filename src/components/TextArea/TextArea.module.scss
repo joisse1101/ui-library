@@ -21,7 +21,7 @@
   bottom: 8px;
   right: 12px;
   font-size: 0.75rem;
-  color: $text-dim;
+  color: var(--text-dim);
   pointer-events: none;
   user-select: none;
 
@@ -44,7 +44,7 @@
 
   kbd {
     background-color: transparent;
-    border: 1px solid $brand-border-muted;
+    border: 1px solid var(--brand-border-muted);
     border-radius: 3px;
     padding: 1px 4px;
     font-size: 0.7rem;

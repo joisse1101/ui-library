@@ -20,7 +20,7 @@
   line-height: $btn-line-height;
   text-decoration: none;
   white-space: nowrap;
-  text-shadow: $shadow-text-sm;
+  text-shadow: var(--shadow-text-sm);
 
   border-radius: $radius-md;
   border: 1px solid transparent;
@@ -42,103 +42,103 @@
   // Accessibility Focus Ring
   &:focus-visible {
     outline: none;
-    box-shadow: $shadow-focus-ring;
-    border-color: $border-focus;
+    box-shadow: var(--shadow-focus-ring);
+    border-color: var(--border-focus);
   }
 
   // --- Primary Variant (Default Fallback) ---
   &,
   &-primary {
-    background-color: $btn-primary-bg;
-    color: $btn-primary-text;
-    border-color: $btn-primary-border;
+    background-color: var(--brand-accent);
+    color: var(--text-main);
+    border-color: var(--brand-border-strong);
 
     &:hover:not(:disabled):not(.is-disabled) {
-      background-color: $btn-primary-hover-bg;
-      box-shadow: $shadow-glow;
-      border-color: $btn-primary-hover-border;
+      background-color: var(--brand-hover);
+      box-shadow: var(--shadow-glow);
+      border-color: rgb(var(--brand-border-strong-rgb) / 0.8);
     }
 
     &:active:not(:disabled):not(.is-disabled) {
-      background-color: $btn-primary-active-bg;
-      border-color: $btn-primary-active-border;
+      background-color: var(--brand-active);
+      border-color: var(--brand-border-strong);
     }
   }
 
   // --- Secondary Variant ---
   &-secondary {
-    background-color: $btn-secondary-bg;
-    color: $btn-secondary-text;
-    border-color: $btn-secondary-border;
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    border-color: var(--border-subtle);
 
     &:hover:not(:disabled):not(.is-disabled) {
-      background-color: $btn-secondary-hover-bg;
-      border-color: $btn-secondary-hover-border;
-      color: $text-main;
+      background-color: var(--bg-surface-hover);
+      border-color: var(--border-color);
+      color: var(--text-main);
     }
   }
 
   // --- Ghost / Minimal Variant ---
   &-ghost {
     background-color: $btn-ghost-bg;
-    color: $btn-ghost-text;
-    border-color: $btn-ghost-border;
+    color: var(--text-muted);
+    border-color: rgb(var(--border-subtle-rgb) / 0.5);
 
     &:hover:not(:disabled):not(.is-disabled) {
-      background-color: $btn-ghost-hover-bg;
-      color: $btn-ghost-hover-text;
-      border-color: $btn-ghost-hover-border;
+      background-color: rgb(var(--bg-surface-hover-rgb) / 0.6);
+      color: var(--text-main);
+      border-color: var(--border-subtle);
     }
   }
 
 
   // --- Success Variant ---
   &-success {
-    background-color: $btn-success-bg;
-    color: $btn-success-text;
-    border-color: $btn-success-border;
+    background-color: rgb(var(--color-success-rgb) / 0.12);
+    color: var(--color-success);
+    border-color: rgb(var(--color-success-rgb) / 0.25);
 
     &:hover:not(:disabled):not(.is-disabled) {
-      background-color: $btn-success-hover-bg;
-      border-color: $btn-success-border;
+      background-color: rgb(var(--color-success-rgb) / 0.22);
+      border-color: rgb(var(--color-success-rgb) / 0.25);
     }
 
     &:active:not(:disabled):not(.is-disabled) {
-      background-color: $btn-success-active-bg;
-      border-color: $btn-success-border;
+      background-color: rgb(var(--color-success-rgb) / 0.35);
+      border-color: rgb(var(--color-success-rgb) / 0.25);
     }
   }
 
   // --- Danger / Destructive Variant ---
   &-danger {
-    background-color: $btn-danger-bg;
-    color: $btn-danger-text;
-    border-color: $btn-danger-border;
+    background-color: rgb(var(--color-danger-rgb) / 0.12);
+    color: var(--color-danger);
+    border-color: rgb(var(--color-danger-rgb) / 0.25);
 
     &:hover:not(:disabled):not(.is-disabled) {
-      background-color: $btn-danger-hover-bg;
-      border-color: $btn-danger-border;
+      background-color: rgb(var(--color-danger-rgb) / 0.22);
+      border-color: rgb(var(--color-danger-rgb) / 0.25);
     }
 
     &:active:not(:disabled):not(.is-disabled) {
-      background-color: $btn-danger-active-bg;
-      border-color: $btn-danger-border;
+      background-color: rgb(var(--color-danger-rgb) / 0.35);
+      border-color: rgb(var(--color-danger-rgb) / 0.25);
     }
   }
 
   &-danger-outline {
     background-color: transparent;
-    color: $btn-danger-text;
-    border-color: $btn-danger-border;
+    color: var(--color-danger);
+    border-color: rgb(var(--color-danger-rgb) / 0.25);
 
     &:hover:not(:disabled):not(.is-disabled) {
-      background-color: $btn-danger-outline-hover-bg;
-      border-color: $btn-danger-border;
+      background-color: rgb(var(--color-danger-rgb) / 0.08);
+      border-color: rgb(var(--color-danger-rgb) / 0.25);
     }
 
     &:active:not(:disabled):not(.is-disabled) {
-      background-color: $btn-danger-outline-active-bg;
-      border-color: $btn-danger-border;
+      background-color: rgb(var(--color-danger-rgb) / 0.18);
+      border-color: rgb(var(--color-danger-rgb) / 0.25);
     }
   }
 
@@ -165,8 +165,8 @@
   // --- Disabled State ---
   &:disabled,
   &.is-disabled {
-    background-color: $disabled-bg !important;
-    color: $disabled-text !important;
+    background-color: var(--disabled-bg) !important;
+    color: var(--disabled-text) !important;
     border-color: transparent !important;
     opacity: 0.5;
     cursor: not-allowed;
@@ -179,20 +179,20 @@
   &-invisible {
     background-color: transparent;
     border-color: transparent;
-    color: $btn-ghost-text;
+    color: var(--text-muted);
 
     &:hover:not(:disabled):not(.is-disabled) {
       background-color: transparent;
       border-color: transparent;
       box-shadow: none;
-      color: $btn-ghost-hover-text;
+      color: var(--text-main);
     }
 
     &:disabled,
     &.is-disabled {
       background-color: transparent !important;
       border-color: transparent !important;
-      color: $disabled-text !important;
+      color: var(--disabled-text) !important;
       opacity: 0.5;
       cursor: not-allowed;
       pointer-events: none;
@@ -228,20 +228,20 @@
 
   &-option {
     border-radius: 0;
-    background-color: $btn-option-bg;
-    color: $btn-option-text;
-    border-color: $btn-option-border;
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    border-color: var(--border-subtle);
 
     &:hover:not(:disabled):not(.is-disabled) {
-      background-color: $btn-option-hover-bg;
-      border-color: $btn-option-hover-border;
-      color: $text-main;
+      background-color: var(--bg-surface-hover);
+      border-color: var(--border-color);
+      color: var(--text-main);
     }
 
     &.selected {
-      background-color: $btn-option-hover-bg;
-      border-color: $btn-option-hover-border;
-      color: $text-main;
+      background-color: var(--bg-surface-hover);
+      border-color: var(--border-color);
+      color: var(--text-main);
     }
 
     &:first-child {

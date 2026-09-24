@@ -20,7 +20,7 @@
     border: 1px solid color.mix($color-success-text, $color-success-bg, 18%) !important;
 
     [data-icon] {
-      color: color.mix($color-success-text, $color-success, 30%);
+      color: var(--toast-success-icon);
     }
   }
 
@@ -30,7 +30,7 @@
     border: 1px solid color.mix($color-warning-text, $color-warning-bg, 18%) !important;
 
     [data-icon] {
-      color: color.mix($color-warning-text, $color-warning, 30%);
+      color: var(--toast-warning-icon);
     }
   }
 
@@ -40,7 +40,7 @@
     border: 1px solid color.mix($color-danger-text, $color-danger-bg, 18%) !important;
 
     [data-icon] {
-      color: color.mix($color-danger-text, $color-danger, 30%);
+      color: var(--toast-danger-icon);
     }
   }
 
@@ -50,7 +50,7 @@
     border: 1px solid color.mix($color-info-text, $color-info-bg, 18%) !important;
 
     [data-icon] {
-      color: color.mix($color-info-text, $color-info, 30%);
+      color: var(--toast-info-icon);
     }
   }
 }

@@ -30,8 +30,8 @@ main {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background-color: $bg-main;
-  color: $text-main;
+  background-color: var(--bg-main);
+  color: var(--text-main);
   font-family: $font-family-body;
   font-size: $font-base;
   line-height: 1.6;
@@ -42,7 +42,7 @@ main {
     min-height: unset;
     padding: 1rem;
     background-color: transparent;
-    --overlay-bg: #{$bg-surface};
+    --overlay-bg: var(--bg-surface);
   }
 }
 
@@ -60,15 +60,15 @@ main {
 }
 
 ::-webkit-scrollbar-track {
-  background: $bg-main;
+  background: var(--bg-main);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $border-color;
+  background: var(--border-color);
   border-radius: $radius-full;
 
   &:hover {
-    background: $text-dim;
+    background: var(--text-dim);
   }
 }
 
@@ -82,7 +82,7 @@ h4,
 h5,
 h6 {
   font-family: $font-family-display;
-  color: $text-main;
+  color: var(--text-main);
   line-height: 1.25;
   margin-top: 0;
   letter-spacing: -0.02em;
@@ -121,7 +121,7 @@ h6 {
 p {
   margin-top: 0;
   margin-bottom: 1.25rem;
-  color: $text-muted;
+  color: var(--text-muted);
 
   &:last-child {
     margin-bottom: 0;
@@ -138,15 +138,15 @@ pre {
 code {
   font-size: 0.875em;
   padding: 0.2em 0.4em;
-  background-color: $bg-surface;
-  border: 1px solid $border-subtle;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: $radius-sm;
-  color: $brand-hover;
+  color: var(--brand-hover);
 }
 
 pre {
-  background-color: $bg-surface;
-  border: 1px solid $border-subtle;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: $radius-md;
   padding: 1rem;
   overflow-x: auto;
@@ -161,13 +161,13 @@ pre {
 
 /* Links */
 a {
-  color: $brand-accent;
+  color: var(--brand-accent);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.15s ease-in-out;
 
   &:hover {
-    color: $brand-hover;
+    color: var(--brand-hover);
     text-decoration: underline;
     text-underline-offset: 4px;
   }
@@ -187,30 +187,30 @@ section {
 
 /* Modern Glass Card Utility */
 .card {
-  background-color: $bg-surface;
-  border: 1px solid $border-subtle;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: $radius-lg;
   padding: 1.5rem;
-  box-shadow: $shadow-md;
+  box-shadow: var(--shadow-md);
   transition:
     border-color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
 
   &:hover {
-    border-color: $border-color;
-    box-shadow: $shadow-glow;
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-glow);
   }
 }
 
 .error-message {
-  color: $color-danger;
+  color: var(--color-danger);
   font-size: $font-sm;
 }
 
 .error-messages {
   .error-message {
-    color: $color-danger;
+    color: var(--color-danger);
     font-size: $font-sm;
   }
 }
@@ -243,7 +243,7 @@ section {
   max-width: $max-width;
   margin-left: auto;
   margin-right: auto;
-  color: $text-main;
+  color: var(--text-main);
   flex: 1;
 
   > * + * {
@@ -288,7 +288,7 @@ section {
     z-index: 2;
     transition: all 0.3s ease-in-out;
 
-    background-color: var(--overlay-bg, #{$bg-main});
+    background-color: var(--overlay-bg, var(--bg-main));
     outline: none;
     border: none;
 

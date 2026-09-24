@@ -35,6 +35,8 @@ export type { UseFieldOptions, UseFieldResult } from './hooks/useField';
 // Providers
 export { FormProvider } from './providers/FormProvider';
 export { useFormContext } from './providers/FormContext';
+export { ThemeProvider } from './providers/ThemeProvider';
+export { useTheme, type Theme } from './providers/ThemeContext';
 
 // Types
 export type { FieldRules } from './types/form';

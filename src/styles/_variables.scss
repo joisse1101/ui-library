@@ -2,6 +2,8 @@
 // SCSS Variables: High-Contrast Dark Charcoal & Warm Rose
 // ==========================================================================
 
+@use "sass:color";
+
 // --- Typography & Google Fonts ---
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Urbanist:wght@600;700;800&display=swap');
 
@@ -91,6 +93,19 @@ $color-danger-text:  #881337;
 $color-info-bg:      #e0f2fe;
 $color-info-text:    #075985;
 
+// Toast icon tints (blend the invariant badge text with the theme's feedback color,
+// see _component_toast.scss) — color.mix() needs static colors, so these can't use
+// the rgb(var(--x-rgb) / alpha) trick and get an explicit dark/light pair instead.
+$dark-toast-success-icon: color.mix($color-success-text, $dark-color-success, 30%);
+$dark-toast-warning-icon: color.mix($color-warning-text, $dark-color-warning, 30%);
+$dark-toast-danger-icon: color.mix($color-danger-text, $dark-color-danger, 30%);
+$dark-toast-info-icon: color.mix($color-info-text, $dark-color-info, 30%);
+
+$light-toast-success-icon: color.mix($color-success-text, $light-color-success, 30%);
+$light-toast-warning-icon: color.mix($color-warning-text, $light-color-warning, 30%);
+$light-toast-danger-icon: color.mix($color-danger-text, $light-color-danger, 30%);
+$light-toast-info-icon: color.mix($color-info-text, $light-color-info, 30%);
+
 // --- Borders & Dividers ---
 $dark-border-subtle: #27272a; // Subtle separators
 $dark-border-color: #3f3f46; // Input & container borders
@@ -122,6 +137,10 @@ $dark-bg-surface-hover-rgb: 38, 38, 43;
 $dark-border-subtle-rgb: 39, 39, 42;
 $dark-brand-border-strong-rgb: 184, 115, 138;
 $dark-bg-glass-rgb: 26, 26, 30;
+// brand-accent-rgb added during task 2.3 for `.card-rose`'s alpha fill (rgba($brand-accent, 0.06)) — not in D3's original list, but the same pattern.
+$dark-brand-accent-rgb: 157, 90, 112;
+// bg-main-rgb added during task 3.2 for Modal's backdrop fade (rgba($bg-main, 0 / 0.5)) — same pattern, not in D3's original list.
+$dark-bg-main-rgb: 18, 18, 20;
 
 $light-color-success-rgb: 4, 120, 87;
 $light-color-danger-rgb: 220, 38, 38;
@@ -129,6 +148,8 @@ $light-bg-surface-hover-rgb: 247, 238, 241;
 $light-border-subtle-rgb: 231, 223, 226;
 $light-brand-border-strong-rgb: 201, 141, 160;
 $light-bg-glass-rgb: 255, 255, 255;
+$light-brand-accent-rgb: 138, 74, 94;
+$light-bg-main-rgb: 243, 238, 240;
 
 // --- Button Specific Tokens ---
 $btn-font-family: $font-family-body;
@@ -443,6 +464,14 @@ $max-width: 1200px;
   --border-subtle-rgb: #{$dark-border-subtle-rgb};
   --brand-border-strong-rgb: #{$dark-brand-border-strong-rgb};
   --bg-glass-rgb: #{$dark-bg-glass-rgb};
+  --brand-accent-rgb: #{$dark-brand-accent-rgb};
+  --bg-main-rgb: #{$dark-bg-main-rgb};
+
+  /* Toast icon tints */
+  --toast-success-icon: #{$dark-toast-success-icon};
+  --toast-warning-icon: #{$dark-toast-warning-icon};
+  --toast-danger-icon: #{$dark-toast-danger-icon};
+  --toast-info-icon: #{$dark-toast-info-icon};
 }
 
 [data-theme='light'] {
@@ -514,4 +543,12 @@ $max-width: 1200px;
   --border-subtle-rgb: #{$light-border-subtle-rgb};
   --brand-border-strong-rgb: #{$light-brand-border-strong-rgb};
   --bg-glass-rgb: #{$light-bg-glass-rgb};
+  --brand-accent-rgb: #{$light-brand-accent-rgb};
+  --bg-main-rgb: #{$light-bg-main-rgb};
+
+  /* Toast icon tints */
+  --toast-success-icon: #{$light-toast-success-icon};
+  --toast-warning-icon: #{$light-toast-warning-icon};
+  --toast-danger-icon: #{$light-toast-danger-icon};
+  --toast-info-icon: #{$light-toast-info-icon};
 }

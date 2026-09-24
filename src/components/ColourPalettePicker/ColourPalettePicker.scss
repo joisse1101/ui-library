@@ -1,5 +1,4 @@
 @use "../../styles/variables" as *;
-@use "sass:color";
 
 // ==========================================================================
 // Color Picker Component
@@ -43,23 +42,23 @@
     gap: 0.75rem;
     padding: 0.5rem 0.75rem;
     background-color: inherit;
-    border: 1px solid $border-subtle;
+    border: 1px solid var(--border-subtle);
     border-radius: $radius-md;
-    box-shadow: $shadow-sm;
+    box-shadow: var(--shadow-sm);
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease,
       background-color 0.2s ease;
 
     &:hover {
-      border-color: color.adjust($border-subtle, $lightness: 6%);
-      background-color: $bg-surface-hover;
+      border-color: var(--border-color);
+      background-color: var(--bg-surface-hover);
     }
 
     &:focus-within {
-      border-color: $border-focus;
-      box-shadow: 0 0 0 2px $input-focus-ring;
-      background-color: $bg-surface-hover;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px var(--input-focus-ring);
+      background-color: var(--bg-surface-hover);
     }
 
     /* Suppress child input focus rings */
@@ -67,7 +66,7 @@
     input[type="text"],
     input[type="color"] {
       &:focus {
-        border-color: $border-color;
+        border-color: var(--border-color);
         box-shadow: none;
       }
     }
@@ -103,21 +102,21 @@
     font-size: $font-xs;
     border-radius: $radius-sm;
     border: 1px solid transparent;
-    background-color: rgba($color-danger, 0.12);
-    color: $color-danger;
+    background-color: rgb(var(--color-danger-rgb) / 0.12);
+    color: var(--color-danger);
     cursor: pointer;
     transition:
       background-color 0.2s ease,
       color 0.2s ease;
 
     &:hover {
-      background-color: $color-danger;
-      color: $bg-main;
+      background-color: var(--color-danger);
+      color: var(--bg-main);
     }
 
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 2px rgba($color-danger, 0.35);
+      box-shadow: 0 0 0 2px rgb(var(--color-danger-rgb) / 0.35);
     }
   }
 
@@ -127,12 +126,12 @@
 
   .palette-preview-container {
     padding-top: 1.25rem;
-    border-top: 1px solid $border-subtle;
+    border-top: 1px solid var(--border-subtle);
 
     h3 {
       font-size: $font-xs;
       font-weight: 600;
-      color: $text-muted;
+      color: var(--text-muted);
       margin: 0 0 0.75rem 0;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -144,8 +143,8 @@
     height: 1.75rem;
     border-radius: $radius-md;
     overflow: hidden;
-    border: 1px solid $border-color;
-    box-shadow: $shadow-sm;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
 
   }
 
@@ -174,9 +173,9 @@
       ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: $font-xs;
     padding: 0.25rem 0.5rem;
-    background-color: $bg-main;
-    color: $brand-accent; // Soft Warm Rose Accent
-    border: 1px solid $border-subtle;
+    background-color: var(--bg-main);
+    color: var(--brand-accent); // Soft Warm Rose Accent
+    border: 1px solid var(--border-subtle);
     border-radius: $radius-sm;
     transition:
       border-color 0.2s ease,
@@ -184,8 +183,8 @@
 
     &:hover,
     &.hovered {
-      border-color: $border-focus;
-      background-color: $bg-surface;
+      border-color: var(--border-focus);
+      background-color: var(--bg-surface);
     }
   }
 }
@@ -197,8 +196,8 @@
 .color-picker-accordion {
   grid-column: 1 / -1;
   width: 100%;
-  background-color: $bg-surface;
-  border: 1px solid $border-color;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
   border-radius: $radius-md;
   overflow: hidden;
   transition:
@@ -206,14 +205,14 @@
     opacity 0.2s ease;
 
   &:hover:not(.disabled):not([open]) {
-    border-color: $border-focus;
+    border-color: var(--border-focus);
   }
 
   .accordion-header {
     padding: 0.875rem 1.25rem;
     font-size: $font-sm;
     font-weight: 600;
-    color: $text-main;
+    color: var(--text-main);
     background-color: transparent;
     cursor: pointer;
     user-select: none;
@@ -222,12 +221,12 @@
       color 0.2s ease;
 
     &:hover:not(.disabled) {
-      background-color: $bg-surface-hover;
-      color: $brand-hover;
+      background-color: var(--bg-surface-hover);
+      color: var(--brand-hover);
     }
 
     &:not(.disabled)::marker {
-      color: $brand-accent; // Warm Rose marker indicator
+      color: var(--brand-accent); // Warm Rose marker indicator
     }
   }
 
@@ -236,13 +235,13 @@
   }
 
   &[open] {
-    border-color: $border-color;
-    box-shadow: $shadow-sm;
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-sm);
 
     .color-picker-component {
       padding: 1.25rem;
       margin-top: 0;
-      border-top: 1px solid $border-subtle;
+      border-top: 1px solid var(--border-subtle);
     }
   }
 
@@ -255,24 +254,24 @@
     opacity: 0.5;
     pointer-events: none; // Disables all click/hover interaction
     user-select: none;
-    border-color: $border-subtle;
+    border-color: var(--border-subtle);
     box-shadow: none;
 
     &:hover {
-      border-color: $border-subtle; // Prevent hover border changes
+      border-color: var(--border-subtle); // Prevent hover border changes
     }
 
     .accordion-header {
       cursor: not-allowed;
-      color: $text-muted;
+      color: var(--text-muted);
 
       &:hover {
         background-color: transparent; // Prevent hover background changes
-        color: $text-muted;
+        color: var(--text-muted);
       }
 
       &::marker {
-        color: $text-muted; // Dim the marker indicator
+        color: var(--text-muted); // Dim the marker indicator
       }
     }
   }
