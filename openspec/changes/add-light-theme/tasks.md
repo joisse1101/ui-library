@@ -42,9 +42,9 @@
 
 ## 6. Docs & release prep
 
-- [ ] 6.1 Update `CLAUDE.md`'s Styling section to describe the dark/light token contract, the `$dark-*`/`$light-*` naming convention, the `[data-theme]` selector mechanism, and the `ThemeProvider`/`useTheme` export.
-- [ ] 6.2 Add a CHANGELOG/README note listing the old → new SCSS variable name mapping for consumers who import `_variables.scss` directly, and call out the major version bump. Verify the note covers every renamed token from task 1.1.
-- [ ] 6.3 Bump `package.json` version to the next major version, reflecting the breaking SCSS rename.
+- [x] 6.1 Update `CLAUDE.md`'s Styling section to describe the dark/light token contract, the `$dark-*`/`$light-*` naming convention, the `[data-theme]` selector mechanism, and the `ThemeProvider`/`useTheme` export.
+- [x] 6.2 Add a CHANGELOG/README note listing the old → new SCSS variable name mapping for consumers who import `_variables.scss` directly, and call out the major version bump. Verify the note covers every renamed token from task 1.1.
+- [x] 6.3 Bump `package.json` version to the next major version, reflecting the breaking SCSS rename.
 
 ## 7. Final verification
 
