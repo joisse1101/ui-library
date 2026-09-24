@@ -36,9 +36,9 @@
 
 ## 5. Storybook wiring
 
-- [ ] 5.1 Add a `theme` entry to `globalTypes` in `.storybook/preview.tsx` (toolbar icon + `dark`/`light` items, default `dark`) per D6. Verify the toolbar control appears when running `npm run storybook`.
-- [ ] 5.2 Update the existing `decorators` entry in `.storybook/preview.tsx` to wrap the `.layout.layout-storybook` div in `<ThemeProvider theme={context.globals.theme} onThemeChange={...}>` (or the `useGlobals` equivalent), syncing the toolbar control to the provider per D6. Verify toggling the toolbar control repaints every story between dark and light.
-- [ ] 5.3 Spot-check a representative cross-section of stories (Button, Card, TextArea, Modal, Tabs, ColourPalettePicker, CardCarousel, Header/Footer) in both toolbar states and note any light-theme contrast/legibility issues against the design.md palette table for follow-up.
+- [x] 5.1 Add a `theme` entry to `globalTypes` in `.storybook/preview.tsx` (toolbar icon + `dark`/`light` items, default `dark`) per D6. Verify the toolbar control appears when running `npm run storybook`.
+- [x] 5.2 Update the existing `decorators` entry in `.storybook/preview.tsx` to wrap the `.layout.layout-storybook` div in `<ThemeProvider theme={context.globals.theme} onThemeChange={...}>` (or the `useGlobals` equivalent), syncing the toolbar control to the provider per D6. Verify toggling the toolbar control repaints every story between dark and light.
+- [x] 5.3 Spot-check a representative cross-section of stories (Button, Card, TextArea, Modal, Tabs, ColourPalettePicker, CardCarousel, Header/Footer) in both toolbar states and note any light-theme contrast/legibility issues against the design.md palette table for follow-up.
 
 ## 6. Docs & release prep
 
