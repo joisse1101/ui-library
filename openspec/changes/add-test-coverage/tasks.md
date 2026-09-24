@@ -11,13 +11,13 @@
 
 ## 2. Logic layer (T1)
 
-- [ ] 2.1 Add `src/hooks/useForm.test.ts` covering required, pattern, min, max, custom `validate` (receiving all values), skipping non-required rules on empty values, `setValue` clearing only that field's error, `reset` (default and explicit values), and `handleSubmit` calling `preventDefault` and `onValid` only when valid; verify it passes
-- [ ] 2.2 Add `src/hooks/useField.test.tsx` covering form-bound mode (value, error, `setValue` writes through) and the standalone passthrough (no `name` or no provider); verify it passes
-- [ ] 2.3 Add `src/providers/FormProvider.test.tsx` verifying a child under the provider sees the form's values/errors and that `useFormContext` outside a provider returns nothing; verify it passes
-- [ ] 2.4 Add `src/hooks/useArraySelection.test.ts` covering add, remove and toggle behaviour; verify it passes
-- [ ] 2.5 Add `src/hooks/display.test.ts` with a stubbed `matchMedia`, covering initial match, change events updating the value, and listener cleanup on unmount; verify it passes
-- [ ] 2.6 Add `src/providers/ThemeProvider.test.tsx` covering uncontrolled default (`dark`), `defaultTheme`, controlled `theme` + `onThemeChange`, `data-theme` set on `document.documentElement`, and `useTheme` outside a provider; verify it passes
-- [ ] 2.7 Extend `src/utils/colours.test.ts` to cover every exported function's branches; verify it passes. Also replace the `vi.mock` of `@styles/variables.module.scss` (added in 1.6) with real SCSS processing for that one module (`css: { include: /variables\.module\.scss$/ }` in the `unit` project) so `getStatusColor` reads the real tokens, and assert all four exist, are valid hex and are distinct. Cover invalid hex input and negative/fractional `steps` too, recording current behaviour (e.g. `NaN` output) rather than changing it
+- [x] 2.1 Add `src/hooks/useForm.test.ts` covering required, pattern, min, max, custom `validate` (receiving all values), skipping non-required rules on empty values, `setValue` clearing only that field's error, `reset` (default and explicit values), and `handleSubmit` calling `preventDefault` and `onValid` only when valid; verify it passes
+- [x] 2.2 Add `src/hooks/useField.test.tsx` covering form-bound mode (value, error, `setValue` writes through) and the standalone passthrough (no `name` or no provider); verify it passes
+- [x] 2.3 Add `src/providers/FormProvider.test.tsx` verifying a child under the provider sees the form's values/errors and that `useFormContext` outside a provider returns nothing; verify it passes
+- [x] 2.4 Add `src/hooks/useArraySelection.test.ts` covering add, remove and toggle behaviour; verify it passes
+- [x] 2.5 Add `src/hooks/display.test.ts` with a stubbed `matchMedia`, covering initial match, change events updating the value, and listener cleanup on unmount; verify it passes
+- [x] 2.6 Add `src/providers/ThemeProvider.test.tsx` covering uncontrolled default (`dark`), `defaultTheme`, controlled `theme` + `onThemeChange`, `data-theme` set on `document.documentElement`, and `useTheme` outside a provider; verify it passes
+- [x] 2.7 Extend `src/utils/colours.test.ts` to cover every exported function's branches; verify it passes. Also replace the `vi.mock` of `@styles/variables.module.scss` (added in 1.6) with real SCSS processing for that one module (`css: { include: /variables\.module\.scss$/ }` in the `unit` project) so `getStatusColor` reads the real tokens, and assert all four exist, are valid hex and are distinct. Cover invalid hex input and negative/fractional `steps` too, recording current behaviour (e.g. `NaN` output) rather than changing it
 
 ## 3. Simple inputs (T2)
 

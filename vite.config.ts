@@ -44,7 +44,10 @@ export default defineConfig({
       test: {
         name: 'unit',
         environment: 'jsdom',
-        include: ['src/**/*.test.{ts,tsx}']
+        include: ['src/**/*.test.{ts,tsx}'],
+        // Vitest stubs CSS by default. Process only the design-token module for real so
+        // `utils/colours` reads the actual `:export`ed tokens instead of a mock.
+        css: { include: /variables\.module\.scss$/ }
       }
     }, {
       extends: true,
