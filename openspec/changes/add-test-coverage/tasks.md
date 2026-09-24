@@ -32,12 +32,12 @@
 
 ## 4. Selector family (T3)
 
-- [ ] 4.1 Add play functions to `ButtonSelector` stories: single and multi select, `onChange` payload, form-bound value, disabled; verify under `npm test`
-- [ ] 4.2 Add play functions to `RadioSelector` stories: selecting an option updates value/`onChange`, only one selected at a time; verify under `npm test`
-- [ ] 4.3 Add play functions to `InlineSelect` stories: choosing an option updates value/`onChange`; verify under `npm test`
-- [ ] 4.4 Extend `Tabs` play functions: switching tabs shows the matching panel and calls `onChange`; verify under `npm test`
-- [ ] 4.5 Extend `WeekSelector` play functions: selecting/deselecting days and the resulting value; verify under `npm test`
-- [ ] 4.6 Add overflow stories/play functions for `ButtonSelector`, `RadioSelector` and `Tabs` asserting the left/right scroll overlays appear and update after scrolling (this covers `useCanSideScroll`); verify under `npm test`
+- [x] 4.1 Add play functions to `ButtonSelector` stories: single and multi select, `onChange` payload, form-bound value, disabled; verify under `npm test` (disabled not applicable: `ButtonSelector` has no `disabled` prop)
+- [x] 4.2 Add play functions to `RadioSelector` stories: selecting an option updates value/`onChange`, only one selected at a time; verify under `npm test`
+- [x] 4.3 Add play functions to `InlineSelect` stories: choosing an option updates value/`onChange`; verify under `npm test`
+- [x] 4.4 Extend `Tabs` play functions: switching tabs shows the matching panel and calls `onChange`; verify under `npm test` (the callback is `onTabChange`; also covers controlled/uncontrolled, disabled tabs and add/delete)
+- [x] 4.5 Extend `WeekSelector` play functions: selecting/deselecting days and the resulting value; verify under `npm test` (`WeekSelector` has no day selection; it steps between weeks, so the play function covers stepping, the displayed week/date range, the `incrementWeek` payload and the first/last-week disabled bounds)
+- [x] 4.6 Add overflow stories/play functions for `ButtonSelector`, `RadioSelector` and `Tabs` asserting the left/right scroll overlays appear and update after scrolling (this covers `useCanSideScroll`); verify under `npm test`
 
 ## 5. Complex components (T4)
 
