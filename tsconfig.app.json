@@ -33,6 +33,7 @@
     "src/**/*.stories.jsx",
     "src/**/*.stories.ts",
     "src/**/*.stories.js",
+    "src/**/*.test.ts",
     "src/**/*.test.tsx",
     "src/**/*.spec.tsx"
   ]

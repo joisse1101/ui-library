@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "declarationDir": null
+  },
+  "include": ["src"],
+  "exclude": [
+    "src/**/*.stories.tsx",
+    "src/**/*.stories.jsx",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.js"
+  ]
+}

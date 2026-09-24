@@ -19,6 +19,7 @@ Constraints that shape the approach:
 - Coverage thresholds or coverage reporting gates.
 - Testing SCSS output or theme token values (covered by the existing `theming` spec and visual review in Storybook).
 - Changing production code to make it "more testable". If a test can't be written without a source change, that is flagged, not silently fixed.
+- Fixing bugs the tests expose, with one agreed exception: the `value`/`defaultValue` controlled-input bug in `TextInput`, `DateInput` and `NumberInput` (task 3.7), fixed after its behaviour is pinned by tests. Any other bug is recorded and raised separately.
 
 ## Decisions
 
@@ -65,4 +66,4 @@ A new workflow runs on `pull_request` to `main`: `npm ci`, `npx playwright insta
 - [Tests coupled to markup/class names, which the SCSS-Modules migration hashes] -> Query by role, label and text via `within(canvas)`, never by CSS class.
 - [`latest` version pins for `vitest`, `@vitest/browser-playwright` and `playwright` in `package.json` can shift under CI] -> Not changed here, but the CI workflow relies on the lockfile via `npm ci`; noted so a drift-driven failure is recognisable.
 - [`ColourPalettePicker` and `Modal` are the most stateful components and may need fixtures larger than a story] -> They are their own tier (T4) so scope can be trimmed to the highest-risk flows without blocking the rest.
-- [Adding tests may expose real bugs] -> Fixing them is out of scope; each is recorded and raised separately rather than folded into this change.
+- [Adding tests may expose real bugs] -> Fixing them is out of scope except the input `defaultValue` bug (task 3.7); every other bug is recorded and raised separately rather than folded into this change.

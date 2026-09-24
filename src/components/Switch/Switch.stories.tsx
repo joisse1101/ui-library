@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { DocsPage } from '@stories/DocsPage';
 import { Switch } from './Switch';
 
@@ -32,6 +33,22 @@ export const Basic: Story = {
     args: {
         size: 'md',
         label: 'Basic Switch',
+        onChange: fn(),
+    },
+    play: async ({ args, canvasElement }) => {
+        const canvas = within(canvasElement);
+        const toggle = canvas.getByRole('switch', { name: 'Basic Switch' });
+
+        await expect(toggle).not.toBeChecked();
+
+        await userEvent.click(toggle);
+        await expect(toggle).toBeChecked();
+        await expect(args.onChange).toHaveBeenLastCalledWith(true);
+
+        await userEvent.click(toggle);
+        await expect(toggle).not.toBeChecked();
+        await expect(args.onChange).toHaveBeenLastCalledWith(false);
+        await expect(args.onChange).toHaveBeenCalledTimes(2);
     },
 };
 

@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
@@ -38,6 +39,14 @@ export default defineConfig({
   },
   test: {
     projects: [{
+      // Logic-level tests (hooks, providers, utils). No browser, no dts plugin, so it stays fast.
+      plugins: [react(), tsconfigPaths({ projects: [resolve(import.meta.dirname, 'tsconfig.test.json')] })],
+      test: {
+        name: 'unit',
+        environment: 'jsdom',
+        include: ['src/**/*.test.{ts,tsx}']
+      }
+    }, {
       extends: true,
       plugins: [
       // The plugin will run tests for the stories defined in your Storybook config

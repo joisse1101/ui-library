@@ -9,7 +9,7 @@ The library's only automated tests today are Storybook stories run through `@sto
 - Add `play` functions to component stories covering core interactions (click, type, select, validation error shown, controlled/uncontrolled, disabled) for the interactive components: `Button`, `Switch`, `TextInput`, `TextArea`, `NumberInput`, `DateInput`, `ButtonSelector`, `RadioSelector`, `InlineSelect`, `Tabs`, `WeekSelector`, `Modal`, `CardCarousel`, `ColourPalettePicker`.
 - Keep the static components (`Card`, `Header`, `Footer`, `MainLayout`) as smoke tests, and add a check that every intended public export in `src/index.ts` resolves.
 - Add a GitHub Actions workflow that runs `npm run lint` and `npm test` (including `npx playwright install --with-deps chromium`) on pull requests.
-- Non-goals: keyboard/accessibility sweeps, visual regression, coverage thresholds, deduplicating `src/selectors.ts` with `src/types/selectors.ts`, and any change to component behaviour or shipped styles. Nothing that looks unused is removed.
+- Non-goals: keyboard/accessibility sweeps, visual regression, coverage thresholds, deduplicating `src/selectors.ts` with `src/types/selectors.ts`, and any change to shipped styles. Component behaviour is not changed, except fixing the `value`/`defaultValue` controlled-input bug in `TextInput`, `DateInput` and `NumberInput` once tests pin their behaviour. Nothing that looks unused is removed.
 
 ## Capabilities
 
@@ -21,7 +21,7 @@ The library's only automated tests today are Storybook stories run through `@sto
 
 ## Impact
 
-- **Code:** new `*.test.ts(x)` files under `src/hooks`, `src/providers`, `src/utils`, `src/index`; `play` functions added to existing `*.stories.tsx` files. No production source changes expected.
+- **Code:** new `*.test.ts(x)` files under `src/hooks`, `src/providers`, `src/utils`, `src/index`; `play` functions added to existing `*.stories.tsx` files. Production source changes limited to the input `defaultValue` fix (`TextInput`, `DateInput`, `NumberInput`, and `TextArea` if affected).
 - **Config:** `vite.config.ts` (`test.projects` gains a `unit` project); `package.json` (dev dependencies such as `jsdom` and `@testing-library/react`, possibly a `test:unit` script); `tsconfig.app.json` (exclude `*.test.ts(x)` from the type-check/declaration build, as stories already are).
 - **CI:** new workflow under `.github/workflows/` (no change to `publish.yml` or `deploy-storybook.yml`).
 - **Published package:** unaffected. Tests and stories stay excluded from the bundle.
